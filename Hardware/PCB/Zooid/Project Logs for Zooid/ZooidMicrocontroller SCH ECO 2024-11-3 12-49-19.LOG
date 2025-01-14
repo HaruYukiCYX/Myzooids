@@ -1,0 +1,6 @@
+Change Component Comment: Designator=P5 Old Comment=Header 6 New Comment=EXTENSION_PORT
+Change Component Designator: OldDesignator=3 NewDesignator=C6
+Change Pin Designator/Name:  Old Designator=P5-1 Old Name=1 New Designator =4 New Name=4
+Change Pin Designator/Name:  Old Designator=P5-4 Old Name=4 New Designator =6 New Name=6
+Change Pin Designator/Name:  Old Designator=P5-5 Old Name=5 New Designator =1 New Name=1
+Change Pin Designator/Name:  Old Designator=P5-6 Old Name=6 New Designator =5 New Name=5

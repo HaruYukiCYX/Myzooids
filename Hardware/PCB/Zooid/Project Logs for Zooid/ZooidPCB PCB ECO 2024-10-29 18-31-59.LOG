@@ -1,0 +1,68 @@
+Removed Pin From Net: NetName=+3.3V Pin=P5-1
+Removed Pin From Net: NetName=IO1 Pin=P5-2
+Removed Pin From Net: NetName=IO2 Pin=P5-3
+Removed Pin From Net: NetName=I2C_EXT.SDA Pin=P5-4
+Removed Pin From Net: NetName=I2C_EXT.SCL Pin=P5-5
+Removed Pin From Net: NetName=GND Pin=P5-6
+Change Component DesignItemId : Designator=P5 Old DesignItemId=EXTENSION_PORT New DesignItemId=Header 4H
+Change Component Footprint: Designator=P5 Old Footprint=EXTENSION_PORT New Footprint=HDR1X4H
+Change Component Comment : Designator=P5 Old Comment=EXTENSION_PORT New Comment=Header 4H
+Change Component Description : Designator=R24 Old Description=0R 0402 1/16W ?.05R New Description=0R 0402 1/16W ¡À0.05R
+Change Component Description : Designator=R11 Old Description=1.5M 0402 1/16W ?% New Description=1.5M 0402 1/16W ¡À1%
+Change Component Description : Designator=R21 Old Description=1.5M 0402 1/16W ?% New Description=1.5M 0402 1/16W ¡À1%
+Change Component Description : Designator=C20 Old Description=1nF 0402 X7R 50V ?0% New Description=1nF 0402 X7R 50V ¡À10%
+Change Component Description : Designator=C2 Old Description=1uF 0603 X5R 10V ?0% New Description=1uF 0603 X5R 10V ¡À10%
+Change Component Description : Designator=C12 Old Description=1uF 0603 X5R 10V ?0% New Description=1uF 0603 X5R 10V ¡À10%
+Change Component Description : Designator=C13 Old Description=1uF 0603 X5R 10V ?0% New Description=1uF 0603 X5R 10V ¡À10%
+Change Component Description : Designator=C21 Old Description=2.2nF 0402 X7R 50V ?0% New Description=2.2nF 0402 X7R 50V ¡À10%
+Change Component Description : Designator=C3 Old Description=4.7uF 0603 X5R 10V ?0% New Description=4.7uF 0603 X5R 10V ¡À10%
+Change Component Description : Designator=C15 Old Description=4.7uF 0603 X5R 10V ?0% New Description=4.7uF 0603 X5R 10V ¡À10%
+Change Component Description : Designator=C16 Old Description=4.7uF 0603 X5R 10V ?0% New Description=4.7uF 0603 X5R 10V ¡À10%
+Change Component Description : Designator=R7 Old Description=10K 0402 1/16W ?% New Description=10K 0402 1/16W ¡À1%
+Change Component Description : Designator=R9 Old Description=10K 0402 1/16W ?% New Description=10K 0402 1/16W ¡À1%
+Change Component Description : Designator=R14 Old Description=10K 0402 1/16W ?% New Description=10K 0402 1/16W ¡À1%
+Change Component Description : Designator=R19 Old Description=10K 0402 1/16W ?% New Description=10K 0402 1/16W ¡À1%
+Change Component Description : Designator=R20 Old Description=10K 0402 1/16W ?% New Description=10K 0402 1/16W ¡À1%
+Change Component Description : Designator=R22 Old Description=10K 0402 1/16W ?% New Description=10K 0402 1/16W ¡À1%
+Change Component Description : Designator=C1 Old Description=10nF 0402 X7R 25V ?% New Description=10nF 0402 X7R 25V ¡À5%
+Change Component Description : Designator=C19 Old Description=10nF 0402 X7R 25V ?% New Description=10nF 0402 X7R 25V ¡À5%
+Change Component Description : Designator=C9 Old Description=10uF 0603 X5R 6.3V ?0% New Description=10uF 0603 X5R 6.3V ¡À20%
+Change Component Description : Designator=R16 Old Description=22.6R 0402 1/16W ?.05R New Description=22.6R 0402 1/16W ¡À0.05R
+Change Component Description : Designator=R27 Old Description=22K 0402 1/16W ?% New Description=22K 0402 1/16W ¡À1%
+Change Component Description : Designator=C7 Old Description=22pF 0402 NP0/CG0 50V ?% New Description=22pF 0402 NP0/CG0 50V ¡À5%
+Change Component Description : Designator=C8 Old Description=22pF 0402 NP0/CG0 50V ?% New Description=22pF 0402 NP0/CG0 50V ¡À5%
+Change Component Description : Designator=R1 Old Description=22R 0402 1/16W ?% New Description=22R 0402 1/16W ¡À1%
+Change Component Description : Designator=R2 Old Description=22R 0402 1/16W ?% New Description=22R 0402 1/16W ¡À1%
+Change Component Description : Designator=R3 Old Description=22R 0402 1/16W ?% New Description=22R 0402 1/16W ¡À1%
+Change Component Description : Designator=R18 Old Description=24.9R 0402 1/16W ?.05R New Description=24.9R 0402 1/16W ¡À0.05R
+Change Component Description : Designator=C22 Old Description=33nF 0402 X7R 50V ?0% New Description=33nF 0402 X7R 50V ¡À10%
+Change Component Description : Designator=R4 Old Description=100K 0402 1/16W ?% New Description=100K 0402 1/16W ¡À1%
+Change Component Description : Designator=R5 Old Description=100K 0402 1/16W ?% New Description=100K 0402 1/16W ¡À1%
+Change Component Description : Designator=R6 Old Description=100K 0402 1/16W ?% New Description=100K 0402 1/16W ¡À1%
+Change Component Description : Designator=R8 Old Description=100K 0402 1/16W ?% New Description=100K 0402 1/16W ¡À1%
+Change Component Description : Designator=R12 Old Description=100K 0402 1/16W ?% New Description=100K 0402 1/16W ¡À1%
+Change Component Description : Designator=R15 Old Description=100K 0402 1/16W ?% New Description=100K 0402 1/16W ¡À1%
+Change Component Description : Designator=R23 Old Description=100K 0402 1/16W ?% New Description=100K 0402 1/16W ¡À1%
+Change Component Description : Designator=C4 Old Description=100nF 0402 X7R 16V ?0% New Description=100nF 0402 X7R 16V ¡À10%
+Change Component Description : Designator=C5 Old Description=100nF 0402 X7R 16V ?0% New Description=100nF 0402 X7R 16V ¡À10%
+Change Component Description : Designator=C6 Old Description=100nF 0402 X7R 16V ?0% New Description=100nF 0402 X7R 16V ¡À10%
+Change Component Description : Designator=C10 Old Description=100nF 0402 X7R 16V ?0% New Description=100nF 0402 X7R 16V ¡À10%
+Change Component Description : Designator=C11 Old Description=100nF 0402 X7R 16V ?0% New Description=100nF 0402 X7R 16V ¡À10%
+Change Component Description : Designator=C14 Old Description=100nF 0402 X7R 16V ?0% New Description=100nF 0402 X7R 16V ¡À10%
+Change Component Description : Designator=C17 Old Description=100nF 0402 X7R 16V ?0% New Description=100nF 0402 X7R 16V ¡À10%
+Change Component Description : Designator=C18 Old Description=100nF 0402 X7R 16V ?0% New Description=100nF 0402 X7R 16V ¡À10%
+Change Component Description : Designator=R17 Old Description=130R 0402 1/16W ?.05R New Description=130R 0402 1/16W ¡À0.05R
+Change Component Description : Designator=R10 Old Description=560K 0402 1/16W ?% New Description=560K 0402 1/16W ¡À1%
+Change Component Description : Designator=R13 Old Description=560K 0402 1/16W ?% New Description=560K 0402 1/16W ¡À1%
+Change Component Description : Designator=U5 Old Description=Atmel Seven-channel QTouch?Touch Sensor IC New Description=Atmel Seven-channel QTouch? Touch Sensor IC
+Change Component Description : Designator=J1 Old Description=Molex Pico-EZmate?Wire-to-Board Header, 2 contacts New Description=Molex Pico-EZmate? Wire-to-Board Header, 2 contacts
+Change Component Description : Designator=J2 Old Description=Molex Pico-EZmate?Wire-to-Board Header, 3 contacts New Description=Molex Pico-EZmate? Wire-to-Board Header, 3 contacts
+Added Pin To Net: NetName=GND Pin=P5-1
+Added Pin To Net: NetName=+3.3V Pin=P5-4
+Added Pin To Net: NetName=BT-RX Pin=P5-3
+Added Net: Name=BT-RX
+Added Pin To Net: NetName=BT-TX Pin=P5-2
+Added Net: Name=BT-TX
+Added Room: Name=ZooidMicrocontroller
+Added Room: Name=ZooidPeripherals
+Added Room: Name=ZooidRadio
