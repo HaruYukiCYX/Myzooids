@@ -1,0 +1,83 @@
+// Rowley CrossWorks, runtime support.
+//
+//  Copyright (c) 2001-2024 Rowley Associates Limited.
+//
+// This file may be distributed under the terms of the License Agreement
+// provided with this software.
+//
+// THIS FILE IS PROVIDED AS IS WITH NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+
+#ifndef __cstdlib_H
+#define __cstdlib_H
+
+#include <stdlib.h>
+
+namespace std
+{
+using ::size_t;
+using ::div_t;
+using ::ldiv_t;
+using ::lldiv_t;
+
+using ::abs;
+using ::labs;
+using ::llabs;
+
+using ::div;
+using ::ldiv;
+using ::lldiv;
+
+using ::calloc;
+using ::malloc;
+using ::realloc;
+using ::free;
+
+using ::atof;
+using ::atoi;
+using ::atol;
+using ::atoll;
+
+using ::strtod;
+using ::strtol;
+using ::strtoll;
+using ::strtoul;
+using ::strtoull;
+
+using ::rand;
+using ::srand;
+
+using ::bsearch;
+using ::qsort;
+
+using ::abort;
+using ::exit;
+using ::atexit;
+
+using ::getenv;
+using ::system;
+
+using ::itoa;
+using ::utoa;
+using ::ltoa;
+using ::ultoa;
+using ::lltoa;
+using ::ulltoa;
+
+using ::mblen;
+using ::mbtowc;
+using ::mbstowcs;
+
+using ::wcstombs;
+using ::wctomb;
+
+using ::aligned_alloc;
+
+using ::at_quick_exit;
+using ::quick_exit;
+
+}
+
+typedef long off_t;
+
+#endif

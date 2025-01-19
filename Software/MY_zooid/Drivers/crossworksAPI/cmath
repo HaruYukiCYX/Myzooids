@@ -1,0 +1,254 @@
+// Rowley CrossWorks, runtime support.
+//
+//  Copyright (c) 2001-2024 Rowley Associates Limited.
+//
+// This file may be distributed under the terms of the License Agreement
+// provided with this software.
+//
+// THIS FILE IS PROVIDED AS IS WITH NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+
+#ifndef __cmath_h
+#define __cmath_h
+
+#include <math.h>
+
+namespace std {
+  
+  using ::acos;
+  using ::acosf;
+  using ::acosl;
+
+  using ::acosh;
+  using ::acoshf;
+  using ::acoshl;
+
+  using ::asin;
+  using ::asinf;
+  using ::asinl;
+  
+  using ::asinh;
+  using ::asinhf;
+  using ::asinhl;
+    
+  using ::atan;
+  using ::atanf;
+  using ::atanl;
+  
+  using ::atan2;
+  using ::atan2f;
+  using ::atan2l;
+
+  using ::atanh;
+  using ::atanhf;
+  using ::atanhl;
+
+  using ::cbrt;
+  using ::cbrtf;
+  using ::cbrtl;
+
+  using ::ceil;
+  using ::ceilf;
+  using ::ceill;
+  
+  using ::copysign;
+  using ::copysignf;
+  using ::copysignl;
+    
+  using ::cos;
+  using ::cosf;
+  using ::cosl;
+
+  using ::cosh;
+  using ::coshf;
+  using ::coshl;
+
+  using ::erf;
+  using ::erff;
+  using ::erfl;
+
+  using ::erfc;
+  using ::erfcf;
+  using ::erfcl;
+
+  using ::exp;
+  using ::expf;
+  using ::expl;
+
+  using ::exp2;
+  using ::exp2f;
+  using ::exp2l;
+
+  using ::expm1;
+  using ::expm1f;
+  using ::expm1l;
+
+  using ::fabs;
+  using ::fabsf;
+  using ::fabsl;
+
+  using ::fdim;
+  using ::fdimf;
+  using ::fdiml;
+
+  using ::floor;
+  using ::floorf;
+  using ::floorl;
+
+  using ::fma;
+  using ::fmaf;
+  using ::fmal;
+
+  using ::fmax;
+  using ::fmaxf;
+  using ::fmaxl;
+
+  using ::fmin;
+  using ::fminf;
+  using ::fminl;
+
+  using ::fmod;
+  using ::fmodf;
+  using ::fmodl;
+
+  using ::fpclassify;
+
+  using ::frexp;
+  using ::frexpf;
+  using ::frexpl;
+
+  using ::hypot;
+  using ::hypotf;
+  using ::hypotl;
+
+  using ::ilogb;
+  using ::ilogbf;
+  using ::ilogbl;
+
+  using ::isinf;
+  using ::isnan;
+  using ::isfinite;
+  using ::isnormal;
+  using ::isunordered;
+  using ::isgreater;
+  using ::isgreaterequal;
+  using ::isless;
+  using ::islessequal;
+  using ::islessgreater;
+
+  using ::ldexp;
+  using ::ldexpf;
+  using ::ldexpl;
+
+  using ::lgamma;
+  using ::lgammaf;
+  using ::lgammal;
+
+  using ::llrint;
+  using ::llrintf;
+  using ::llrintl;
+
+  using ::llround;
+  using ::llroundf;
+  using ::llroundl;
+
+  using ::log;
+  using ::logf;
+  using ::logl;
+  
+  using ::log10;
+  using ::log10f;
+  using ::log10l;
+
+  using ::log1p;
+  using ::log1pf;
+  using ::log1pl;
+
+  using ::log2;
+  using ::log2f;
+  using ::log2l;
+
+  using ::logb;
+  using ::logbf;
+  using ::logbl;
+
+  using ::lrint;
+  using ::lrintf;
+  using ::lrintl;
+
+  using ::lround;
+  using ::lroundf;
+  using ::lroundl;
+    
+  using ::modf;
+  using ::modff;
+  using ::modfl;
+
+  using ::nearbyint;
+  using ::nearbyintf;
+  using ::nearbyintl;
+
+  using ::nextafter;
+  using ::nextafterf;
+  using ::nextafterl;
+  
+  using ::pow;
+  using ::powf;
+  using ::powl;
+
+  using ::remainder;
+  using ::remainderf;
+  using ::remainderl;
+
+  using ::remquo;
+  using ::remquof;
+  using ::remquol;
+
+  using ::rint;
+  using ::rintf;
+  using ::rintl;
+
+  using ::round;
+  using ::roundf;
+  using ::roundl;
+
+  using ::scalbn;
+  using ::scalbnf;
+  using ::scalbnl;
+
+  using ::scalbln;
+  using ::scalblnf;
+  using ::scalblnl;
+
+  using ::sin;
+  using ::sinf;
+  using ::sinl;
+
+  using ::signbit;
+
+  using ::sinh;
+  using ::sinhf;
+  using ::sinhl;
+  
+  using ::sqrt;
+  using ::sqrtf;
+  using ::sqrtl;
+
+  using ::tan;
+  using ::tanf;
+  using ::tanl;
+   
+  using ::tanh;
+  using ::tanhf;
+  using ::tanhl;
+
+  using ::tgamma;
+  using ::tgammaf;
+  using ::tgammal;
+
+  using ::trunc;
+  using ::truncf;
+  using ::truncl;
+}
+
+#endif

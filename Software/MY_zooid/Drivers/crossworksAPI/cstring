@@ -1,0 +1,46 @@
+// Rowley CrossWorks, runtime support.
+//
+//  Copyright (c) 2001-2024 Rowley Associates Limited.
+//
+// This file may be distributed under the terms of the License Agreement
+// provided with this software.
+//
+// THIS FILE IS PROVIDED AS IS WITH NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+
+#ifndef __cstring_H
+#define __cstring_H
+
+#include <string.h>
+
+namespace std
+{
+using ::memcpy;
+using ::memmove;
+using ::memcmp;
+using ::memchr;
+using ::memset;
+
+using ::size_t;
+
+using ::strcpy;
+using ::strncpy;
+using ::strcat;
+using ::strncat;
+using ::strcmp;
+using ::strncmp;
+using ::strchr;
+using ::strcspn;
+using ::strpbrk;
+using ::strrchr;
+using ::strspn;
+using ::strstr;
+using ::strlen;
+using ::strtok;
+
+using ::strcoll;
+using ::strerror;
+using ::strxfrm;
+}
+
+#endif

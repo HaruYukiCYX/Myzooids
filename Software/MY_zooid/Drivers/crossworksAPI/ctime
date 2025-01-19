@@ -1,0 +1,35 @@
+// Rowley CrossWorks, runtime support.
+//
+//  Copyright (c) 2001-2024 Rowley Associates Limited.
+//
+// This file may be distributed under the terms of the License Agreement
+// provided with this software.
+//
+// THIS FILE IS PROVIDED AS IS WITH NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+
+#ifndef __ctime_H
+#define __ctime_H
+
+#include <cstddef>
+#include <time.h>
+
+namespace std
+{
+using ::time_t;
+using ::clock_t;
+using ::tm;
+
+using ::clock;
+using ::time;
+using ::difftime;
+using ::mktime;
+using ::asctime;
+using ::ctime;
+using ::gmtime;
+using ::localtime;
+using ::strftime;
+
+}
+
+#endif

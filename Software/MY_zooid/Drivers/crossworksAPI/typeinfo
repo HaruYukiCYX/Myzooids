@@ -1,0 +1,74 @@
+// Rowley CrossWorks, runtime support.
+//
+//  Copyright (c) 2001-2024 Rowley Associates Limited.
+//
+// This file may be distributed under the terms of the License Agreement
+// provided with this software.
+//
+// THIS FILE IS PROVIDED AS IS WITH NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+
+#ifndef __typeinfo_H
+#define __typeinfo_H
+
+#include <exception>
+
+namespace std {
+
+class type_info
+{
+public:
+    virtual ~type_info();
+#if __cplusplus < 201103L
+    bool operator==(const type_info& __arg) const throw() { return __type_name == __arg.__type_name; }
+    bool operator!=(const type_info& __arg) const throw() { return !operator==(__arg); }
+    bool before(const type_info& __arg) const throw() { return __type_name < __arg.__type_name; }
+    const char* name() const throw() { return __type_name; }
+#else
+    bool operator==(const type_info& __arg) const noexcept { return __type_name == __arg.__type_name; }
+    bool operator!=(const type_info& __arg) const noexcept { return !operator==(__arg); }
+    bool before(const type_info& __arg) const noexcept { return __type_name < __arg.__type_name; }
+    const char* name() const noexcept { return __type_name; }
+#endif
+
+protected:
+    const char *__type_name;
+};
+
+class bad_cast
+    : public exception
+{
+public:
+#if __cplusplus < 201103L
+    bad_cast() throw();
+    virtual ~bad_cast() throw();
+    bad_cast& operator=(const bad_cast&) throw();
+    virtual const char* what() const throw();
+#else
+    bad_cast() noexcept;
+    virtual ~bad_cast() noexcept;
+    bad_cast& operator=(const bad_cast&) noexcept;
+    virtual const char* what() const noexcept;
+#endif
+};
+
+class bad_typeid
+    : public exception
+{
+public:
+#if __cplusplus < 201103L
+    bad_typeid() throw();
+    virtual ~bad_typeid() throw();
+    bad_typeid& operator=(const bad_typeid&) throw();
+    virtual const char* what() const throw();
+#else
+    bad_typeid() noexcept;
+    virtual ~bad_typeid() noexcept;
+    bad_typeid& operator=(const bad_typeid&) noexcept;
+    virtual const char* what() const noexcept;
+#endif
+};
+
+}  // std
+
+#endif

@@ -1,0 +1,65 @@
+// Rowley CrossWorks, runtime support.
+//
+//  Copyright (c) 2001-2024 Rowley Associates Limited.
+//
+// This file may be distributed under the terms of the License Agreement
+// provided with this software.
+//
+// THIS FILE IS PROVIDED AS IS WITH NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+
+#ifndef __cwchar_H
+#define __cwchar_H
+
+#include <wchar.h>
+
+namespace std
+{
+using ::mbstate_t;
+using ::fgetwc;
+using ::fgetws;
+using ::fputwc;
+using ::fputws;
+using ::fwide;
+using ::fwprintf;
+using ::fwscanf;
+using ::getwchar;
+using ::getwc;
+using ::ungetwc;
+using ::putwc;
+using ::putwchar;
+using ::swprintf;
+using ::vswprintf;
+using ::swscanf;
+using ::vfwprintf;
+using ::vwprintf;
+using ::wcsftime;
+using ::wcstok;
+using ::wcscoll;
+using ::wcsxfrm;
+using ::wcscat;
+using ::wcsrchr;
+using ::wcscmp;
+using ::wcscpy;
+using ::wcscspn;
+using ::wcslen;
+using ::wcsncat;
+using ::wcsncmp;
+using ::wcsncpy;
+using ::wcspbrk;
+using ::wcschr;
+using ::wcsspn;
+using ::wcstod;
+using ::wcstol;
+using ::wcsstr;
+using ::wmemchr;
+using ::wctob;
+using ::wmemcmp;
+using ::wmemmove;
+using ::wprintf;
+using ::wscanf;
+using ::wmemcpy;
+using ::wmemset;
+}
+
+#endif

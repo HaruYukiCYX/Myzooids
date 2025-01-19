@@ -1,0 +1,73 @@
+// Rowley CrossWorks, runtime support.
+//
+//  Copyright (c) 2001-2024 Rowley Associates Limited.
+//
+// This file may be distributed under the terms of the License Agreement
+// provided with this software.
+//
+// THIS FILE IS PROVIDED AS IS WITH NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+
+#ifndef __cstdio_H
+#define __cstdio_H
+
+#include <stdio.h>
+
+#undef putchar
+
+namespace std
+{
+using ::size_t;
+using ::puts;
+using ::putchar;
+using ::getchar;
+using ::sprintf;
+using ::snprintf;
+using ::vsnprintf;
+
+using ::printf;
+using ::vprintf;
+using ::vsprintf;
+
+using ::scanf;
+using ::sscanf;
+using ::vscanf;
+using ::vsscanf;
+using ::gets;
+
+using ::FILE;
+using ::fpos_t;
+using ::clearerr;
+using ::fclose;
+using ::feof;
+using ::ferror;
+using ::fflush;
+using ::fgetc;
+using ::fgetpos;
+using ::fgets;
+using ::fopen;
+using ::fprintf;
+using ::fputc;
+using ::fputs;
+using ::fread;
+using ::freopen;
+using ::fscanf;
+using ::fseek;
+using ::fsetpos; 
+using ::ftell;
+using ::fwrite;
+using ::getc;
+using ::perror;
+using ::putc;
+using ::remove;
+using ::rename;
+using ::rewind;
+using ::setbuf;
+using ::setvbuf;
+using ::tmpfile;
+using ::tmpnam;
+using ::ungetc;
+using ::vfprintf;
+}
+
+#endif
