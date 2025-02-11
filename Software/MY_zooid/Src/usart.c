@@ -20,7 +20,7 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "usart.h"
-
+#include "colors.h"
 /* USER CODE BEGIN 0 */
 
 /* USER CODE END 0 */
@@ -155,20 +155,26 @@ void initUART(void) {
 }
 
 
-//void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
-//    if (huart->Instance == USART1) {
-//        char debugMsg[20];
-//        sprintf(debugMsg, "Data: %02X %02X\r\n", receiveData[0], receiveData[1]);
-//        HAL_UART_Transmit(&huart1, (uint8_t *)debugMsg, strlen(debugMsg), HAL_MAX_DELAY);
-//        
-//        processReceivedData(receiveData); 
-//        HAL_UART_Receive_DMA(&huart1, receiveData, sizeof(receiveData)); // ????DMA??
-//    }
-//}
 
-//void processReceivedData(uint8_t *data) {
-//		setRGBLed(data[0],data[1],data[2]);
-//	}
+
+void testRGB(uint8_t *data)
+{
+	int _isEqual = 1;
+  char str1[] = "green";
+	for(int i = 0; i < 5; i++)
+	{
+		if(data[i] != str1[i])
+		{
+			HAL_UART_Transmit(&huart1, (uint8_t *)"Check whether your message content or serial communication is correct.\r\n", 73, HAL_MAX_DELAY);
+			_isEqual = 0;
+		}
+	}			
+		if(_isEqual)
+		{
+			setColor(green);
+			HAL_UART_Transmit(&huart1, (uint8_t *)"The RGB light and serial port communication were successfully verified.\r\n", 72, HAL_MAX_DELAY);
+		}
+}
 
 
 

@@ -36,4 +36,4 @@ usart.o: ../Src/usart.c ../Inc/usart.h ../Inc/config.h ../Inc/stm32f0xx.h \
  ../Drivers/crossworksAPI/math.h \
  ../Drivers/crossworksAPI/__cross_studio_io.h \
  ../Drivers/crossworksAPI/debugio.h ../Drivers/crossworksAPI/stdlib.h \
- ../Inc/utilities.h
+ ../Inc/utilities.h ../Inc/colors.h

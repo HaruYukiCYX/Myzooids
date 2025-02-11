@@ -404,6 +404,8 @@ static void I2C_TransferConfig(I2C_HandleTypeDef *hi2c,  uint16_t DevAddress, ui
 HAL_StatusTypeDef HAL_I2C_Init(I2C_HandleTypeDef *hi2c)
 {
   /* Check the I2C handle allocation */
+	
+		HAL_I2C_MspInit(hi2c);
   if (hi2c == NULL)
   {
     return HAL_ERROR;
@@ -479,7 +481,7 @@ HAL_StatusTypeDef HAL_I2C_Init(I2C_HandleTypeDef *hi2c)
   hi2c->PreviousState = I2C_STATE_NONE;
   hi2c->Mode = HAL_I2C_MODE_NONE;
 
-  return HAL_OK;
+  return 0x00u;
 }
 
 /**
@@ -490,6 +492,7 @@ HAL_StatusTypeDef HAL_I2C_Init(I2C_HandleTypeDef *hi2c)
   */
 HAL_StatusTypeDef HAL_I2C_DeInit(I2C_HandleTypeDef *hi2c)
 {
+
   /* Check the I2C handle allocation */
   if (hi2c == NULL)
   {

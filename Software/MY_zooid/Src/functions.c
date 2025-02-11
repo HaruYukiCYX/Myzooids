@@ -56,12 +56,10 @@ void initRobot()
         HAL_Delay(250);
         setColor(black);
     }
+		initUART();
+		HAL_UART_Transmit(&huart1, (uint8_t *)"Bluetooth Initialization Successful.\r\n",38, HAL_MAX_DELAY);
 
-//    while(calibrate(&motorValues) == false);
-
-//    charging = isCharging();
-
-    setColor(red);
+    setColor(blue);
 }
 
 /*============================================================================

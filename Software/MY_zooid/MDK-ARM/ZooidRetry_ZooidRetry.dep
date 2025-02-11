@@ -1,6 +1,6 @@
 Dependencies for Project 'ZooidRetry', Target 'ZooidRetry': (DO NOT MODIFY !)
 F (..\STM32Cube_FW_F0_V1.11.0\Drivers\CMSIS\Device\ST\STM32F0xx\Source\Templates\gcc\startup_stm32f051x8.s)(0x66051E70)(-mcpu=cortex-m1 -mthumb --gdwarf-2 -mthumb-interwork -mcpu=cortex-m1 -mthumb -I./RTE/_ZooidRetry -IC:/Keil_v5/ARM/PACK/ARM/CMSIS/5.2.0/CMSIS/Include -IC:/Keil_v5/ARM/PACK/Keil/STM32F0xx_DFP/2.1.1/Drivers/CMSIS/Device/ST/STM32F0xx/Include -I"C:/Keil_v5/10 2021.10/arm-none-eabi/include" --defsym __UVISION_VERSION=525 --defsym _RTE_=1 --defsym STM32F051x8=1--MD ./startup_stm32f051x8.d -o ./startup_stm32f051x8.o)
-F (../Src/main.c)(0x678C96D4)(-c -mcpu=cortex-m1 -mthumb -gdwarf-2 -MD -w -Os -mapcs-frame -mapcs-stack-check -mthumb-interwork -I ../Inc -I ../Drivers/CMSIS/Include -I ../Drivers/crossworksAPI -I ../Drivers/crossworksAPI/gcc -I ../Drivers/lib -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../STM32Cube_FW_F0_V1.11.0/Drivers/STM32F0xx_HAL_Driver/Inc -mcpu=cortex-m1 -mthumb -DSTM32F051x8 -ffunction-sections -fdata-sections -I./RTE/_ZooidRetry -IC:/Keil_v5/ARM/PACK/ARM/CMSIS/5.2.0/CMSIS/Include -IC:/Keil_v5/ARM/PACK/Keil/STM32F0xx_DFP/2.1.1/Drivers/CMSIS/Device/ST/STM32F0xx/Include -I"C:/Keil_v5/10 2021.10/arm-none-eabi/include" -D__UVISION_VERSION="525" -D_RTE_ -DSTM32F051x8 -D__CROSSWORKS_ARM -DUSE_STDPERIPH_DRIVER -DSTM32F051x8 -DUSE_HAL_LEGACY-o ./main.o)
+F (../Src/main.c)(0x67A87425)(-c -mcpu=cortex-m1 -mthumb -gdwarf-2 -MD -w -Os -mapcs-frame -mapcs-stack-check -mthumb-interwork -I ../Inc -I ../Drivers/CMSIS/Include -I ../Drivers/crossworksAPI -I ../Drivers/crossworksAPI/gcc -I ../Drivers/lib -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../STM32Cube_FW_F0_V1.11.0/Drivers/STM32F0xx_HAL_Driver/Inc -mcpu=cortex-m1 -mthumb -DSTM32F051x8 -ffunction-sections -fdata-sections -I./RTE/_ZooidRetry -IC:/Keil_v5/ARM/PACK/ARM/CMSIS/5.2.0/CMSIS/Include -IC:/Keil_v5/ARM/PACK/Keil/STM32F0xx_DFP/2.1.1/Drivers/CMSIS/Device/ST/STM32F0xx/Include -I"C:/Keil_v5/10 2021.10/arm-none-eabi/include" -D__UVISION_VERSION="525" -D_RTE_ -DSTM32F051x8 -D__CROSSWORKS_ARM -DUSE_STDPERIPH_DRIVER -DSTM32F051x8 -DUSE_HAL_LEGACY-o ./main.o)
 I (..\Inc\config.h)(0x678C91EA)
 I (..\Inc\stm32f0xx.h)(0x66AC9DE1)
 I (C:\Keil_v5\ARM\PACK\Keil\STM32F0xx_DFP\2.1.1\Drivers\CMSIS\Device\ST\STM32F0xx\Include\stm32f051x8.h)(0x61A82F48)
@@ -44,7 +44,7 @@ I (..\Drivers\crossworksAPI\__cross_studio_io.h)(0x667F17C5)
 I (..\Drivers\crossworksAPI\debugio.h)(0x667F17C5)
 I (..\Drivers\crossworksAPI\stdlib.h)(0x667F17C5)
 I (..\Inc\utilities.h)(0x66A6F68B)
-I (..\Inc\functions.h)(0x66A6F68B)
+I (..\Inc\functions.h)(0x678CBC1D)
 I (..\Inc\stm32f0xx_lp_modes.h)(0x66A6F68B)
 I (..\Inc\led.h)(0x66A6F68B)
 I (..\Inc\colors.h)(0x66A6F68B)
@@ -59,8 +59,9 @@ I (..\Inc\MadgwickAHRS.h)(0x66A6F68B)
 I (..\Inc\RingBuffer.h)(0x66A6F68B)
 I (..\Inc\position_control.h)(0x66A6F68B)
 I (..\Inc\eeprom.h)(0x66A6F68B)
-F (..\Src\functions.c)(0x678C9A21)(-c -mcpu=cortex-m1 -mthumb -gdwarf-2 -MD -w -Os -mapcs-frame -mapcs-stack-check -mthumb-interwork -I ../Inc -I ../Drivers/CMSIS/Include -I ../Drivers/crossworksAPI -I ../Drivers/crossworksAPI/gcc -I ../Drivers/lib -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../STM32Cube_FW_F0_V1.11.0/Drivers/STM32F0xx_HAL_Driver/Inc -mcpu=cortex-m1 -mthumb -DSTM32F051x8 -ffunction-sections -fdata-sections -I./RTE/_ZooidRetry -IC:/Keil_v5/ARM/PACK/ARM/CMSIS/5.2.0/CMSIS/Include -IC:/Keil_v5/ARM/PACK/Keil/STM32F0xx_DFP/2.1.1/Drivers/CMSIS/Device/ST/STM32F0xx/Include -I"C:/Keil_v5/10 2021.10/arm-none-eabi/include" -D__UVISION_VERSION="525" -D_RTE_ -DSTM32F051x8 -D__CROSSWORKS_ARM -DUSE_STDPERIPH_DRIVER -DSTM32F051x8 -DUSE_HAL_LEGACY-o ./functions.o)
-I (..\Inc\functions.h)(0x66A6F68B)
+I (..\Inc\usart.h)(0x66EE58C6)
+F (..\Src\functions.c)(0x67A8740A)(-c -mcpu=cortex-m1 -mthumb -gdwarf-2 -MD -w -Os -mapcs-frame -mapcs-stack-check -mthumb-interwork -I ../Inc -I ../Drivers/CMSIS/Include -I ../Drivers/crossworksAPI -I ../Drivers/crossworksAPI/gcc -I ../Drivers/lib -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../STM32Cube_FW_F0_V1.11.0/Drivers/STM32F0xx_HAL_Driver/Inc -mcpu=cortex-m1 -mthumb -DSTM32F051x8 -ffunction-sections -fdata-sections -I./RTE/_ZooidRetry -IC:/Keil_v5/ARM/PACK/ARM/CMSIS/5.2.0/CMSIS/Include -IC:/Keil_v5/ARM/PACK/Keil/STM32F0xx_DFP/2.1.1/Drivers/CMSIS/Device/ST/STM32F0xx/Include -I"C:/Keil_v5/10 2021.10/arm-none-eabi/include" -D__UVISION_VERSION="525" -D_RTE_ -DSTM32F051x8 -D__CROSSWORKS_ARM -DUSE_STDPERIPH_DRIVER -DSTM32F051x8 -DUSE_HAL_LEGACY-o ./functions.o)
+I (..\Inc\functions.h)(0x678CBC1D)
 I (..\Inc\config.h)(0x678C91EA)
 I (..\Inc\stm32f0xx.h)(0x66AC9DE1)
 I (C:\Keil_v5\ARM\PACK\Keil\STM32F0xx_DFP\2.1.1\Drivers\CMSIS\Device\ST\STM32F0xx\Include\stm32f051x8.h)(0x61A82F48)
@@ -118,6 +119,7 @@ I (..\Inc\MadgwickAHRS.h)(0x66A6F68B)
 I (..\Inc\RingBuffer.h)(0x66A6F68B)
 I (..\Inc\position_control.h)(0x66A6F68B)
 I (..\Inc\eeprom.h)(0x66A6F68B)
+I (..\Inc\usart.h)(0x66EE58C6)
 F (..\Src\led.c)(0x66B22B8F)(-c -mcpu=cortex-m1 -mthumb -gdwarf-2 -MD -w -Os -mapcs-frame -mapcs-stack-check -mthumb-interwork -I ../Inc -I ../Drivers/CMSIS/Include -I ../Drivers/crossworksAPI -I ../Drivers/crossworksAPI/gcc -I ../Drivers/lib -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../STM32Cube_FW_F0_V1.11.0/Drivers/STM32F0xx_HAL_Driver/Inc -mcpu=cortex-m1 -mthumb -DSTM32F051x8 -ffunction-sections -fdata-sections -I./RTE/_ZooidRetry -IC:/Keil_v5/ARM/PACK/ARM/CMSIS/5.2.0/CMSIS/Include -IC:/Keil_v5/ARM/PACK/Keil/STM32F0xx_DFP/2.1.1/Drivers/CMSIS/Device/ST/STM32F0xx/Include -I"C:/Keil_v5/10 2021.10/arm-none-eabi/include" -D__UVISION_VERSION="525" -D_RTE_ -DSTM32F051x8 -D__CROSSWORKS_ARM -DUSE_STDPERIPH_DRIVER -DSTM32F051x8 -DUSE_HAL_LEGACY-o ./led.o)
 I (..\Inc\led.h)(0x66A6F68B)
 I (..\Inc\config.h)(0x678C91EA)
@@ -340,7 +342,7 @@ I (..\Drivers\crossworksAPI\math.h)(0x667F17C5)
 I (..\Drivers\crossworksAPI\__cross_studio_io.h)(0x667F17C5)
 I (..\Drivers\crossworksAPI\debugio.h)(0x667F17C5)
 I (..\Drivers\crossworksAPI\stdlib.h)(0x667F17C5)
-I (..\Inc\functions.h)(0x66A6F68B)
+I (..\Inc\functions.h)(0x678CBC1D)
 I (..\Inc\utilities.h)(0x66A6F68B)
 I (..\Inc\stm32f0xx_lp_modes.h)(0x66A6F68B)
 I (..\Inc\led.h)(0x66A6F68B)
@@ -356,6 +358,7 @@ I (..\Inc\MadgwickAHRS.h)(0x66A6F68B)
 I (..\Inc\RingBuffer.h)(0x66A6F68B)
 I (..\Inc\position_control.h)(0x66A6F68B)
 I (..\Inc\eeprom.h)(0x66A6F68B)
+I (..\Inc\usart.h)(0x66EE58C6)
 F (..\Src\stm32f0xx_lp_modes.c)(0x66B22B8F)(-c -mcpu=cortex-m1 -mthumb -gdwarf-2 -MD -w -Os -mapcs-frame -mapcs-stack-check -mthumb-interwork -I ../Inc -I ../Drivers/CMSIS/Include -I ../Drivers/crossworksAPI -I ../Drivers/crossworksAPI/gcc -I ../Drivers/lib -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../STM32Cube_FW_F0_V1.11.0/Drivers/STM32F0xx_HAL_Driver/Inc -mcpu=cortex-m1 -mthumb -DSTM32F051x8 -ffunction-sections -fdata-sections -I./RTE/_ZooidRetry -IC:/Keil_v5/ARM/PACK/ARM/CMSIS/5.2.0/CMSIS/Include -IC:/Keil_v5/ARM/PACK/Keil/STM32F0xx_DFP/2.1.1/Drivers/CMSIS/Device/ST/STM32F0xx/Include -I"C:/Keil_v5/10 2021.10/arm-none-eabi/include" -D__UVISION_VERSION="525" -D_RTE_ -DSTM32F051x8 -D__CROSSWORKS_ARM -DUSE_STDPERIPH_DRIVER -DSTM32F051x8 -DUSE_HAL_LEGACY-o ./stm32f0xx_lp_modes.o)
 I (..\Inc\stm32f0xx_lp_modes.h)(0x66A6F68B)
 I (..\Inc\config.h)(0x678C91EA)
@@ -400,7 +403,7 @@ I (..\Drivers\crossworksAPI\math.h)(0x667F17C5)
 I (..\Drivers\crossworksAPI\__cross_studio_io.h)(0x667F17C5)
 I (..\Drivers\crossworksAPI\debugio.h)(0x667F17C5)
 I (..\Drivers\crossworksAPI\stdlib.h)(0x667F17C5)
-F (..\Src\utilities.c)(0x678C91EA)(-c -mcpu=cortex-m1 -mthumb -gdwarf-2 -MD -w -Os -mapcs-frame -mapcs-stack-check -mthumb-interwork -I ../Inc -I ../Drivers/CMSIS/Include -I ../Drivers/crossworksAPI -I ../Drivers/crossworksAPI/gcc -I ../Drivers/lib -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../STM32Cube_FW_F0_V1.11.0/Drivers/STM32F0xx_HAL_Driver/Inc -mcpu=cortex-m1 -mthumb -DSTM32F051x8 -ffunction-sections -fdata-sections -I./RTE/_ZooidRetry -IC:/Keil_v5/ARM/PACK/ARM/CMSIS/5.2.0/CMSIS/Include -IC:/Keil_v5/ARM/PACK/Keil/STM32F0xx_DFP/2.1.1/Drivers/CMSIS/Device/ST/STM32F0xx/Include -I"C:/Keil_v5/10 2021.10/arm-none-eabi/include" -D__UVISION_VERSION="525" -D_RTE_ -DSTM32F051x8 -D__CROSSWORKS_ARM -DUSE_STDPERIPH_DRIVER -DSTM32F051x8 -DUSE_HAL_LEGACY-o ./utilities.o)
+F (..\Src\utilities.c)(0x67A8769F)(-c -mcpu=cortex-m1 -mthumb -gdwarf-2 -MD -w -Os -mapcs-frame -mapcs-stack-check -mthumb-interwork -I ../Inc -I ../Drivers/CMSIS/Include -I ../Drivers/crossworksAPI -I ../Drivers/crossworksAPI/gcc -I ../Drivers/lib -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../STM32Cube_FW_F0_V1.11.0/Drivers/STM32F0xx_HAL_Driver/Inc -mcpu=cortex-m1 -mthumb -DSTM32F051x8 -ffunction-sections -fdata-sections -I./RTE/_ZooidRetry -IC:/Keil_v5/ARM/PACK/ARM/CMSIS/5.2.0/CMSIS/Include -IC:/Keil_v5/ARM/PACK/Keil/STM32F0xx_DFP/2.1.1/Drivers/CMSIS/Device/ST/STM32F0xx/Include -I"C:/Keil_v5/10 2021.10/arm-none-eabi/include" -D__UVISION_VERSION="525" -D_RTE_ -DSTM32F051x8 -D__CROSSWORKS_ARM -DUSE_STDPERIPH_DRIVER -DSTM32F051x8 -DUSE_HAL_LEGACY-o ./utilities.o)
 I (..\Inc\utilities.h)(0x66A6F68B)
 I (..\Inc\config.h)(0x678C91EA)
 I (..\Inc\stm32f0xx.h)(0x66AC9DE1)
@@ -444,7 +447,7 @@ I (..\Drivers\crossworksAPI\math.h)(0x667F17C5)
 I (..\Drivers\crossworksAPI\__cross_studio_io.h)(0x667F17C5)
 I (..\Drivers\crossworksAPI\debugio.h)(0x667F17C5)
 I (..\Drivers\crossworksAPI\stdlib.h)(0x667F17C5)
-I (..\Inc\functions.h)(0x66A6F68B)
+I (..\Inc\functions.h)(0x678CBC1D)
 I (..\Inc\stm32f0xx_lp_modes.h)(0x66A6F68B)
 I (..\Inc\led.h)(0x66A6F68B)
 I (..\Inc\colors.h)(0x66A6F68B)
@@ -459,6 +462,7 @@ I (..\Inc\MadgwickAHRS.h)(0x66A6F68B)
 I (..\Inc\RingBuffer.h)(0x66A6F68B)
 I (..\Inc\position_control.h)(0x66A6F68B)
 I (..\Inc\eeprom.h)(0x66A6F68B)
+I (..\Inc\usart.h)(0x66EE58C6)
 I (..\Drivers\crossworksAPI\stdarg.h)(0x66B0D96E)
 F (..\Src\colors.c)(0x64635DC6)(-c -mcpu=cortex-m1 -mthumb -gdwarf-2 -MD -w -Os -mapcs-frame -mapcs-stack-check -mthumb-interwork -I ../Inc -I ../Drivers/CMSIS/Include -I ../Drivers/crossworksAPI -I ../Drivers/crossworksAPI/gcc -I ../Drivers/lib -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../STM32Cube_FW_F0_V1.11.0/Drivers/STM32F0xx_HAL_Driver/Inc -mcpu=cortex-m1 -mthumb -DSTM32F051x8 -ffunction-sections -fdata-sections -I./RTE/_ZooidRetry -IC:/Keil_v5/ARM/PACK/ARM/CMSIS/5.2.0/CMSIS/Include -IC:/Keil_v5/ARM/PACK/Keil/STM32F0xx_DFP/2.1.1/Drivers/CMSIS/Device/ST/STM32F0xx/Include -I"C:/Keil_v5/10 2021.10/arm-none-eabi/include" -D__UVISION_VERSION="525" -D_RTE_ -DSTM32F051x8 -D__CROSSWORKS_ARM -DUSE_STDPERIPH_DRIVER -DSTM32F051x8 -DUSE_HAL_LEGACY-o ./colors.o)
 I (..\Inc\colors.h)(0x66A6F68B)
@@ -504,7 +508,7 @@ I (..\Drivers\crossworksAPI\math.h)(0x667F17C5)
 I (..\Drivers\crossworksAPI\__cross_studio_io.h)(0x667F17C5)
 I (..\Drivers\crossworksAPI\debugio.h)(0x667F17C5)
 I (..\Drivers\crossworksAPI\stdlib.h)(0x667F17C5)
-F (..\Src\usart.c)(0x6789FE33)(-c -mcpu=cortex-m1 -mthumb -gdwarf-2 -MD -w -Os -mapcs-frame -mapcs-stack-check -mthumb-interwork -I ../Inc -I ../Drivers/CMSIS/Include -I ../Drivers/crossworksAPI -I ../Drivers/crossworksAPI/gcc -I ../Drivers/lib -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../STM32Cube_FW_F0_V1.11.0/Drivers/STM32F0xx_HAL_Driver/Inc -mcpu=cortex-m1 -mthumb -DSTM32F051x8 -ffunction-sections -fdata-sections -I./RTE/_ZooidRetry -IC:/Keil_v5/ARM/PACK/ARM/CMSIS/5.2.0/CMSIS/Include -IC:/Keil_v5/ARM/PACK/Keil/STM32F0xx_DFP/2.1.1/Drivers/CMSIS/Device/ST/STM32F0xx/Include -I"C:/Keil_v5/10 2021.10/arm-none-eabi/include" -D__UVISION_VERSION="525" -D_RTE_ -DSTM32F051x8 -D__CROSSWORKS_ARM -DUSE_STDPERIPH_DRIVER -DSTM32F051x8 -DUSE_HAL_LEGACY-o ./usart.o)
+F (..\Src\usart.c)(0x67A98A3D)(-c -mcpu=cortex-m1 -mthumb -gdwarf-2 -MD -w -Os -mapcs-frame -mapcs-stack-check -mthumb-interwork -I ../Inc -I ../Drivers/CMSIS/Include -I ../Drivers/crossworksAPI -I ../Drivers/crossworksAPI/gcc -I ../Drivers/lib -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../STM32Cube_FW_F0_V1.11.0/Drivers/STM32F0xx_HAL_Driver/Inc -mcpu=cortex-m1 -mthumb -DSTM32F051x8 -ffunction-sections -fdata-sections -I./RTE/_ZooidRetry -IC:/Keil_v5/ARM/PACK/ARM/CMSIS/5.2.0/CMSIS/Include -IC:/Keil_v5/ARM/PACK/Keil/STM32F0xx_DFP/2.1.1/Drivers/CMSIS/Device/ST/STM32F0xx/Include -I"C:/Keil_v5/10 2021.10/arm-none-eabi/include" -D__UVISION_VERSION="525" -D_RTE_ -DSTM32F051x8 -D__CROSSWORKS_ARM -DUSE_STDPERIPH_DRIVER -DSTM32F051x8 -DUSE_HAL_LEGACY-o ./usart.o)
 I (..\Inc\usart.h)(0x66EE58C6)
 I (..\Inc\config.h)(0x678C91EA)
 I (..\Inc\stm32f0xx.h)(0x66AC9DE1)
@@ -549,6 +553,7 @@ I (..\Drivers\crossworksAPI\__cross_studio_io.h)(0x667F17C5)
 I (..\Drivers\crossworksAPI\debugio.h)(0x667F17C5)
 I (..\Drivers\crossworksAPI\stdlib.h)(0x667F17C5)
 I (..\Inc\utilities.h)(0x66A6F68B)
+I (..\Inc\colors.h)(0x66A6F68B)
 F (..\Drivers\STM32F0xx_HAL_Driver\Src\stm32f0xx_hal.c)(0x66AC9DFD)(-c -mcpu=cortex-m1 -mthumb -gdwarf-2 -MD -w -Os -mapcs-frame -mapcs-stack-check -mthumb-interwork -I ../Inc -I ../Drivers/CMSIS/Include -I ../Drivers/crossworksAPI -I ../Drivers/crossworksAPI/gcc -I ../Drivers/lib -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../STM32Cube_FW_F0_V1.11.0/Drivers/STM32F0xx_HAL_Driver/Inc -mcpu=cortex-m1 -mthumb -DSTM32F051x8 -ffunction-sections -fdata-sections -I./RTE/_ZooidRetry -IC:/Keil_v5/ARM/PACK/ARM/CMSIS/5.2.0/CMSIS/Include -IC:/Keil_v5/ARM/PACK/Keil/STM32F0xx_DFP/2.1.1/Drivers/CMSIS/Device/ST/STM32F0xx/Include -I"C:/Keil_v5/10 2021.10/arm-none-eabi/include" -D__UVISION_VERSION="525" -D_RTE_ -DSTM32F051x8 -D__CROSSWORKS_ARM -DUSE_STDPERIPH_DRIVER -DSTM32F051x8 -DUSE_HAL_LEGACY-o ./stm32f0xx_hal.o)
 I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_hal.h)(0x66AC9DFD)
 I (..\Inc\stm32f0xx_hal_conf.h)(0x678C91A5)
@@ -765,7 +770,7 @@ I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_hal_tim.h)(0x66AC9DFD)
 I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_hal_tim_ex.h)(0x66AC9DFD)
 I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_hal_uart.h)(0x66AC9DFD)
 I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_hal_uart_ex.h)(0x66AC9DFD)
-F (..\Drivers\STM32F0xx_HAL_Driver\Src\stm32f0xx_hal_rcc.c)(0x66AC9DFD)(-c -mcpu=cortex-m1 -mthumb -gdwarf-2 -MD -w -Os -mapcs-frame -mapcs-stack-check -mthumb-interwork -I ../Inc -I ../Drivers/CMSIS/Include -I ../Drivers/crossworksAPI -I ../Drivers/crossworksAPI/gcc -I ../Drivers/lib -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../STM32Cube_FW_F0_V1.11.0/Drivers/STM32F0xx_HAL_Driver/Inc -mcpu=cortex-m1 -mthumb -DSTM32F051x8 -ffunction-sections -fdata-sections -I./RTE/_ZooidRetry -IC:/Keil_v5/ARM/PACK/ARM/CMSIS/5.2.0/CMSIS/Include -IC:/Keil_v5/ARM/PACK/Keil/STM32F0xx_DFP/2.1.1/Drivers/CMSIS/Device/ST/STM32F0xx/Include -I"C:/Keil_v5/10 2021.10/arm-none-eabi/include" -D__UVISION_VERSION="525" -D_RTE_ -DSTM32F051x8 -D__CROSSWORKS_ARM -DUSE_STDPERIPH_DRIVER -DSTM32F051x8 -DUSE_HAL_LEGACY-o ./stm32f0xx_hal_rcc.o)
+F (..\Drivers\STM32F0xx_HAL_Driver\Src\stm32f0xx_hal_rcc.c)(0x66EE7258)(-c -mcpu=cortex-m1 -mthumb -gdwarf-2 -MD -w -Os -mapcs-frame -mapcs-stack-check -mthumb-interwork -I ../Inc -I ../Drivers/CMSIS/Include -I ../Drivers/crossworksAPI -I ../Drivers/crossworksAPI/gcc -I ../Drivers/lib -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../STM32Cube_FW_F0_V1.11.0/Drivers/STM32F0xx_HAL_Driver/Inc -mcpu=cortex-m1 -mthumb -DSTM32F051x8 -ffunction-sections -fdata-sections -I./RTE/_ZooidRetry -IC:/Keil_v5/ARM/PACK/ARM/CMSIS/5.2.0/CMSIS/Include -IC:/Keil_v5/ARM/PACK/Keil/STM32F0xx_DFP/2.1.1/Drivers/CMSIS/Device/ST/STM32F0xx/Include -I"C:/Keil_v5/10 2021.10/arm-none-eabi/include" -D__UVISION_VERSION="525" -D_RTE_ -DSTM32F051x8 -D__CROSSWORKS_ARM -DUSE_STDPERIPH_DRIVER -DSTM32F051x8 -DUSE_HAL_LEGACY-o ./stm32f0xx_hal_rcc.o)
 I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_hal.h)(0x66AC9DFD)
 I (..\Inc\stm32f0xx_hal_conf.h)(0x678C91A5)
 I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_hal_rcc.h)(0x66AC9DFD)
@@ -945,7 +950,7 @@ I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_hal_tim.h)(0x66AC9DFD)
 I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_hal_tim_ex.h)(0x66AC9DFD)
 I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_hal_uart.h)(0x66AC9DFD)
 I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_hal_uart_ex.h)(0x66AC9DFD)
-F (..\Drivers\STM32F0xx_HAL_Driver\Src\stm32f0xx_hal_uart.c)(0x66AC9DFD)(-c -mcpu=cortex-m1 -mthumb -gdwarf-2 -MD -w -Os -mapcs-frame -mapcs-stack-check -mthumb-interwork -I ../Inc -I ../Drivers/CMSIS/Include -I ../Drivers/crossworksAPI -I ../Drivers/crossworksAPI/gcc -I ../Drivers/lib -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../STM32Cube_FW_F0_V1.11.0/Drivers/STM32F0xx_HAL_Driver/Inc -mcpu=cortex-m1 -mthumb -DSTM32F051x8 -ffunction-sections -fdata-sections -I./RTE/_ZooidRetry -IC:/Keil_v5/ARM/PACK/ARM/CMSIS/5.2.0/CMSIS/Include -IC:/Keil_v5/ARM/PACK/Keil/STM32F0xx_DFP/2.1.1/Drivers/CMSIS/Device/ST/STM32F0xx/Include -I"C:/Keil_v5/10 2021.10/arm-none-eabi/include" -D__UVISION_VERSION="525" -D_RTE_ -DSTM32F051x8 -D__CROSSWORKS_ARM -DUSE_STDPERIPH_DRIVER -DSTM32F051x8 -DUSE_HAL_LEGACY-o ./stm32f0xx_hal_uart.o)
+F (..\Drivers\STM32F0xx_HAL_Driver\Src\stm32f0xx_hal_uart.c)(0x66F2EEB1)(-c -mcpu=cortex-m1 -mthumb -gdwarf-2 -MD -w -Os -mapcs-frame -mapcs-stack-check -mthumb-interwork -I ../Inc -I ../Drivers/CMSIS/Include -I ../Drivers/crossworksAPI -I ../Drivers/crossworksAPI/gcc -I ../Drivers/lib -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../STM32Cube_FW_F0_V1.11.0/Drivers/STM32F0xx_HAL_Driver/Inc -mcpu=cortex-m1 -mthumb -DSTM32F051x8 -ffunction-sections -fdata-sections -I./RTE/_ZooidRetry -IC:/Keil_v5/ARM/PACK/ARM/CMSIS/5.2.0/CMSIS/Include -IC:/Keil_v5/ARM/PACK/Keil/STM32F0xx_DFP/2.1.1/Drivers/CMSIS/Device/ST/STM32F0xx/Include -I"C:/Keil_v5/10 2021.10/arm-none-eabi/include" -D__UVISION_VERSION="525" -D_RTE_ -DSTM32F051x8 -D__CROSSWORKS_ARM -DUSE_STDPERIPH_DRIVER -DSTM32F051x8 -DUSE_HAL_LEGACY-o ./stm32f0xx_hal_uart.o)
 I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_hal.h)(0x66AC9DFD)
 I (..\Inc\stm32f0xx_hal_conf.h)(0x678C91A5)
 I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_hal_rcc.h)(0x66AC9DFD)
@@ -1053,7 +1058,7 @@ I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_hal_tim.h)(0x66AC9DFD)
 I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_hal_tim_ex.h)(0x66AC9DFD)
 I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_hal_uart.h)(0x66AC9DFD)
 I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_hal_uart_ex.h)(0x66AC9DFD)
-F (..\Drivers\STM32F0xx_HAL_Driver\Src\stm32f0xx_hal_i2c.c)(0x66AC9DFD)(-c -mcpu=cortex-m1 -mthumb -gdwarf-2 -MD -w -Os -mapcs-frame -mapcs-stack-check -mthumb-interwork -I ../Inc -I ../Drivers/CMSIS/Include -I ../Drivers/crossworksAPI -I ../Drivers/crossworksAPI/gcc -I ../Drivers/lib -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../STM32Cube_FW_F0_V1.11.0/Drivers/STM32F0xx_HAL_Driver/Inc -mcpu=cortex-m1 -mthumb -DSTM32F051x8 -ffunction-sections -fdata-sections -I./RTE/_ZooidRetry -IC:/Keil_v5/ARM/PACK/ARM/CMSIS/5.2.0/CMSIS/Include -IC:/Keil_v5/ARM/PACK/Keil/STM32F0xx_DFP/2.1.1/Drivers/CMSIS/Device/ST/STM32F0xx/Include -I"C:/Keil_v5/10 2021.10/arm-none-eabi/include" -D__UVISION_VERSION="525" -D_RTE_ -DSTM32F051x8 -D__CROSSWORKS_ARM -DUSE_STDPERIPH_DRIVER -DSTM32F051x8 -DUSE_HAL_LEGACY-o ./stm32f0xx_hal_i2c.o)
+F (..\Drivers\STM32F0xx_HAL_Driver\Src\stm32f0xx_hal_i2c.c)(0x66DDBD12)(-c -mcpu=cortex-m1 -mthumb -gdwarf-2 -MD -w -Os -mapcs-frame -mapcs-stack-check -mthumb-interwork -I ../Inc -I ../Drivers/CMSIS/Include -I ../Drivers/crossworksAPI -I ../Drivers/crossworksAPI/gcc -I ../Drivers/lib -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../STM32Cube_FW_F0_V1.11.0/Drivers/STM32F0xx_HAL_Driver/Inc -mcpu=cortex-m1 -mthumb -DSTM32F051x8 -ffunction-sections -fdata-sections -I./RTE/_ZooidRetry -IC:/Keil_v5/ARM/PACK/ARM/CMSIS/5.2.0/CMSIS/Include -IC:/Keil_v5/ARM/PACK/Keil/STM32F0xx_DFP/2.1.1/Drivers/CMSIS/Device/ST/STM32F0xx/Include -I"C:/Keil_v5/10 2021.10/arm-none-eabi/include" -D__UVISION_VERSION="525" -D_RTE_ -DSTM32F051x8 -D__CROSSWORKS_ARM -DUSE_STDPERIPH_DRIVER -DSTM32F051x8 -DUSE_HAL_LEGACY-o ./stm32f0xx_hal_i2c.o)
 I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_hal.h)(0x66AC9DFD)
 I (..\Inc\stm32f0xx_hal_conf.h)(0x678C91A5)
 I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_hal_rcc.h)(0x66AC9DFD)
@@ -1161,6 +1166,7 @@ I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_hal_tim.h)(0x66AC9DFD)
 I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_hal_tim_ex.h)(0x66AC9DFD)
 I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_hal_uart.h)(0x66AC9DFD)
 I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_hal_uart_ex.h)(0x66AC9DFD)
+F (..\Drivers\STM32F0xx_HAL_Driver\Src\stm32f0xx_ll_usart.c)(0x66AC9DFD)(-c -mcpu=cortex-m1 -mthumb -gdwarf-2 -MD -w -Os -mapcs-frame -mapcs-stack-check -mthumb-interwork -I ../Inc -I ../Drivers/CMSIS/Include -I ../Drivers/crossworksAPI -I ../Drivers/crossworksAPI/gcc -I ../Drivers/lib -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../STM32Cube_FW_F0_V1.11.0/Drivers/STM32F0xx_HAL_Driver/Inc -mcpu=cortex-m1 -mthumb -DSTM32F051x8 -ffunction-sections -fdata-sections -I./RTE/_ZooidRetry -IC:/Keil_v5/ARM/PACK/ARM/CMSIS/5.2.0/CMSIS/Include -IC:/Keil_v5/ARM/PACK/Keil/STM32F0xx_DFP/2.1.1/Drivers/CMSIS/Device/ST/STM32F0xx/Include -I"C:/Keil_v5/10 2021.10/arm-none-eabi/include" -D__UVISION_VERSION="525" -D_RTE_ -DSTM32F051x8 -D__CROSSWORKS_ARM -DUSE_STDPERIPH_DRIVER -DSTM32F051x8 -DUSE_HAL_LEGACY-o ./stm32f0xx_ll_usart.o)
 F (../Src/system_stm32f0xx.c)(0x66A6F68B)(-c -mcpu=cortex-m1 -mthumb -gdwarf-2 -MD -w -Os -mapcs-frame -mapcs-stack-check -mthumb-interwork -I ../Inc -I ../Drivers/CMSIS/Include -I ../Drivers/crossworksAPI -I ../Drivers/crossworksAPI/gcc -I ../Drivers/lib -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../STM32Cube_FW_F0_V1.11.0/Drivers/STM32F0xx_HAL_Driver/Inc -mcpu=cortex-m1 -mthumb -DSTM32F051x8 -ffunction-sections -fdata-sections -I./RTE/_ZooidRetry -IC:/Keil_v5/ARM/PACK/ARM/CMSIS/5.2.0/CMSIS/Include -IC:/Keil_v5/ARM/PACK/Keil/STM32F0xx_DFP/2.1.1/Drivers/CMSIS/Device/ST/STM32F0xx/Include -I"C:/Keil_v5/10 2021.10/arm-none-eabi/include" -D__UVISION_VERSION="525" -D_RTE_ -DSTM32F051x8 -D__CROSSWORKS_ARM -DUSE_STDPERIPH_DRIVER -DSTM32F051x8 -DUSE_HAL_LEGACY-o ./system_stm32f0xx_1.o)
 I (..\Inc\stm32f0xx.h)(0x66AC9DE1)
 I (C:\Keil_v5\ARM\PACK\Keil\STM32F0xx_DFP\2.1.1\Drivers\CMSIS\Device\ST\STM32F0xx\Include\stm32f051x8.h)(0x61A82F48)

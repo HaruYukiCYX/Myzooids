@@ -67,6 +67,8 @@ uint64_t getMicroSeconds()
     return microTick + (microTimHandle.Instance->CNT);
 }
 
+
+
 bool I2CInit()
 {
     I2cHandle.Instance = I2Cx;

@@ -41,4 +41,4 @@ functions.o: ../Src/functions.c ../Inc/functions.h ../Inc/config.h \
  ../Inc/colors.h ../Inc/motors.h ../Inc/radio.h ../Inc/RF24.h \
  ../Inc/nRF24L01.h ../Inc/sensors.h ../Inc/qt1070.h ../Inc/lsm6ds3.h \
  ../Inc/MadgwickAHRS.h ../Inc/RingBuffer.h ../Inc/position_control.h \
- ../Inc/eeprom.h ../Inc/colors.h
+ ../Inc/eeprom.h ../Inc/usart.h ../Inc/colors.h

@@ -51,6 +51,7 @@
 /* Private define ------------------------------------------------------------*/
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
+uint8_t testData1[5]; 
 
 /* Private function prototypes -----------------------------------------------*/
 
@@ -65,12 +66,21 @@
 int main(void)
 {
 		initRobot();
-
+	  HAL_UART_Transmit(&huart1, (uint8_t *)"Send 'green' to verify the RGB light and serial communication.\r\n", 65, HAL_MAX_DELAY);
+		HAL_UART_Transmit(&huart1, (uint8_t *)"Waiting for data...\r\n", 21, HAL_MAX_DELAY);
+	 
+        if (HAL_UART_Receive(&huart1, testData1, sizeof(testData1), 30000) == HAL_OK)
+        {
+            HAL_UART_Transmit(&huart1, (uint8_t *)"Data Received\r\n", 15, HAL_MAX_DELAY);
+            testRGB(testData1);
+        }
+        else
+        {
+            HAL_UART_Transmit(&huart1, (uint8_t *)"Receive Timeout\r\n", 17, HAL_MAX_DELAY);
+        }
 		while(1)
 		{
-		
-		
-			
+        HAL_Delay(100); 
 		}
 			
 			

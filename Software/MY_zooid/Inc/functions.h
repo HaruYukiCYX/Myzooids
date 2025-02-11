@@ -17,6 +17,7 @@ extern "C" {
 #include "sensors.h"
 #include "position_control.h"
 #include "eeprom.h"
+#include "usart.h"
 
 void initRobot();
 void updateRobot();

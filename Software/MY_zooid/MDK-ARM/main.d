@@ -40,4 +40,5 @@ main.o: ../Src/main.c ../Inc/config.h ../Inc/stm32f0xx.h \
  ../Inc/stm32f0xx_lp_modes.h ../Inc/led.h ../Inc/colors.h ../Inc/motors.h \
  ../Inc/radio.h ../Inc/RF24.h ../Inc/nRF24L01.h ../Inc/sensors.h \
  ../Inc/qt1070.h ../Inc/lsm6ds3.h ../Inc/MadgwickAHRS.h \
- ../Inc/RingBuffer.h ../Inc/position_control.h ../Inc/eeprom.h
+ ../Inc/RingBuffer.h ../Inc/position_control.h ../Inc/eeprom.h \
+ ../Inc/usart.h
