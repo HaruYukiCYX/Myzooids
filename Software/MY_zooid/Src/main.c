@@ -62,10 +62,11 @@ uint8_t testData1[5];
   * @param  None
   * @retval None
   */
-
-int main(void)
+ aaaasswssssaaaaint main(void)
 {
 		initRobot();
+					setMotor1(90);
+  setMotor2(90);
 	  HAL_UART_Transmit(&huart1, (uint8_t *)"Send 'green' to verify the RGB light and serial communication.\r\n", 65, HAL_MAX_DELAY);
 		HAL_UART_Transmit(&huart1, (uint8_t *)"Waiting for data...\r\n", 21, HAL_MAX_DELAY);
 	 
