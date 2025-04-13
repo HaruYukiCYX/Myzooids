@@ -151,7 +151,6 @@ void HAL_UART_MspDeInit(UART_HandleTypeDef* uartHandle)
 void initUART(void) {
     MX_USART1_UART_Init();
     HAL_UART_Transmit(&huart1, (uint8_t *)"OK\r\n", 5, HAL_MAX_DELAY);
-//		HAL_UART_Receive_DMA(&huart1, receiveData, sizeof(receiveData)); 
 }
 
 

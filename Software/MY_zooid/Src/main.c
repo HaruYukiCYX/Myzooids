@@ -52,6 +52,7 @@
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
 uint8_t testData1[5]; 
+uint8_t packet[4];
 
 /* Private function prototypes -----------------------------------------------*/
 
@@ -62,23 +63,34 @@ uint8_t testData1[5];
   * @param  None
   * @retval None
   */
- aaaasswssssaaaaint main(void)
+int main(void)
 {
+		
 		initRobot();
-					setMotor1(90);
-  setMotor2(90);
-	  HAL_UART_Transmit(&huart1, (uint8_t *)"Send 'green' to verify the RGB light and serial communication.\r\n", 65, HAL_MAX_DELAY);
+	  HAL_UART_Transmit(&huart1, (uint8_t *)"Send 'green' to veri.fy the RGB light and serial communication.\r\n", 65, HAL_MAX_DELAY);
 		HAL_UART_Transmit(&huart1, (uint8_t *)"Waiting for data...\r\n", 21, HAL_MAX_DELAY);
-	 
-        if (HAL_UART_Receive(&huart1, testData1, sizeof(testData1), 30000) == HAL_OK)
-        {
-            HAL_UART_Transmit(&huart1, (uint8_t *)"Data Received\r\n", 15, HAL_MAX_DELAY);
-            testRGB(testData1);
-        }
-        else
-        {
-            HAL_UART_Transmit(&huart1, (uint8_t *)"Receive Timeout\r\n", 17, HAL_MAX_DELAY);
-        }
+//    if (HAL_UART_Receive(&huart1, testData1, sizeof(testData1), 30000) == HAL_OK)
+//			{
+//				HAL_UART_Transmit(&huart1, (uint8_t *)"Data Received\r\n", 15, HAL_MAX_DELAY);
+//        testRGB(testData1);
+//      }
+//    else
+//      {
+//        HAL_UART_Transmit(&huart1, (uint8_t *)"Receive Timeout\r\n", 17, HAL_MAX_DELAY);
+//      }
+		HAL_UART_Transmit(&huart1, (uint8_t *)"Robot starts, waiting for commands.\r\n", 36, HAL_MAX_DELAY);
+		if (HAL_UART_Receive(&huart1, packet, sizeof(testData1), 30000) == HAL_OK)
+			{
+				HAL_UART_Transmit(&huart1, (uint8_t *)"Data Received\r\n", 15, HAL_MAX_DELAY);
+        parse_packet(packet);
+      }
+    else
+      {
+        HAL_UART_Transmit(&huart1, (uint8_t *)"Receive Timeout\r\n", 17, HAL_MAX_DELAY);
+      }
+		
+				
+		
 		while(1)
 		{
         HAL_Delay(100); 
