@@ -69,6 +69,8 @@ int main(void)
 		initRobot();
 	  HAL_UART_Transmit(&huart1, (uint8_t *)"Send 'green' to veri.fy the RGB light and serial communication.\r\n", 65, HAL_MAX_DELAY);
 		HAL_UART_Transmit(&huart1, (uint8_t *)"Waiting for data...\r\n", 21, HAL_MAX_DELAY);
+	  setMotor1(30);
+	  setMotor2(30);
 //    if (HAL_UART_Receive(&huart1, testData1, sizeof(testData1), 30000) == HAL_OK)
 //			{
 //				HAL_UART_Transmit(&huart1, (uint8_t *)"Data Received\r\n", 15, HAL_MAX_DELAY);

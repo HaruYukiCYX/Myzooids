@@ -1,0 +1,3 @@
+3D_modeling 文件夹下存储了所有开发过程中的3D打印部件的solidworks工程文件以及STL文件
+Hardware 文件夹下存储了Altium Designer 工程文件，包括原理图、PCB、BoM、生产文件等
+Software 文件夹下存储了机器人主控芯片的固件，以及手机APP程序，包括Android Studio工程文件

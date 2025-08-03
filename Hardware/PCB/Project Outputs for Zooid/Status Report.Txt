@@ -1,0 +1,13 @@
+Output: NC Drill Files
+Type  : NC Drill
+From  : Project [Zooid.PrjPcb]
+   Generated File[PCB3-RoundHoles.TXT]
+   Generated File[PCB3-SlotHoles.TXT]
+   Generated File[PCB3.LDP]
+   Generated File[PCB3.DRR]
+
+
+Files Generated   : 4
+Documents Printed : 0
+
+Finished Output Generation At 16:29:57 On 2025/8/1

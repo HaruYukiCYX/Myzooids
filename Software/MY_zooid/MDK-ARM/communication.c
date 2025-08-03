@@ -40,8 +40,8 @@ int parse_packet(uint8_t *packet) {
     switch (packet[2]) {
         case 0x01:
             HAL_UART_Transmit(&huart1, (uint8_t *)"The robot moves forward.\r\n", 25, HAL_MAX_DELAY);
-            setMotor1(40);
-			     	setMotor2(60);
+            setMotor1(30);
+			     	setMotor2(27);
             break;
         case 0x02:
             HAL_UART_Transmit(&huart1, (uint8_t *)"The robot moves backward.\r\n", 25, HAL_MAX_DELAY);
