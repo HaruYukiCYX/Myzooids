@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "com.example.sensor.app-mergeDebugResources-29:/values-en-rIN/values-en-rIN.xml",
+            "outputFile": "com.example.sensor.app-mergeDebugResources-35:/values-en-rIN/values-en-rIN.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\Yuxuan CHEN\\.gradle\\caches\\transforms-4\\5ceeb8fcfa7c257d2a7839ac2e904bdc\\transformed\\appcompat-1.7.0\\res\\values-en-rIN\\values-en-rIN.xml",
+                    "source": "C:\\Users\\Yuxuan CHEN\\.gradle\\caches\\transforms-4\\a9c3e2841b7b48d9016656c94361e7fd\\transformed\\appcompat-1.7.0\\res\\values-en-rIN\\values-en-rIN.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
@@ -21,7 +21,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\Yuxuan CHEN\\.gradle\\caches\\transforms-4\\066f9feb6b703d17d7d8425ba7c93d3d\\transformed\\core-1.13.0\\res\\values-en-rIN\\values-en-rIN.xml",
+                    "source": "C:\\Users\\Yuxuan CHEN\\.gradle\\caches\\transforms-4\\409ac220ad0caa33c7cdc2a682f0a880\\transformed\\core-1.13.0\\res\\values-en-rIN\\values-en-rIN.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9",
                         "startColumns": "4,4,4,4,4,4,4,4",

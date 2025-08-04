@@ -12,168 +12,210 @@
 11-->D:\Myzooids\Myzooids\Software\robot\app\src\main\AndroidManifest.xml:5:5-67
 11-->D:\Myzooids\Myzooids\Software\robot\app\src\main\AndroidManifest.xml:5:22-64
 12
-13    <!-- Bluetooth permissions -->
-14    <uses-permission android:name="android.permission.BLUETOOTH" />
-14-->D:\Myzooids\Myzooids\Software\robot\app\src\main\AndroidManifest.xml:8:5-68
-14-->D:\Myzooids\Myzooids\Software\robot\app\src\main\AndroidManifest.xml:8:22-65
-15    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
-15-->D:\Myzooids\Myzooids\Software\robot\app\src\main\AndroidManifest.xml:9:5-74
-15-->D:\Myzooids\Myzooids\Software\robot\app\src\main\AndroidManifest.xml:9:22-71
-16
-17    <!-- Location permission needed for Bluetooth scanning on Android 6.0+ -->
-18    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-18-->D:\Myzooids\Myzooids\Software\robot\app\src\main\AndroidManifest.xml:12:5-79
-18-->D:\Myzooids\Myzooids\Software\robot\app\src\main\AndroidManifest.xml:12:22-76
-19    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-19-->D:\Myzooids\Myzooids\Software\robot\app\src\main\AndroidManifest.xml:13:5-81
-19-->D:\Myzooids\Myzooids\Software\robot\app\src\main\AndroidManifest.xml:13:22-78
-20
-21    <!-- New Bluetooth permissions for Android 12+ -->
-22    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
-22-->D:\Myzooids\Myzooids\Software\robot\app\src\main\AndroidManifest.xml:16:5-76
-22-->D:\Myzooids\Myzooids\Software\robot\app\src\main\AndroidManifest.xml:16:22-73
-23    <uses-permission
-23-->D:\Myzooids\Myzooids\Software\robot\app\src\main\AndroidManifest.xml:17:5-18:58
-24        android:name="android.permission.BLUETOOTH_SCAN"
-24-->D:\Myzooids\Myzooids\Software\robot\app\src\main\AndroidManifest.xml:17:22-70
-25        android:usesPermissionFlags="neverForLocation" />
-25-->D:\Myzooids\Myzooids\Software\robot\app\src\main\AndroidManifest.xml:18:9-55
-26
-27    <!-- Declare that your app is available to BLE-capable devices -->
-28    <uses-feature
-28-->D:\Myzooids\Myzooids\Software\robot\app\src\main\AndroidManifest.xml:21:5-91
-29        android:name="android.hardware.bluetooth_le"
-29-->D:\Myzooids\Myzooids\Software\robot\app\src\main\AndroidManifest.xml:21:19-63
-30        android:required="false" />
-30-->D:\Myzooids\Myzooids\Software\robot\app\src\main\AndroidManifest.xml:21:64-88
-31    <uses-feature
-31-->D:\Myzooids\Myzooids\Software\robot\app\src\main\AndroidManifest.xml:22:5-87
-32        android:name="android.hardware.bluetooth"
-32-->D:\Myzooids\Myzooids\Software\robot\app\src\main\AndroidManifest.xml:22:19-60
-33        android:required="true" />
-33-->D:\Myzooids\Myzooids\Software\robot\app\src\main\AndroidManifest.xml:22:61-84
-34
-35    <uses-permission android:name="android.permission.VIBRATE" />
-35-->D:\Myzooids\Myzooids\Software\robot\app\src\main\AndroidManifest.xml:24:5-66
-35-->D:\Myzooids\Myzooids\Software\robot\app\src\main\AndroidManifest.xml:24:22-63
-36
-37    <permission
-37-->[androidx.core:core:1.13.0] C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\066f9feb6b703d17d7d8425ba7c93d3d\transformed\core-1.13.0\AndroidManifest.xml:22:5-24:47
-38        android:name="com.example.robot.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
-38-->[androidx.core:core:1.13.0] C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\066f9feb6b703d17d7d8425ba7c93d3d\transformed\core-1.13.0\AndroidManifest.xml:23:9-81
-39        android:protectionLevel="signature" />
-39-->[androidx.core:core:1.13.0] C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\066f9feb6b703d17d7d8425ba7c93d3d\transformed\core-1.13.0\AndroidManifest.xml:24:9-44
-40
-41    <uses-permission android:name="com.example.robot.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
-41-->[androidx.core:core:1.13.0] C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\066f9feb6b703d17d7d8425ba7c93d3d\transformed\core-1.13.0\AndroidManifest.xml:26:5-97
-41-->[androidx.core:core:1.13.0] C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\066f9feb6b703d17d7d8425ba7c93d3d\transformed\core-1.13.0\AndroidManifest.xml:26:22-94
-42
-43    <application
-43-->D:\Myzooids\Myzooids\Software\robot\app\src\main\AndroidManifest.xml:25:5-43:19
-44        android:allowBackup="true"
-44-->D:\Myzooids\Myzooids\Software\robot\app\src\main\AndroidManifest.xml:26:9-35
-45        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
-45-->[androidx.core:core:1.13.0] C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\066f9feb6b703d17d7d8425ba7c93d3d\transformed\core-1.13.0\AndroidManifest.xml:28:18-86
-46        android:dataExtractionRules="@xml/data_extraction_rules"
-46-->D:\Myzooids\Myzooids\Software\robot\app\src\main\AndroidManifest.xml:27:9-65
-47        android:debuggable="true"
-48        android:extractNativeLibs="false"
-49        android:fullBackupContent="@xml/backup_rules"
-49-->D:\Myzooids\Myzooids\Software\robot\app\src\main\AndroidManifest.xml:28:9-54
-50        android:icon="@mipmap/ic_launcher"
-50-->D:\Myzooids\Myzooids\Software\robot\app\src\main\AndroidManifest.xml:29:9-43
-51        android:label="@string/app_name"
-51-->D:\Myzooids\Myzooids\Software\robot\app\src\main\AndroidManifest.xml:30:9-41
-52        android:roundIcon="@mipmap/ic_launcher_round"
-52-->D:\Myzooids\Myzooids\Software\robot\app\src\main\AndroidManifest.xml:31:9-54
-53        android:supportsRtl="true"
-53-->D:\Myzooids\Myzooids\Software\robot\app\src\main\AndroidManifest.xml:32:9-35
-54        android:testOnly="true"
-55        android:theme="@style/Theme.Sensor" >
-55-->D:\Myzooids\Myzooids\Software\robot\app\src\main\AndroidManifest.xml:33:9-44
-56        <activity
-56-->D:\Myzooids\Myzooids\Software\robot\app\src\main\AndroidManifest.xml:35:9-42:20
-57            android:name="com.example.sensor.MainActivity3"
-57-->D:\Myzooids\Myzooids\Software\robot\app\src\main\AndroidManifest.xml:36:13-42
-58            android:exported="true" >
-58-->D:\Myzooids\Myzooids\Software\robot\app\src\main\AndroidManifest.xml:37:13-36
-59            <intent-filter>
-59-->D:\Myzooids\Myzooids\Software\robot\app\src\main\AndroidManifest.xml:38:13-41:29
-60                <action android:name="android.intent.action.MAIN" />
-60-->D:\Myzooids\Myzooids\Software\robot\app\src\main\AndroidManifest.xml:39:17-69
-60-->D:\Myzooids\Myzooids\Software\robot\app\src\main\AndroidManifest.xml:39:25-66
-61
-62                <category android:name="android.intent.category.LAUNCHER" />
-62-->D:\Myzooids\Myzooids\Software\robot\app\src\main\AndroidManifest.xml:40:17-77
-62-->D:\Myzooids\Myzooids\Software\robot\app\src\main\AndroidManifest.xml:40:27-74
-63            </intent-filter>
-64        </activity>
-65
-66        <provider
-66-->[androidx.emoji2:emoji2:1.3.0] C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\437cc9963c50808d7b1b399465108bce\transformed\emoji2-1.3.0\AndroidManifest.xml:24:9-32:20
-67            android:name="androidx.startup.InitializationProvider"
-67-->[androidx.emoji2:emoji2:1.3.0] C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\437cc9963c50808d7b1b399465108bce\transformed\emoji2-1.3.0\AndroidManifest.xml:25:13-67
-68            android:authorities="com.example.robot.androidx-startup"
-68-->[androidx.emoji2:emoji2:1.3.0] C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\437cc9963c50808d7b1b399465108bce\transformed\emoji2-1.3.0\AndroidManifest.xml:26:13-68
-69            android:exported="false" >
-69-->[androidx.emoji2:emoji2:1.3.0] C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\437cc9963c50808d7b1b399465108bce\transformed\emoji2-1.3.0\AndroidManifest.xml:27:13-37
-70            <meta-data
-70-->[androidx.emoji2:emoji2:1.3.0] C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\437cc9963c50808d7b1b399465108bce\transformed\emoji2-1.3.0\AndroidManifest.xml:29:13-31:52
-71                android:name="androidx.emoji2.text.EmojiCompatInitializer"
-71-->[androidx.emoji2:emoji2:1.3.0] C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\437cc9963c50808d7b1b399465108bce\transformed\emoji2-1.3.0\AndroidManifest.xml:30:17-75
-72                android:value="androidx.startup" />
-72-->[androidx.emoji2:emoji2:1.3.0] C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\437cc9963c50808d7b1b399465108bce\transformed\emoji2-1.3.0\AndroidManifest.xml:31:17-49
-73            <meta-data
-73-->[androidx.lifecycle:lifecycle-process:2.6.2] C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\80e3676738b502b6848f50184a888b39\transformed\lifecycle-process-2.6.2\AndroidManifest.xml:29:13-31:52
-74                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
-74-->[androidx.lifecycle:lifecycle-process:2.6.2] C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\80e3676738b502b6848f50184a888b39\transformed\lifecycle-process-2.6.2\AndroidManifest.xml:30:17-78
-75                android:value="androidx.startup" />
-75-->[androidx.lifecycle:lifecycle-process:2.6.2] C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\80e3676738b502b6848f50184a888b39\transformed\lifecycle-process-2.6.2\AndroidManifest.xml:31:17-49
-76            <meta-data
-76-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\282faf9176e3b6fee8dd190c4dec57f1\transformed\profileinstaller-1.3.1\AndroidManifest.xml:29:13-31:52
-77                android:name="androidx.profileinstaller.ProfileInstallerInitializer"
-77-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\282faf9176e3b6fee8dd190c4dec57f1\transformed\profileinstaller-1.3.1\AndroidManifest.xml:30:17-85
-78                android:value="androidx.startup" />
-78-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\282faf9176e3b6fee8dd190c4dec57f1\transformed\profileinstaller-1.3.1\AndroidManifest.xml:31:17-49
-79        </provider>
+13    <!-- Camera Permissions -->
+14    <uses-permission android:name="android.permission.CAMERA" />
+14-->D:\Myzooids\Myzooids\Software\robot\app\src\main\AndroidManifest.xml:8:5-65
+14-->D:\Myzooids\Myzooids\Software\robot\app\src\main\AndroidManifest.xml:8:22-62
+15
+16    <uses-feature android:name="android.hardware.camera" />
+16-->D:\Myzooids\Myzooids\Software\robot\app\src\main\AndroidManifest.xml:10:5-60
+16-->D:\Myzooids\Myzooids\Software\robot\app\src\main\AndroidManifest.xml:10:19-57
+17
+18    <!-- Bluetooth permissions -->
+19    <uses-permission android:name="android.permission.BLUETOOTH" />
+19-->D:\Myzooids\Myzooids\Software\robot\app\src\main\AndroidManifest.xml:13:5-68
+19-->D:\Myzooids\Myzooids\Software\robot\app\src\main\AndroidManifest.xml:13:22-65
+20    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+20-->D:\Myzooids\Myzooids\Software\robot\app\src\main\AndroidManifest.xml:14:5-74
+20-->D:\Myzooids\Myzooids\Software\robot\app\src\main\AndroidManifest.xml:14:22-71
+21
+22    <!-- Location permission needed for Bluetooth scanning on Android 6.0+ -->
+23    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+23-->D:\Myzooids\Myzooids\Software\robot\app\src\main\AndroidManifest.xml:17:5-79
+23-->D:\Myzooids\Myzooids\Software\robot\app\src\main\AndroidManifest.xml:17:22-76
+24    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+24-->D:\Myzooids\Myzooids\Software\robot\app\src\main\AndroidManifest.xml:18:5-81
+24-->D:\Myzooids\Myzooids\Software\robot\app\src\main\AndroidManifest.xml:18:22-78
+25
+26    <!-- New Bluetooth permissions for Android 12+ -->
+27    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+27-->D:\Myzooids\Myzooids\Software\robot\app\src\main\AndroidManifest.xml:21:5-76
+27-->D:\Myzooids\Myzooids\Software\robot\app\src\main\AndroidManifest.xml:21:22-73
+28    <uses-permission
+28-->D:\Myzooids\Myzooids\Software\robot\app\src\main\AndroidManifest.xml:22:5-23:58
+29        android:name="android.permission.BLUETOOTH_SCAN"
+29-->D:\Myzooids\Myzooids\Software\robot\app\src\main\AndroidManifest.xml:22:22-70
+30        android:usesPermissionFlags="neverForLocation" />
+30-->D:\Myzooids\Myzooids\Software\robot\app\src\main\AndroidManifest.xml:23:9-55
+31
+32    <!-- Declare that your app is available to BLE-capable devices -->
+33    <uses-feature
+33-->D:\Myzooids\Myzooids\Software\robot\app\src\main\AndroidManifest.xml:26:5-91
+34        android:name="android.hardware.bluetooth_le"
+34-->D:\Myzooids\Myzooids\Software\robot\app\src\main\AndroidManifest.xml:26:19-63
+35        android:required="false" />
+35-->D:\Myzooids\Myzooids\Software\robot\app\src\main\AndroidManifest.xml:26:64-88
+36    <uses-feature
+36-->D:\Myzooids\Myzooids\Software\robot\app\src\main\AndroidManifest.xml:27:5-87
+37        android:name="android.hardware.bluetooth"
+37-->D:\Myzooids\Myzooids\Software\robot\app\src\main\AndroidManifest.xml:27:19-60
+38        android:required="true" />
+38-->D:\Myzooids\Myzooids\Software\robot\app\src\main\AndroidManifest.xml:27:61-84
+39
+40    <uses-permission android:name="android.permission.VIBRATE" />
+40-->D:\Myzooids\Myzooids\Software\robot\app\src\main\AndroidManifest.xml:29:5-66
+40-->D:\Myzooids\Myzooids\Software\robot\app\src\main\AndroidManifest.xml:29:22-63
+41
+42    <queries>
+42-->[androidx.camera:camera-extensions:1.3.0] C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\0366a2a6c6a279acf085144a0bc77ee9\transformed\camera-extensions-1.3.0\AndroidManifest.xml:22:5-26:15
+43        <intent>
+43-->[androidx.camera:camera-extensions:1.3.0] C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\0366a2a6c6a279acf085144a0bc77ee9\transformed\camera-extensions-1.3.0\AndroidManifest.xml:23:9-25:18
+44            <action android:name="androidx.camera.extensions.action.VENDOR_ACTION" />
+44-->[androidx.camera:camera-extensions:1.3.0] C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\0366a2a6c6a279acf085144a0bc77ee9\transformed\camera-extensions-1.3.0\AndroidManifest.xml:24:13-86
+44-->[androidx.camera:camera-extensions:1.3.0] C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\0366a2a6c6a279acf085144a0bc77ee9\transformed\camera-extensions-1.3.0\AndroidManifest.xml:24:21-83
+45        </intent>
+46    </queries>
+47
+48    <permission
+48-->[androidx.core:core:1.13.0] C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\409ac220ad0caa33c7cdc2a682f0a880\transformed\core-1.13.0\AndroidManifest.xml:22:5-24:47
+49        android:name="com.example.robot.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+49-->[androidx.core:core:1.13.0] C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\409ac220ad0caa33c7cdc2a682f0a880\transformed\core-1.13.0\AndroidManifest.xml:23:9-81
+50        android:protectionLevel="signature" />
+50-->[androidx.core:core:1.13.0] C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\409ac220ad0caa33c7cdc2a682f0a880\transformed\core-1.13.0\AndroidManifest.xml:24:9-44
+51
+52    <uses-permission android:name="com.example.robot.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
+52-->[androidx.core:core:1.13.0] C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\409ac220ad0caa33c7cdc2a682f0a880\transformed\core-1.13.0\AndroidManifest.xml:26:5-97
+52-->[androidx.core:core:1.13.0] C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\409ac220ad0caa33c7cdc2a682f0a880\transformed\core-1.13.0\AndroidManifest.xml:26:22-94
+53
+54    <application
+54-->D:\Myzooids\Myzooids\Software\robot\app\src\main\AndroidManifest.xml:30:5-48:19
+55        android:allowBackup="true"
+55-->D:\Myzooids\Myzooids\Software\robot\app\src\main\AndroidManifest.xml:31:9-35
+56        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+56-->[androidx.core:core:1.13.0] C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\409ac220ad0caa33c7cdc2a682f0a880\transformed\core-1.13.0\AndroidManifest.xml:28:18-86
+57        android:dataExtractionRules="@xml/data_extraction_rules"
+57-->D:\Myzooids\Myzooids\Software\robot\app\src\main\AndroidManifest.xml:32:9-65
+58        android:debuggable="true"
+59        android:extractNativeLibs="false"
+60        android:fullBackupContent="@xml/backup_rules"
+60-->D:\Myzooids\Myzooids\Software\robot\app\src\main\AndroidManifest.xml:33:9-54
+61        android:icon="@mipmap/ic_launcher"
+61-->D:\Myzooids\Myzooids\Software\robot\app\src\main\AndroidManifest.xml:34:9-43
+62        android:label="@string/app_name"
+62-->D:\Myzooids\Myzooids\Software\robot\app\src\main\AndroidManifest.xml:35:9-41
+63        android:roundIcon="@mipmap/ic_launcher_round"
+63-->D:\Myzooids\Myzooids\Software\robot\app\src\main\AndroidManifest.xml:36:9-54
+64        android:supportsRtl="true"
+64-->D:\Myzooids\Myzooids\Software\robot\app\src\main\AndroidManifest.xml:37:9-35
+65        android:testOnly="true"
+66        android:theme="@style/Theme.Sensor" >
+66-->D:\Myzooids\Myzooids\Software\robot\app\src\main\AndroidManifest.xml:38:9-44
+67        <activity
+67-->D:\Myzooids\Myzooids\Software\robot\app\src\main\AndroidManifest.xml:40:9-47:20
+68            android:name="com.example.sensor.MainActivity3"
+68-->D:\Myzooids\Myzooids\Software\robot\app\src\main\AndroidManifest.xml:41:13-42
+69            android:exported="true" >
+69-->D:\Myzooids\Myzooids\Software\robot\app\src\main\AndroidManifest.xml:42:13-36
+70            <intent-filter>
+70-->D:\Myzooids\Myzooids\Software\robot\app\src\main\AndroidManifest.xml:43:13-46:29
+71                <action android:name="android.intent.action.MAIN" />
+71-->D:\Myzooids\Myzooids\Software\robot\app\src\main\AndroidManifest.xml:44:17-69
+71-->D:\Myzooids\Myzooids\Software\robot\app\src\main\AndroidManifest.xml:44:25-66
+72
+73                <category android:name="android.intent.category.LAUNCHER" />
+73-->D:\Myzooids\Myzooids\Software\robot\app\src\main\AndroidManifest.xml:45:17-77
+73-->D:\Myzooids\Myzooids\Software\robot\app\src\main\AndroidManifest.xml:45:27-74
+74            </intent-filter>
+75        </activity>
+76
+77        <uses-library
+77-->[androidx.camera:camera-extensions:1.3.0] C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\0366a2a6c6a279acf085144a0bc77ee9\transformed\camera-extensions-1.3.0\AndroidManifest.xml:29:9-31:40
+78            android:name="androidx.camera.extensions.impl"
+78-->[androidx.camera:camera-extensions:1.3.0] C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\0366a2a6c6a279acf085144a0bc77ee9\transformed\camera-extensions-1.3.0\AndroidManifest.xml:30:13-59
+79            android:required="false" />
+79-->[androidx.camera:camera-extensions:1.3.0] C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\0366a2a6c6a279acf085144a0bc77ee9\transformed\camera-extensions-1.3.0\AndroidManifest.xml:31:13-37
 80
-81        <receiver
-81-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\282faf9176e3b6fee8dd190c4dec57f1\transformed\profileinstaller-1.3.1\AndroidManifest.xml:34:9-52:20
-82            android:name="androidx.profileinstaller.ProfileInstallReceiver"
-82-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\282faf9176e3b6fee8dd190c4dec57f1\transformed\profileinstaller-1.3.1\AndroidManifest.xml:35:13-76
-83            android:directBootAware="false"
-83-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\282faf9176e3b6fee8dd190c4dec57f1\transformed\profileinstaller-1.3.1\AndroidManifest.xml:36:13-44
-84            android:enabled="true"
-84-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\282faf9176e3b6fee8dd190c4dec57f1\transformed\profileinstaller-1.3.1\AndroidManifest.xml:37:13-35
-85            android:exported="true"
-85-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\282faf9176e3b6fee8dd190c4dec57f1\transformed\profileinstaller-1.3.1\AndroidManifest.xml:38:13-36
-86            android:permission="android.permission.DUMP" >
-86-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\282faf9176e3b6fee8dd190c4dec57f1\transformed\profileinstaller-1.3.1\AndroidManifest.xml:39:13-57
-87            <intent-filter>
-87-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\282faf9176e3b6fee8dd190c4dec57f1\transformed\profileinstaller-1.3.1\AndroidManifest.xml:40:13-42:29
-88                <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE" />
-88-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\282faf9176e3b6fee8dd190c4dec57f1\transformed\profileinstaller-1.3.1\AndroidManifest.xml:41:17-91
-88-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\282faf9176e3b6fee8dd190c4dec57f1\transformed\profileinstaller-1.3.1\AndroidManifest.xml:41:25-88
-89            </intent-filter>
-90            <intent-filter>
-90-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\282faf9176e3b6fee8dd190c4dec57f1\transformed\profileinstaller-1.3.1\AndroidManifest.xml:43:13-45:29
-91                <action android:name="androidx.profileinstaller.action.SKIP_FILE" />
-91-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\282faf9176e3b6fee8dd190c4dec57f1\transformed\profileinstaller-1.3.1\AndroidManifest.xml:44:17-85
-91-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\282faf9176e3b6fee8dd190c4dec57f1\transformed\profileinstaller-1.3.1\AndroidManifest.xml:44:25-82
-92            </intent-filter>
-93            <intent-filter>
-93-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\282faf9176e3b6fee8dd190c4dec57f1\transformed\profileinstaller-1.3.1\AndroidManifest.xml:46:13-48:29
-94                <action android:name="androidx.profileinstaller.action.SAVE_PROFILE" />
-94-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\282faf9176e3b6fee8dd190c4dec57f1\transformed\profileinstaller-1.3.1\AndroidManifest.xml:47:17-88
-94-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\282faf9176e3b6fee8dd190c4dec57f1\transformed\profileinstaller-1.3.1\AndroidManifest.xml:47:25-85
-95            </intent-filter>
-96            <intent-filter>
-96-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\282faf9176e3b6fee8dd190c4dec57f1\transformed\profileinstaller-1.3.1\AndroidManifest.xml:49:13-51:29
-97                <action android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION" />
-97-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\282faf9176e3b6fee8dd190c4dec57f1\transformed\profileinstaller-1.3.1\AndroidManifest.xml:50:17-95
-97-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\282faf9176e3b6fee8dd190c4dec57f1\transformed\profileinstaller-1.3.1\AndroidManifest.xml:50:25-92
-98            </intent-filter>
-99        </receiver>
-100    </application>
-101
-102</manifest>
+81        <service
+81-->[androidx.camera:camera-camera2:1.3.0] C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\983067d1bd66fe4d41524ec44a56ab0f\transformed\camera-camera2-1.3.0\AndroidManifest.xml:24:9-33:19
+82            android:name="androidx.camera.core.impl.MetadataHolderService"
+82-->[androidx.camera:camera-camera2:1.3.0] C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\983067d1bd66fe4d41524ec44a56ab0f\transformed\camera-camera2-1.3.0\AndroidManifest.xml:25:13-75
+83            android:enabled="false"
+83-->[androidx.camera:camera-camera2:1.3.0] C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\983067d1bd66fe4d41524ec44a56ab0f\transformed\camera-camera2-1.3.0\AndroidManifest.xml:26:13-36
+84            android:exported="false" >
+84-->[androidx.camera:camera-camera2:1.3.0] C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\983067d1bd66fe4d41524ec44a56ab0f\transformed\camera-camera2-1.3.0\AndroidManifest.xml:27:13-37
+85            <meta-data
+85-->[androidx.camera:camera-camera2:1.3.0] C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\983067d1bd66fe4d41524ec44a56ab0f\transformed\camera-camera2-1.3.0\AndroidManifest.xml:30:13-32:89
+86                android:name="androidx.camera.core.impl.MetadataHolderService.DEFAULT_CONFIG_PROVIDER"
+86-->[androidx.camera:camera-camera2:1.3.0] C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\983067d1bd66fe4d41524ec44a56ab0f\transformed\camera-camera2-1.3.0\AndroidManifest.xml:31:17-103
+87                android:value="androidx.camera.camera2.Camera2Config$DefaultProvider" />
+87-->[androidx.camera:camera-camera2:1.3.0] C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\983067d1bd66fe4d41524ec44a56ab0f\transformed\camera-camera2-1.3.0\AndroidManifest.xml:32:17-86
+88        </service>
+89
+90        <provider
+90-->[androidx.emoji2:emoji2:1.3.0] C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\fb7d93a6a6f7e97f41245978a5544b48\transformed\emoji2-1.3.0\AndroidManifest.xml:24:9-32:20
+91            android:name="androidx.startup.InitializationProvider"
+91-->[androidx.emoji2:emoji2:1.3.0] C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\fb7d93a6a6f7e97f41245978a5544b48\transformed\emoji2-1.3.0\AndroidManifest.xml:25:13-67
+92            android:authorities="com.example.robot.androidx-startup"
+92-->[androidx.emoji2:emoji2:1.3.0] C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\fb7d93a6a6f7e97f41245978a5544b48\transformed\emoji2-1.3.0\AndroidManifest.xml:26:13-68
+93            android:exported="false" >
+93-->[androidx.emoji2:emoji2:1.3.0] C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\fb7d93a6a6f7e97f41245978a5544b48\transformed\emoji2-1.3.0\AndroidManifest.xml:27:13-37
+94            <meta-data
+94-->[androidx.emoji2:emoji2:1.3.0] C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\fb7d93a6a6f7e97f41245978a5544b48\transformed\emoji2-1.3.0\AndroidManifest.xml:29:13-31:52
+95                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+95-->[androidx.emoji2:emoji2:1.3.0] C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\fb7d93a6a6f7e97f41245978a5544b48\transformed\emoji2-1.3.0\AndroidManifest.xml:30:17-75
+96                android:value="androidx.startup" />
+96-->[androidx.emoji2:emoji2:1.3.0] C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\fb7d93a6a6f7e97f41245978a5544b48\transformed\emoji2-1.3.0\AndroidManifest.xml:31:17-49
+97            <meta-data
+97-->[androidx.lifecycle:lifecycle-process:2.6.2] C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\69893af9695e753095c951009c79a490\transformed\lifecycle-process-2.6.2\AndroidManifest.xml:29:13-31:52
+98                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+98-->[androidx.lifecycle:lifecycle-process:2.6.2] C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\69893af9695e753095c951009c79a490\transformed\lifecycle-process-2.6.2\AndroidManifest.xml:30:17-78
+99                android:value="androidx.startup" />
+99-->[androidx.lifecycle:lifecycle-process:2.6.2] C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\69893af9695e753095c951009c79a490\transformed\lifecycle-process-2.6.2\AndroidManifest.xml:31:17-49
+100            <meta-data
+100-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\430e7a8ff62b531febe7bd54550a7fb4\transformed\profileinstaller-1.3.1\AndroidManifest.xml:29:13-31:52
+101                android:name="androidx.profileinstaller.ProfileInstallerInitializer"
+101-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\430e7a8ff62b531febe7bd54550a7fb4\transformed\profileinstaller-1.3.1\AndroidManifest.xml:30:17-85
+102                android:value="androidx.startup" />
+102-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\430e7a8ff62b531febe7bd54550a7fb4\transformed\profileinstaller-1.3.1\AndroidManifest.xml:31:17-49
+103        </provider>
+104
+105        <receiver
+105-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\430e7a8ff62b531febe7bd54550a7fb4\transformed\profileinstaller-1.3.1\AndroidManifest.xml:34:9-52:20
+106            android:name="androidx.profileinstaller.ProfileInstallReceiver"
+106-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\430e7a8ff62b531febe7bd54550a7fb4\transformed\profileinstaller-1.3.1\AndroidManifest.xml:35:13-76
+107            android:directBootAware="false"
+107-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\430e7a8ff62b531febe7bd54550a7fb4\transformed\profileinstaller-1.3.1\AndroidManifest.xml:36:13-44
+108            android:enabled="true"
+108-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\430e7a8ff62b531febe7bd54550a7fb4\transformed\profileinstaller-1.3.1\AndroidManifest.xml:37:13-35
+109            android:exported="true"
+109-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\430e7a8ff62b531febe7bd54550a7fb4\transformed\profileinstaller-1.3.1\AndroidManifest.xml:38:13-36
+110            android:permission="android.permission.DUMP" >
+110-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\430e7a8ff62b531febe7bd54550a7fb4\transformed\profileinstaller-1.3.1\AndroidManifest.xml:39:13-57
+111            <intent-filter>
+111-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\430e7a8ff62b531febe7bd54550a7fb4\transformed\profileinstaller-1.3.1\AndroidManifest.xml:40:13-42:29
+112                <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE" />
+112-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\430e7a8ff62b531febe7bd54550a7fb4\transformed\profileinstaller-1.3.1\AndroidManifest.xml:41:17-91
+112-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\430e7a8ff62b531febe7bd54550a7fb4\transformed\profileinstaller-1.3.1\AndroidManifest.xml:41:25-88
+113            </intent-filter>
+114            <intent-filter>
+114-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\430e7a8ff62b531febe7bd54550a7fb4\transformed\profileinstaller-1.3.1\AndroidManifest.xml:43:13-45:29
+115                <action android:name="androidx.profileinstaller.action.SKIP_FILE" />
+115-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\430e7a8ff62b531febe7bd54550a7fb4\transformed\profileinstaller-1.3.1\AndroidManifest.xml:44:17-85
+115-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\430e7a8ff62b531febe7bd54550a7fb4\transformed\profileinstaller-1.3.1\AndroidManifest.xml:44:25-82
+116            </intent-filter>
+117            <intent-filter>
+117-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\430e7a8ff62b531febe7bd54550a7fb4\transformed\profileinstaller-1.3.1\AndroidManifest.xml:46:13-48:29
+118                <action android:name="androidx.profileinstaller.action.SAVE_PROFILE" />
+118-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\430e7a8ff62b531febe7bd54550a7fb4\transformed\profileinstaller-1.3.1\AndroidManifest.xml:47:17-88
+118-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\430e7a8ff62b531febe7bd54550a7fb4\transformed\profileinstaller-1.3.1\AndroidManifest.xml:47:25-85
+119            </intent-filter>
+120            <intent-filter>
+120-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\430e7a8ff62b531febe7bd54550a7fb4\transformed\profileinstaller-1.3.1\AndroidManifest.xml:49:13-51:29
+121                <action android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION" />
+121-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\430e7a8ff62b531febe7bd54550a7fb4\transformed\profileinstaller-1.3.1\AndroidManifest.xml:50:17-95
+121-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\430e7a8ff62b531febe7bd54550a7fb4\transformed\profileinstaller-1.3.1\AndroidManifest.xml:50:25-92
+122            </intent-filter>
+123        </receiver>
+124    </application>
+125
+126</manifest>

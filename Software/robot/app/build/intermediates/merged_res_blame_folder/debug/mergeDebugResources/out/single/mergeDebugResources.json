@@ -1,162 +1,162 @@
 [
     {
-        "merged": "com.example.sensor.app-debug-31:/mipmap-mdpi_ic_launcher.webp.flat",
-        "source": "com.example.sensor.app-main-33:/mipmap-mdpi/ic_launcher.webp"
+        "merged": "com.example.sensor.app-debug-37:/drawable_bg_air_quality.xml.flat",
+        "source": "com.example.sensor.app-main-39:/drawable/bg_air_quality.xml"
     },
     {
-        "merged": "com.example.sensor.app-debug-31:/mipmap-xxhdpi_ic_launcher_round.webp.flat",
-        "source": "com.example.sensor.app-main-33:/mipmap-xxhdpi/ic_launcher_round.webp"
+        "merged": "com.example.sensor.app-debug-37:/mipmap-xxhdpi_ic_launcher_round.webp.flat",
+        "source": "com.example.sensor.app-main-39:/mipmap-xxhdpi/ic_launcher_round.webp"
     },
     {
-        "merged": "com.example.sensor.app-debug-31:/drawable_ic_notification.xml.flat",
-        "source": "com.example.sensor.app-main-33:/drawable/ic_notification.xml"
+        "merged": "com.example.sensor.app-debug-37:/drawable_ic_launcher_background.xml.flat",
+        "source": "com.example.sensor.app-main-39:/drawable/ic_launcher_background.xml"
     },
     {
-        "merged": "com.example.sensor.app-debug-31:/menu_main_menu.xml.flat",
-        "source": "com.example.sensor.app-main-33:/menu/main_menu.xml"
+        "merged": "com.example.sensor.app-debug-37:/mipmap-hdpi_ic_launcher_round.webp.flat",
+        "source": "com.example.sensor.app-main-39:/mipmap-hdpi/ic_launcher_round.webp"
     },
     {
-        "merged": "com.example.sensor.app-debug-31:/drawable_bg_feature_item.xml.flat",
-        "source": "com.example.sensor.app-main-33:/drawable/bg_feature_item.xml"
+        "merged": "com.example.sensor.app-debug-37:/drawable_ic_volume.xml.flat",
+        "source": "com.example.sensor.app-main-39:/drawable/ic_volume.xml"
     },
     {
-        "merged": "com.example.sensor.app-debug-31:/mipmap-xhdpi_ic_launcher_round.webp.flat",
-        "source": "com.example.sensor.app-main-33:/mipmap-xhdpi/ic_launcher_round.webp"
+        "merged": "com.example.sensor.app-debug-37:/drawable_bg_control_center.xml.flat",
+        "source": "com.example.sensor.app-main-39:/drawable/bg_control_center.xml"
     },
     {
-        "merged": "com.example.sensor.app-debug-31:/layout_threshold_settings_dialog.xml.flat",
-        "source": "com.example.sensor.app-main-33:/layout/threshold_settings_dialog.xml"
+        "merged": "com.example.sensor.app-debug-37:/drawable_bg_pm25.xml.flat",
+        "source": "com.example.sensor.app-main-39:/drawable/bg_pm25.xml"
     },
     {
-        "merged": "com.example.sensor.app-debug-31:/drawable_bg_control_circle.xml.flat",
-        "source": "com.example.sensor.app-main-33:/drawable/bg_control_circle.xml"
+        "merged": "com.example.sensor.app-debug-37:/mipmap-xhdpi_ic_launcher_round.webp.flat",
+        "source": "com.example.sensor.app-main-39:/mipmap-xhdpi/ic_launcher_round.webp"
     },
     {
-        "merged": "com.example.sensor.app-debug-31:/drawable_ic_launcher_foreground.xml.flat",
-        "source": "com.example.sensor.app-main-33:/drawable/ic_launcher_foreground.xml"
+        "merged": "com.example.sensor.app-debug-37:/drawable_ic_camera.xml.flat",
+        "source": "com.example.sensor.app-main-39:/drawable/ic_camera.xml"
     },
     {
-        "merged": "com.example.sensor.app-debug-31:/drawable_ic_humidity.xml.flat",
-        "source": "com.example.sensor.app-main-33:/drawable/ic_humidity.xml"
+        "merged": "com.example.sensor.app-debug-37:/mipmap-xhdpi_ic_launcher.webp.flat",
+        "source": "com.example.sensor.app-main-39:/mipmap-xhdpi/ic_launcher.webp"
     },
     {
-        "merged": "com.example.sensor.app-debug-31:/drawable_ic_arrow_right.xml.flat",
-        "source": "com.example.sensor.app-main-33:/drawable/ic_arrow_right.xml"
+        "merged": "com.example.sensor.app-debug-37:/xml_backup_rules.xml.flat",
+        "source": "com.example.sensor.app-main-39:/xml/backup_rules.xml"
     },
     {
-        "merged": "com.example.sensor.app-debug-31:/layout_air_quality_card.xml.flat",
-        "source": "com.example.sensor.app-main-33:/layout/air_quality_card.xml"
+        "merged": "com.example.sensor.app-debug-37:/drawable_bg_feature_item.xml.flat",
+        "source": "com.example.sensor.app-main-39:/drawable/bg_feature_item.xml"
     },
     {
-        "merged": "com.example.sensor.app-debug-31:/drawable_bg_air_quality.xml.flat",
-        "source": "com.example.sensor.app-main-33:/drawable/bg_air_quality.xml"
+        "merged": "com.example.sensor.app-debug-37:/layout_activity_main2.xml.flat",
+        "source": "com.example.sensor.app-main-39:/layout/activity_main2.xml"
     },
     {
-        "merged": "com.example.sensor.app-debug-31:/drawable_ic_arrow_left.xml.flat",
-        "source": "com.example.sensor.app-main-33:/drawable/ic_arrow_left.xml"
+        "merged": "com.example.sensor.app-debug-37:/drawable_bg_humidity.xml.flat",
+        "source": "com.example.sensor.app-main-39:/drawable/bg_humidity.xml"
     },
     {
-        "merged": "com.example.sensor.app-debug-31:/xml_data_extraction_rules.xml.flat",
-        "source": "com.example.sensor.app-main-33:/xml/data_extraction_rules.xml"
+        "merged": "com.example.sensor.app-debug-37:/mipmap-mdpi_ic_launcher_round.webp.flat",
+        "source": "com.example.sensor.app-main-39:/mipmap-mdpi/ic_launcher_round.webp"
     },
     {
-        "merged": "com.example.sensor.app-debug-31:/mipmap-mdpi_ic_launcher_round.webp.flat",
-        "source": "com.example.sensor.app-main-33:/mipmap-mdpi/ic_launcher_round.webp"
+        "merged": "com.example.sensor.app-debug-37:/drawable_ic_arrow_up.xml.flat",
+        "source": "com.example.sensor.app-main-39:/drawable/ic_arrow_up.xml"
     },
     {
-        "merged": "com.example.sensor.app-debug-31:/layout_bluetooth_header.xml.flat",
-        "source": "com.example.sensor.app-main-33:/layout/bluetooth_header.xml"
+        "merged": "com.example.sensor.app-debug-37:/drawable_ic_pm25.xml.flat",
+        "source": "com.example.sensor.app-main-39:/drawable/ic_pm25.xml"
     },
     {
-        "merged": "com.example.sensor.app-debug-31:/drawable_ic_camera.xml.flat",
-        "source": "com.example.sensor.app-main-33:/drawable/ic_camera.xml"
+        "merged": "com.example.sensor.app-debug-37:/drawable_bg_temperature.xml.flat",
+        "source": "com.example.sensor.app-main-39:/drawable/bg_temperature.xml"
     },
     {
-        "merged": "com.example.sensor.app-debug-31:/drawable_bg_control_center.xml.flat",
-        "source": "com.example.sensor.app-main-33:/drawable/bg_control_center.xml"
+        "merged": "com.example.sensor.app-debug-37:/drawable_bg_control_circle.xml.flat",
+        "source": "com.example.sensor.app-main-39:/drawable/bg_control_circle.xml"
     },
     {
-        "merged": "com.example.sensor.app-debug-31:/mipmap-hdpi_ic_launcher_round.webp.flat",
-        "source": "com.example.sensor.app-main-33:/mipmap-hdpi/ic_launcher_round.webp"
+        "merged": "com.example.sensor.app-debug-37:/layout_bluetooth_header.xml.flat",
+        "source": "com.example.sensor.app-main-39:/layout/bluetooth_header.xml"
     },
     {
-        "merged": "com.example.sensor.app-debug-31:/mipmap-anydpi_ic_launcher.xml.flat",
-        "source": "com.example.sensor.app-main-33:/mipmap-anydpi/ic_launcher.xml"
+        "merged": "com.example.sensor.app-debug-37:/mipmap-anydpi_ic_launcher_round.xml.flat",
+        "source": "com.example.sensor.app-main-39:/mipmap-anydpi/ic_launcher_round.xml"
     },
     {
-        "merged": "com.example.sensor.app-debug-31:/mipmap-xxhdpi_ic_launcher.webp.flat",
-        "source": "com.example.sensor.app-main-33:/mipmap-xxhdpi/ic_launcher.webp"
+        "merged": "com.example.sensor.app-debug-37:/menu_main_menu.xml.flat",
+        "source": "com.example.sensor.app-main-39:/menu/main_menu.xml"
     },
     {
-        "merged": "com.example.sensor.app-debug-31:/drawable_ic_temperature.xml.flat",
-        "source": "com.example.sensor.app-main-33:/drawable/ic_temperature.xml"
+        "merged": "com.example.sensor.app-debug-37:/drawable_ic_arrow_left.xml.flat",
+        "source": "com.example.sensor.app-main-39:/drawable/ic_arrow_left.xml"
     },
     {
-        "merged": "com.example.sensor.app-debug-31:/xml_backup_rules.xml.flat",
-        "source": "com.example.sensor.app-main-33:/xml/backup_rules.xml"
+        "merged": "com.example.sensor.app-debug-37:/drawable_ic_arrow_down.xml.flat",
+        "source": "com.example.sensor.app-main-39:/drawable/ic_arrow_down.xml"
     },
     {
-        "merged": "com.example.sensor.app-debug-31:/drawable_bg_temperature.xml.flat",
-        "source": "com.example.sensor.app-main-33:/drawable/bg_temperature.xml"
+        "merged": "com.example.sensor.app-debug-37:/mipmap-xxhdpi_ic_launcher.webp.flat",
+        "source": "com.example.sensor.app-main-39:/mipmap-xxhdpi/ic_launcher.webp"
     },
     {
-        "merged": "com.example.sensor.app-debug-31:/drawable_ic_arrow_up.xml.flat",
-        "source": "com.example.sensor.app-main-33:/drawable/ic_arrow_up.xml"
+        "merged": "com.example.sensor.app-debug-37:/mipmap-hdpi_ic_launcher.webp.flat",
+        "source": "com.example.sensor.app-main-39:/mipmap-hdpi/ic_launcher.webp"
     },
     {
-        "merged": "com.example.sensor.app-debug-31:/mipmap-xxxhdpi_ic_launcher_round.webp.flat",
-        "source": "com.example.sensor.app-main-33:/mipmap-xxxhdpi/ic_launcher_round.webp"
+        "merged": "com.example.sensor.app-debug-37:/drawable_ic_fetch.xml.flat",
+        "source": "com.example.sensor.app-main-39:/drawable/ic_fetch.xml"
     },
     {
-        "merged": "com.example.sensor.app-debug-31:/layout_activity_main2.xml.flat",
-        "source": "com.example.sensor.app-main-33:/layout/activity_main2.xml"
+        "merged": "com.example.sensor.app-debug-37:/drawable_bg_feature_item_selected.xml.flat",
+        "source": "com.example.sensor.app-main-39:/drawable/bg_feature_item_selected.xml"
     },
     {
-        "merged": "com.example.sensor.app-debug-31:/drawable_ic_arrow_down.xml.flat",
-        "source": "com.example.sensor.app-main-33:/drawable/ic_arrow_down.xml"
+        "merged": "com.example.sensor.app-debug-37:/mipmap-xxxhdpi_ic_launcher_round.webp.flat",
+        "source": "com.example.sensor.app-main-39:/mipmap-xxxhdpi/ic_launcher_round.webp"
     },
     {
-        "merged": "com.example.sensor.app-debug-31:/mipmap-xxxhdpi_ic_launcher.webp.flat",
-        "source": "com.example.sensor.app-main-33:/mipmap-xxxhdpi/ic_launcher.webp"
+        "merged": "com.example.sensor.app-debug-37:/drawable_ic_notification.xml.flat",
+        "source": "com.example.sensor.app-main-39:/drawable/ic_notification.xml"
     },
     {
-        "merged": "com.example.sensor.app-debug-31:/drawable_ic_volume.xml.flat",
-        "source": "com.example.sensor.app-main-33:/drawable/ic_volume.xml"
+        "merged": "com.example.sensor.app-debug-37:/drawable_ic_launcher_foreground.xml.flat",
+        "source": "com.example.sensor.app-main-39:/drawable/ic_launcher_foreground.xml"
     },
     {
-        "merged": "com.example.sensor.app-debug-31:/drawable_bg_pm25.xml.flat",
-        "source": "com.example.sensor.app-main-33:/drawable/bg_pm25.xml"
+        "merged": "com.example.sensor.app-debug-37:/mipmap-xxxhdpi_ic_launcher.webp.flat",
+        "source": "com.example.sensor.app-main-39:/mipmap-xxxhdpi/ic_launcher.webp"
     },
     {
-        "merged": "com.example.sensor.app-debug-31:/drawable_bg_feature_item_selected.xml.flat",
-        "source": "com.example.sensor.app-main-33:/drawable/bg_feature_item_selected.xml"
+        "merged": "com.example.sensor.app-debug-37:/layout_air_quality_card.xml.flat",
+        "source": "com.example.sensor.app-main-39:/layout/air_quality_card.xml"
     },
     {
-        "merged": "com.example.sensor.app-debug-31:/drawable_ic_launcher_background.xml.flat",
-        "source": "com.example.sensor.app-main-33:/drawable/ic_launcher_background.xml"
+        "merged": "com.example.sensor.app-debug-37:/mipmap-anydpi_ic_launcher.xml.flat",
+        "source": "com.example.sensor.app-main-39:/mipmap-anydpi/ic_launcher.xml"
     },
     {
-        "merged": "com.example.sensor.app-debug-31:/drawable_ic_fetch.xml.flat",
-        "source": "com.example.sensor.app-main-33:/drawable/ic_fetch.xml"
+        "merged": "com.example.sensor.app-debug-37:/drawable_ic_humidity.xml.flat",
+        "source": "com.example.sensor.app-main-39:/drawable/ic_humidity.xml"
     },
     {
-        "merged": "com.example.sensor.app-debug-31:/mipmap-hdpi_ic_launcher.webp.flat",
-        "source": "com.example.sensor.app-main-33:/mipmap-hdpi/ic_launcher.webp"
+        "merged": "com.example.sensor.app-debug-37:/layout_threshold_settings_dialog.xml.flat",
+        "source": "com.example.sensor.app-main-39:/layout/threshold_settings_dialog.xml"
     },
     {
-        "merged": "com.example.sensor.app-debug-31:/drawable_ic_pm25.xml.flat",
-        "source": "com.example.sensor.app-main-33:/drawable/ic_pm25.xml"
+        "merged": "com.example.sensor.app-debug-37:/drawable_ic_temperature.xml.flat",
+        "source": "com.example.sensor.app-main-39:/drawable/ic_temperature.xml"
     },
     {
-        "merged": "com.example.sensor.app-debug-31:/mipmap-anydpi_ic_launcher_round.xml.flat",
-        "source": "com.example.sensor.app-main-33:/mipmap-anydpi/ic_launcher_round.xml"
+        "merged": "com.example.sensor.app-debug-37:/drawable_ic_arrow_right.xml.flat",
+        "source": "com.example.sensor.app-main-39:/drawable/ic_arrow_right.xml"
     },
     {
-        "merged": "com.example.sensor.app-debug-31:/mipmap-xhdpi_ic_launcher.webp.flat",
-        "source": "com.example.sensor.app-main-33:/mipmap-xhdpi/ic_launcher.webp"
+        "merged": "com.example.sensor.app-debug-37:/mipmap-mdpi_ic_launcher.webp.flat",
+        "source": "com.example.sensor.app-main-39:/mipmap-mdpi/ic_launcher.webp"
     },
     {
-        "merged": "com.example.sensor.app-debug-31:/drawable_bg_humidity.xml.flat",
-        "source": "com.example.sensor.app-main-33:/drawable/bg_humidity.xml"
+        "merged": "com.example.sensor.app-debug-37:/xml_data_extraction_rules.xml.flat",
+        "source": "com.example.sensor.app-main-39:/xml/data_extraction_rules.xml"
     }
 ]

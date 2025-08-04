@@ -29,6 +29,7 @@ drawable ic_pm25
 drawable ic_temperature
 drawable ic_volume
 id action_settings
+id btn_close_camera
 id btn_connect
 id btn_down
 id btn_left
@@ -44,6 +45,8 @@ id ll_camera
 id ll_fetch
 id ll_notification
 id main_container
+id main_scroll_view
+id previewView
 id spinner_bluetooth_devices
 id tv_air_quality
 id tv_bluetooth_status

@@ -19,21 +19,37 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.camera.core.CameraSelector;
+import androidx.camera.core.Preview;
+import androidx.camera.lifecycle.ProcessCameraProvider;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.Executors;
+import androidx.camera.view.PreviewView;
+
+import com.google.common.util.concurrent.ListenableFuture;
+
+import java.util.concurrent.ExecutorService;
 
 public class MainActivity3 extends AppCompatActivity {
+
+    private static final int REQUEST_CODE_PERMISSIONS = 10;
+    private static final List<String> REQUIRED_PERMISSIONS = Arrays.asList(Manifest.permission.CAMERA);
     private static final String TAG = "MainActivity";
     private static final long THRESHOLD_ALERT_INTERVAL = 30000;
 
@@ -42,6 +58,9 @@ public class MainActivity3 extends AppCompatActivity {
     private TextView tvBluetoothStatus;
     private ImageView imgBluetoothStatus;
 
+    private PreviewView previewView;
+    private ExecutorService cameraExecutor;
+    private ProcessCameraProvider cameraProvider;
     private Handler handler = new Handler();
 
     private com.example.sensor.BluetoothManager bluetoothManager;
@@ -82,6 +101,8 @@ public class MainActivity3 extends AppCompatActivity {
 
         initViews();
 
+        cameraExecutor = Executors.newSingleThreadExecutor();
+
         initBluetooth();
 
         registerActivityResultLaunchers();
@@ -92,7 +113,7 @@ public class MainActivity3 extends AppCompatActivity {
     private void initViews() {
         LinearLayout mainLayout = findViewById(R.id.main_container);
 
-        View bluetoothHeader = LayoutInflater.from(this).inflate(R.layout.bluetooth_header, mainLayout, false);
+        View bluetoothHeader = LayoutInflater.from(this.peekAvailableContext()).inflate(R.layout.bluetooth_header, mainLayout, false);
         mainLayout.addView(bluetoothHeader, 0);
 
         spinnerBluetoothDevices = bluetoothHeader.findViewById(R.id.spinner_bluetooth_devices);
@@ -110,16 +131,37 @@ public class MainActivity3 extends AppCompatActivity {
         btnRight = findViewById(R.id.btn_right);
         viewCenter = findViewById(R.id.view_center);
 
+        // 初始化相机预览控件和关闭按钮
+        previewView = findViewById(R.id.previewView);
+        ImageButton closeCameraBtn = findViewById(R.id.btn_close_camera);
+        ScrollView mainScrollView = findViewById(R.id.main_scroll_view);
+
+        // 关闭相机按钮点击事件
+        closeCameraBtn.setOnClickListener(v -> {
+            // 停止相机预览
+            if (cameraProvider != null) {
+                cameraProvider.unbindAll();
+            }
+            // 隐藏相机预览，显示控制界面
+            previewView.setVisibility(View.GONE);
+            closeCameraBtn.setVisibility(View.GONE);
+            mainScrollView.setVisibility(View.VISIBLE);
+            llCamera.setVisibility(View.VISIBLE); // 重新显示"打开摄像头"按钮
+        });
+
+        // 修改打开相机的点击事件
+        llCamera.setOnClickListener(v -> {
+            openCamera();
+            // 隐藏主滚动视图，显示关闭按钮
+            mainScrollView.setVisibility(View.GONE);
+            closeCameraBtn.setVisibility(View.VISIBLE);
+        });
+
 
         // 设置功能区点击事件
         llFetch.setOnClickListener(v -> {
             updateFeatureSelection(llFetch);
             sendFeatureCommand((byte) 0x10); // 假设0x10是智能取物命令
-        });
-
-        llCamera.setOnClickListener(v -> {
-            updateFeatureSelection(llCamera);
-            sendFeatureCommand((byte) 0x11); // 假设0x11是打开摄像头命令
         });
 
         llNotification.setOnClickListener(v -> {
@@ -130,6 +172,58 @@ public class MainActivity3 extends AppCompatActivity {
         // 设置方向控制按钮触摸事件
         setupDirectionControls();
 
+    }
+
+    private void openCamera() {
+        if (allPermissionsGranted()) {
+            startCamera();
+        } else {
+            ActivityCompat.requestPermissions(
+                    this,
+                    REQUIRED_PERMISSIONS.toArray(new String[0]),
+                    REQUEST_CODE_PERMISSIONS
+            );
+        }
+    }
+
+    private void startCamera() {
+        ListenableFuture<ProcessCameraProvider> cameraProviderFuture = ProcessCameraProvider.getInstance(this);
+
+        cameraProviderFuture.addListener(() -> {
+            try {
+                cameraProvider = cameraProviderFuture.get();
+
+                // 配置预览
+                Preview preview = new Preview.Builder().build();
+                preview.setSurfaceProvider(previewView.getSurfaceProvider());
+
+                // 选择后置摄像头
+                CameraSelector cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA;
+
+                // 解绑之前的所有绑定
+                cameraProvider.unbindAll();
+
+                // 绑定相机生命周期
+                cameraProvider.bindToLifecycle(this, cameraSelector, preview);
+
+                // 显示预览，隐藏按钮
+                previewView.setVisibility(android.view.View.VISIBLE);
+                findViewById(R.id.ll_camera).setVisibility(android.view.View.GONE);
+
+            } catch (Exception e) {
+                Toast.makeText(this, "相机启动失败: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        }, ContextCompat.getMainExecutor(this));
+    }
+
+    private boolean allPermissionsGranted() {
+        for (String permission : REQUIRED_PERMISSIONS) {
+            if (ContextCompat.checkSelfPermission(this, permission)
+                    != PackageManager.PERMISSION_GRANTED) {
+                return false;
+            }
+        }
+        return true;
     }
 
     private void sendFeatureCommand(byte featureCommand) {
@@ -337,6 +431,14 @@ public class MainActivity3 extends AppCompatActivity {
                 Toast.makeText(this, "需要蓝牙权限才能使用此功能", Toast.LENGTH_SHORT).show();
             }
         }
+        if (requestCode == REQUEST_CODE_PERMISSIONS) {
+            if (allPermissionsGranted()) {
+                startCamera();
+            } else {
+                Toast.makeText(this, "权限被拒绝，无法使用相机",
+                        Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
     private void checkBluetoothEnabled() {
@@ -469,14 +571,6 @@ public class MainActivity3 extends AppCompatActivity {
 
     }
 
-
-    // 发送蓝牙数据的辅助方法
-    private void sendBluetoothData(String data) throws IOException {
-        if (bluetoothManager != null) {
-            bluetoothManager.sendData(data);
-        }
-    }
-
     // 发送蓝牙数据的辅助方法
     private void sendBluetoothData(byte[] data) throws IOException {
         if (bluetoothManager != null) {
@@ -501,6 +595,7 @@ public class MainActivity3 extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        cameraExecutor.shutdown();
         if (bluetoothManager != null) {
             bluetoothManager.disconnect();
         }
