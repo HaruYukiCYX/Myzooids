@@ -1,0 +1,19 @@
+@echo off
+"E:\\AndroidStudioSDK\\cmake\\3.22.1\\bin\\cmake.exe" ^
+  "-HE:\\Myzooids\\Myzooids\\Software\\robot\\opencv\\libcxx_helper" ^
+  "-DCMAKE_SYSTEM_NAME=Android" ^
+  "-DCMAKE_EXPORT_COMPILE_COMMANDS=ON" ^
+  "-DCMAKE_SYSTEM_VERSION=28" ^
+  "-DANDROID_PLATFORM=android-28" ^
+  "-DANDROID_ABI=arm64-v8a" ^
+  "-DCMAKE_ANDROID_ARCH_ABI=arm64-v8a" ^
+  "-DANDROID_NDK=E:\\AndroidStudioSDK\\ndk\\27.0.12077973" ^
+  "-DCMAKE_ANDROID_NDK=E:\\AndroidStudioSDK\\ndk\\27.0.12077973" ^
+  "-DCMAKE_TOOLCHAIN_FILE=E:\\AndroidStudioSDK\\ndk\\27.0.12077973\\build\\cmake\\android.toolchain.cmake" ^
+  "-DCMAKE_MAKE_PROGRAM=E:\\AndroidStudioSDK\\cmake\\3.22.1\\bin\\ninja.exe" ^
+  "-DCMAKE_LIBRARY_OUTPUT_DIRECTORY=E:\\Myzooids\\Myzooids\\Software\\robot\\opencv\\build\\intermediates\\cxx\\Debug\\6h296o6x\\obj\\arm64-v8a" ^
+  "-DCMAKE_RUNTIME_OUTPUT_DIRECTORY=E:\\Myzooids\\Myzooids\\Software\\robot\\opencv\\build\\intermediates\\cxx\\Debug\\6h296o6x\\obj\\arm64-v8a" ^
+  "-DCMAKE_BUILD_TYPE=Debug" ^
+  "-BE:\\Myzooids\\Myzooids\\Software\\robot\\opencv\\.cxx\\Debug\\6h296o6x\\arm64-v8a" ^
+  -GNinja ^
+  "-DANDROID_STL=c++_shared"

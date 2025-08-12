@@ -10,13 +10,13 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.camera.view.PreviewView;
 import androidx.viewbinding.ViewBinding;
 import androidx.viewbinding.ViewBindings;
 import com.example.sensor.R;
 import java.lang.NullPointerException;
 import java.lang.Override;
 import java.lang.String;
+import org.opencv.android.JavaCameraView;
 
 public final class ActivityMain2Binding implements ViewBinding {
   @NonNull
@@ -38,6 +38,9 @@ public final class ActivityMain2Binding implements ViewBinding {
   public final ImageButton btnUp;
 
   @NonNull
+  public final JavaCameraView cameraView;
+
+  @NonNull
   public final LinearLayout llCamera;
 
   @NonNull
@@ -53,29 +56,26 @@ public final class ActivityMain2Binding implements ViewBinding {
   public final ScrollView mainScrollView;
 
   @NonNull
-  public final PreviewView previewView;
-
-  @NonNull
   public final View viewCenter;
 
   private ActivityMain2Binding(@NonNull FrameLayout rootView, @NonNull ImageButton btnCloseCamera,
       @NonNull ImageButton btnDown, @NonNull ImageButton btnLeft, @NonNull ImageButton btnRight,
-      @NonNull ImageButton btnUp, @NonNull LinearLayout llCamera, @NonNull LinearLayout llFetch,
+      @NonNull ImageButton btnUp, @NonNull JavaCameraView cameraView,
+      @NonNull LinearLayout llCamera, @NonNull LinearLayout llFetch,
       @NonNull LinearLayout llNotification, @NonNull LinearLayout mainContainer,
-      @NonNull ScrollView mainScrollView, @NonNull PreviewView previewView,
-      @NonNull View viewCenter) {
+      @NonNull ScrollView mainScrollView, @NonNull View viewCenter) {
     this.rootView = rootView;
     this.btnCloseCamera = btnCloseCamera;
     this.btnDown = btnDown;
     this.btnLeft = btnLeft;
     this.btnRight = btnRight;
     this.btnUp = btnUp;
+    this.cameraView = cameraView;
     this.llCamera = llCamera;
     this.llFetch = llFetch;
     this.llNotification = llNotification;
     this.mainContainer = mainContainer;
     this.mainScrollView = mainScrollView;
-    this.previewView = previewView;
     this.viewCenter = viewCenter;
   }
 
@@ -136,6 +136,12 @@ public final class ActivityMain2Binding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.camera_view;
+      JavaCameraView cameraView = ViewBindings.findChildViewById(rootView, id);
+      if (cameraView == null) {
+        break missingId;
+      }
+
       id = R.id.ll_camera;
       LinearLayout llCamera = ViewBindings.findChildViewById(rootView, id);
       if (llCamera == null) {
@@ -166,12 +172,6 @@ public final class ActivityMain2Binding implements ViewBinding {
         break missingId;
       }
 
-      id = R.id.previewView;
-      PreviewView previewView = ViewBindings.findChildViewById(rootView, id);
-      if (previewView == null) {
-        break missingId;
-      }
-
       id = R.id.view_center;
       View viewCenter = ViewBindings.findChildViewById(rootView, id);
       if (viewCenter == null) {
@@ -179,8 +179,8 @@ public final class ActivityMain2Binding implements ViewBinding {
       }
 
       return new ActivityMain2Binding((FrameLayout) rootView, btnCloseCamera, btnDown, btnLeft,
-          btnRight, btnUp, llCamera, llFetch, llNotification, mainContainer, mainScrollView,
-          previewView, viewCenter);
+          btnRight, btnUp, cameraView, llCamera, llFetch, llNotification, mainContainer,
+          mainScrollView, viewCenter);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

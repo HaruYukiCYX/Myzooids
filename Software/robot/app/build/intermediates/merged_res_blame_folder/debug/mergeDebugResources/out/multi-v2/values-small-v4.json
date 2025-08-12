@@ -4,7 +4,7 @@
             "outputFile": "com.example.sensor.app-mergeDebugResources-35:/values-small-v4/values-small-v4.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\Yuxuan CHEN\\.gradle\\caches\\transforms-4\\3cef8e2abb24c6811f08d49f51790df3\\transformed\\material-1.12.0\\res\\values-small-v4\\values-small-v4.xml",
+                    "source": "C:\\Users\\HARUKAyuki\\.gradle\\caches\\transforms-4\\3cef8e2abb24c6811f08d49f51790df3\\transformed\\material-1.12.0\\res\\values-small-v4\\values-small-v4.xml",
                     "from": {
                         "startLines": "2,3,4,5",
                         "startColumns": "4,4,4,4",

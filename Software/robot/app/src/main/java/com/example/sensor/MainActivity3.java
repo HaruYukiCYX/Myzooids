@@ -1,5 +1,7 @@
 package com.example.sensor;
 
+import static java.lang.System.loadLibrary;
+
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothAdapter;
@@ -13,6 +15,7 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
+import android.view.SurfaceView;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -44,9 +47,27 @@ import androidx.camera.view.PreviewView;
 
 import com.google.common.util.concurrent.ListenableFuture;
 
+import org.opencv.android.BaseLoaderCallback;
+import org.opencv.android.CameraBridgeViewBase;
+
 import java.util.concurrent.ExecutorService;
 
-public class MainActivity3 extends AppCompatActivity {
+import org.opencv.android.JavaCameraView;
+import org.opencv.android.OpenCVLoader;
+import org.opencv.core.Mat;
+import org.opencv.aruco.Aruco;
+import org.opencv.aruco.Dictionary;
+import org.opencv.core.Scalar;
+import org.opencv.core.Size;
+import org.opencv.imgproc.Imgproc;
+import java.util.List;
+import java.util.ArrayList;
+
+
+public class MainActivity3 extends AppCompatActivity implements CameraBridgeViewBase.CvCameraViewListener2{
+
+    public MainActivity3() {
+    }
 
     private static final int REQUEST_CODE_PERMISSIONS = 10;
     private static final List<String> REQUIRED_PERMISSIONS = Arrays.asList(Manifest.permission.CAMERA);
@@ -83,6 +104,7 @@ public class MainActivity3 extends AppCompatActivity {
             Manifest.permission.ACCESS_FINE_LOCATION
     };
 
+
     private static final String[] BLUETOOTH_PERMISSIONS_S = {
             Manifest.permission.BLUETOOTH_CONNECT,
             Manifest.permission.BLUETOOTH_SCAN
@@ -94,6 +116,18 @@ public class MainActivity3 extends AppCompatActivity {
     private ImageButton btnUp, btnDown, btnLeft, btnRight;
     private View viewCenter;
 
+    private JavaCameraView javaCameraView;
+
+    private ArucoProcessor arucoProcessor;
+    private BaseLoaderCallback baseLoaderCallback;
+    private Dictionary arucoDictionary;
+
+    static {
+        // 先加载核心库
+        loadLibrary("opencv_java3");
+    }
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -101,7 +135,11 @@ public class MainActivity3 extends AppCompatActivity {
 
         initViews();
 
-        cameraExecutor = Executors.newSingleThreadExecutor();
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, 1);
+        }
+
+        arucoProcessor = new ArucoProcessor();
 
         initBluetooth();
 
@@ -131,19 +169,23 @@ public class MainActivity3 extends AppCompatActivity {
         btnRight = findViewById(R.id.btn_right);
         viewCenter = findViewById(R.id.view_center);
 
-        // 初始化相机预览控件和关闭按钮
-        previewView = findViewById(R.id.previewView);
+
+        javaCameraView = findViewById(R.id.camera_view);
+        javaCameraView.setVisibility(SurfaceView.GONE);
+        javaCameraView.setCvCameraViewListener(this);
+
         ImageButton closeCameraBtn = findViewById(R.id.btn_close_camera);
         ScrollView mainScrollView = findViewById(R.id.main_scroll_view);
 
         // 关闭相机按钮点击事件
         closeCameraBtn.setOnClickListener(v -> {
             // 停止相机预览
-            if (cameraProvider != null) {
-                cameraProvider.unbindAll();
+            if (javaCameraView != null) {
+                javaCameraView.disableView();
+                javaCameraView.setVisibility(View.GONE);
             }
             // 隐藏相机预览，显示控制界面
-            previewView.setVisibility(View.GONE);
+            javaCameraView.setVisibility(View.GONE);
             closeCameraBtn.setVisibility(View.GONE);
             mainScrollView.setVisibility(View.VISIBLE);
             llCamera.setVisibility(View.VISIBLE); // 重新显示"打开摄像头"按钮
@@ -151,7 +193,7 @@ public class MainActivity3 extends AppCompatActivity {
 
         // 修改打开相机的点击事件
         llCamera.setOnClickListener(v -> {
-            openCamera();
+            startCamera();
             // 隐藏主滚动视图，显示关闭按钮
             mainScrollView.setVisibility(View.GONE);
             closeCameraBtn.setVisibility(View.VISIBLE);
@@ -174,47 +216,20 @@ public class MainActivity3 extends AppCompatActivity {
 
     }
 
-    private void openCamera() {
+    private void startCamera() {
         if (allPermissionsGranted()) {
-            startCamera();
+            javaCameraView.setVisibility(View.VISIBLE);
+            javaCameraView.enableView();
+
         } else {
-            ActivityCompat.requestPermissions(
-                    this,
-                    REQUIRED_PERMISSIONS.toArray(new String[0]),
-                    REQUEST_CODE_PERMISSIONS
-            );
+            ActivityCompat.requestPermissions(this,
+                   REQUIRED_PERMISSIONS.toArray(new String[0]),
+                   REQUEST_CODE_PERMISSIONS
+           );
         }
     }
 
-    private void startCamera() {
-        ListenableFuture<ProcessCameraProvider> cameraProviderFuture = ProcessCameraProvider.getInstance(this);
 
-        cameraProviderFuture.addListener(() -> {
-            try {
-                cameraProvider = cameraProviderFuture.get();
-
-                // 配置预览
-                Preview preview = new Preview.Builder().build();
-                preview.setSurfaceProvider(previewView.getSurfaceProvider());
-
-                // 选择后置摄像头
-                CameraSelector cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA;
-
-                // 解绑之前的所有绑定
-                cameraProvider.unbindAll();
-
-                // 绑定相机生命周期
-                cameraProvider.bindToLifecycle(this, cameraSelector, preview);
-
-                // 显示预览，隐藏按钮
-                previewView.setVisibility(android.view.View.VISIBLE);
-                findViewById(R.id.ll_camera).setVisibility(android.view.View.GONE);
-
-            } catch (Exception e) {
-                Toast.makeText(this, "相机启动失败: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        }, ContextCompat.getMainExecutor(this));
-    }
 
     private boolean allPermissionsGranted() {
         for (String permission : REQUIRED_PERMISSIONS) {
@@ -433,7 +448,7 @@ public class MainActivity3 extends AppCompatActivity {
         }
         if (requestCode == REQUEST_CODE_PERMISSIONS) {
             if (allPermissionsGranted()) {
-                startCamera();
+                //startCamera();
             } else {
                 Toast.makeText(this, "权限被拒绝，无法使用相机",
                         Toast.LENGTH_SHORT).show();
@@ -578,12 +593,35 @@ public class MainActivity3 extends AppCompatActivity {
         }
     }
 
+
+    @Override
+    public void onCameraViewStarted(int width, int height) {
+        // 相机启动时的初始化
+    }
+
+    @Override
+    public void onCameraViewStopped() {
+        // 相机停止时释放资源
+    }
+
+    @Override
+    public Mat onCameraFrame(CameraBridgeViewBase.CvCameraViewFrame inputFrame) {
+        // 获取RGBA帧
+        Mat frame = inputFrame.rgba();
+        // 处理帧并检测Aruco标记
+        return arucoProcessor.processFrame(frame);
+    }
+
+
+
     @Override
     protected void onPause() {
         super.onPause();
         if (bluetoothManager != null && bluetoothManager.isConnected()) {
             bluetoothManager.disconnect();
         }
+        if (javaCameraView != null)
+            javaCameraView.disableView();
     }
 
     @Override
@@ -599,5 +637,7 @@ public class MainActivity3 extends AppCompatActivity {
         if (bluetoothManager != null) {
             bluetoothManager.disconnect();
         }
+        if (javaCameraView != null)
+            javaCameraView.disableView();
     }
 }

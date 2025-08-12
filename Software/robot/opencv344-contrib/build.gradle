@@ -1,0 +1,31 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 34
+
+    buildFeatures {
+        aidl true // 显式启用AIDL支持（Android Gradle Plugin 4.0+需要）
+        buildConfig true
+    }
+
+    defaultConfig {
+        namespace 'org.opencv'
+        minSdkVersion 28
+        targetSdkVersion 34
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+        }
+    }
+
+    sourceSets {
+        main {
+            aidl.srcDirs = ['src/main/java']
+            jniLibs.srcDirs = ['src/main/jniLibs']
+            aidl.srcDirs = ['src/main/java/org/opencv/engine'] // 指向存放OpenCVEngineInterface.aidl的目录
+        }
+    }
+}

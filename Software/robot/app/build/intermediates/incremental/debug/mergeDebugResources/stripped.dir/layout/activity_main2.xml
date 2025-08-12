@@ -206,12 +206,15 @@
         </LinearLayout>
     </ScrollView>
 
-    <!-- 相机预览区域 - 初始隐藏，点击打开摄像头后显示 -->
-    <androidx.camera.view.PreviewView
-        android:id="@+id/previewView"
+    <!-- res/layout/activity_main.xml -->
+    <org.opencv.android.JavaCameraView
+        android:id="@+id/camera_view"
+        class="org.opencv.android.JavaCameraView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone"/>
+        android:rotationY="0"
+        android:visibility="visible" />
+
 
     <!-- 相机预览模式下的返回按钮 -->
     <ImageButton

@@ -1,18 +1,22 @@
 [
     {
+        "merged": "C:\\Users\\HARUKAyuki\\.gradle\\daemon\\8.7\\com.example.sensor.app-mergeDebugResources-36:\\layout\\activity_main2.xml",
+        "source": "C:\\Users\\HARUKAyuki\\.gradle\\daemon\\8.7\\com.example.sensor.app-main-39:\\layout\\activity_main2.xml"
+    },
+    {
         "merged": "com.example.sensor.app-mergeDebugResources-36:/layout/activity_main2.xml",
         "source": "com.example.sensor.app-main-39:/layout/activity_main2.xml"
     },
     {
-        "merged": "com.example.sensor.app-mergeDebugResources-36:/layout/bluetooth_header.xml",
-        "source": "com.example.sensor.app-main-39:/layout/bluetooth_header.xml"
+        "merged": "C:\\Users\\HARUKAyuki\\.gradle\\daemon\\8.7\\com.example.sensor.app-mergeDebugResources-36:\\layout\\threshold_settings_dialog.xml",
+        "source": "C:\\Users\\HARUKAyuki\\.gradle\\daemon\\8.7\\com.example.sensor.app-main-39:\\layout\\threshold_settings_dialog.xml"
     },
     {
-        "merged": "com.example.sensor.app-mergeDebugResources-36:/layout/air_quality_card.xml",
-        "source": "com.example.sensor.app-main-39:/layout/air_quality_card.xml"
+        "merged": "C:\\Users\\HARUKAyuki\\.gradle\\daemon\\8.7\\com.example.sensor.app-mergeDebugResources-36:\\layout\\bluetooth_header.xml",
+        "source": "C:\\Users\\HARUKAyuki\\.gradle\\daemon\\8.7\\com.example.sensor.app-main-39:\\layout\\bluetooth_header.xml"
     },
     {
-        "merged": "com.example.sensor.app-mergeDebugResources-36:/layout/threshold_settings_dialog.xml",
-        "source": "com.example.sensor.app-main-39:/layout/threshold_settings_dialog.xml"
+        "merged": "C:\\Users\\HARUKAyuki\\.gradle\\daemon\\8.7\\com.example.sensor.app-mergeDebugResources-36:\\layout\\air_quality_card.xml",
+        "source": "C:\\Users\\HARUKAyuki\\.gradle\\daemon\\8.7\\com.example.sensor.app-main-39:\\layout\\air_quality_card.xml"
     }
 ]

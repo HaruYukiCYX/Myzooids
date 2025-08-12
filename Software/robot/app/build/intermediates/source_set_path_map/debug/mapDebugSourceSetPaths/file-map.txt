@@ -1,40 +1,41 @@
-com.example.sensor.app-emoji2-views-helper-1.3.0-0 C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\0915f54241dfd2e4f2a82d4173bbb9f7\transformed\emoji2-views-helper-1.3.0\res
-com.example.sensor.app-camera-lifecycle-1.4.2-1 C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\1b6fb0a857085d01778a3694bbcaa9af\transformed\camera-lifecycle-1.4.2\res
-com.example.sensor.app-recyclerview-1.1.0-2 C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\1ec5aa84c455b25f12b41c9b6af7832e\transformed\recyclerview-1.1.0\res
-com.example.sensor.app-startup-runtime-1.1.1-3 C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\226167a0afa9bd76ae2c647715ea1728\transformed\startup-runtime-1.1.1\res
-com.example.sensor.app-lifecycle-viewmodel-2.6.2-4 C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\364515c942276e57e75def490cf48d6d\transformed\lifecycle-viewmodel-2.6.2\res
-com.example.sensor.app-lifecycle-runtime-2.6.2-5 C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\39e62e63bb6c6895a96f30cce63284ef\transformed\lifecycle-runtime-2.6.2\res
-com.example.sensor.app-material-1.12.0-6 C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\3cef8e2abb24c6811f08d49f51790df3\transformed\material-1.12.0\res
-com.example.sensor.app-core-1.13.0-7 C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\409ac220ad0caa33c7cdc2a682f0a880\transformed\core-1.13.0\res
-com.example.sensor.app-camera-video-1.4.2-8 C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\423cd1bc2271024acd2d79411861092a\transformed\camera-video-1.4.2\res
-com.example.sensor.app-profileinstaller-1.3.1-9 C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\430e7a8ff62b531febe7bd54550a7fb4\transformed\profileinstaller-1.3.1\res
-com.example.sensor.app-transition-1.5.0-10 C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\4a3b588a7b6a087358134e6100962f62\transformed\transition-1.5.0\res
-com.example.sensor.app-viewpager2-1.0.0-11 C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\4e2c627e71fdf9d4c96819995de8138e\transformed\viewpager2-1.0.0\res
-com.example.sensor.app-lifecycle-livedata-2.6.2-12 C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\51e43108f34cde3eca7ba10393775367\transformed\lifecycle-livedata-2.6.2\res
-com.example.sensor.app-constraintlayout-2.0.1-13 C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\53e758c59d959c835dc2b5abb417802c\transformed\constraintlayout-2.0.1\res
-com.example.sensor.app-cardview-1.0.0-14 C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\5e5681e34de31b7a87bef3850a894e36\transformed\cardview-1.0.0\res
-com.example.sensor.app-fragment-1.5.4-15 C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\670e83591e5430f3930660588aa24295\transformed\fragment-1.5.4\res
-com.example.sensor.app-annotation-experimental-1.4.1-16 C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\68c8bd1ad4bb5bf794a1da4437ad8cc7\transformed\annotation-experimental-1.4.1\res
-com.example.sensor.app-lifecycle-process-2.6.2-17 C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\69893af9695e753095c951009c79a490\transformed\lifecycle-process-2.6.2\res
-com.example.sensor.app-camera-core-1.4.2-18 C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\725e5c32ed113d0c2642f77d0e43bc10\transformed\camera-core-1.4.2\res
-com.example.sensor.app-core-ktx-1.13.0-19 C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\7b034a5e14aa8287e3948881d280884c\transformed\core-ktx-1.13.0\res
-com.example.sensor.app-camera-view-1.4.2-20 C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\88cf576bdf70017fce713e792b44923b\transformed\camera-view-1.4.2\res
-com.example.sensor.app-lifecycle-livedata-core-2.6.2-21 C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\938ff51bdc9b9c3512063fa9560c26e9\transformed\lifecycle-livedata-core-2.6.2\res
-com.example.sensor.app-appcompat-1.7.0-22 C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\a9c3e2841b7b48d9016656c94361e7fd\transformed\appcompat-1.7.0\res
-com.example.sensor.app-activity-1.8.0-23 C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\b6a7a848b4882f77989ced26243724c7\transformed\activity-1.8.0\res
-com.example.sensor.app-appcompat-resources-1.7.0-24 C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\bc3388af3a43de8e5aa6770197377415\transformed\appcompat-resources-1.7.0\res
-com.example.sensor.app-drawerlayout-1.1.1-25 C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\c07e56356d654a619cc20088df9b2eeb\transformed\drawerlayout-1.1.1\res
-com.example.sensor.app-tracing-ktx-1.2.0-26 C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\c82e3208c4be43f734b7ab8615664003\transformed\tracing-ktx-1.2.0\res
-com.example.sensor.app-savedstate-1.2.1-27 C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\d9eb0cd9fb8c29a047815681c5e44665\transformed\savedstate-1.2.1\res
-com.example.sensor.app-lifecycle-viewmodel-savedstate-2.6.2-28 C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\e486abb5d4a51dd4c1806eeb18117c21\transformed\lifecycle-viewmodel-savedstate-2.6.2\res
-com.example.sensor.app-core-runtime-2.2.0-29 C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\ebf9c5bf963266d65364338d9ba5ff40\transformed\core-runtime-2.2.0\res
-com.example.sensor.app-tracing-1.2.0-30 C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\f0e29bc62830377016fb37b813e06ea6\transformed\tracing-1.2.0\res
-com.example.sensor.app-coordinatorlayout-1.1.0-31 C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\fa848d041760f34eff04414efa36e9f7\transformed\coordinatorlayout-1.1.0\res
-com.example.sensor.app-emoji2-1.3.0-32 C:\Users\Yuxuan CHEN\.gradle\caches\transforms-4\fb7d93a6a6f7e97f41245978a5544b48\transformed\emoji2-1.3.0\res
-com.example.sensor.app-pngs-33 D:\Myzooids\Myzooids\Software\robot\app\build\generated\res\pngs\debug
-com.example.sensor.app-resValues-34 D:\Myzooids\Myzooids\Software\robot\app\build\generated\res\resValues\debug
-com.example.sensor.app-packageDebugResources-35 D:\Myzooids\Myzooids\Software\robot\app\build\intermediates\incremental\debug\packageDebugResources\merged.dir
-com.example.sensor.app-packageDebugResources-36 D:\Myzooids\Myzooids\Software\robot\app\build\intermediates\incremental\debug\packageDebugResources\stripped.dir
-com.example.sensor.app-debug-37 D:\Myzooids\Myzooids\Software\robot\app\build\intermediates\merged_res\debug\mergeDebugResources
-com.example.sensor.app-debug-38 D:\Myzooids\Myzooids\Software\robot\app\src\debug\res
-com.example.sensor.app-main-39 D:\Myzooids\Myzooids\Software\robot\app\src\main\res
+com.example.sensor.app-camera-extensions-1.3.0-0 C:\Users\HARUKAyuki\.gradle\caches\transforms-4\0366a2a6c6a279acf085144a0bc77ee9\transformed\camera-extensions-1.3.0\res
+com.example.sensor.app-emoji2-views-helper-1.3.0-1 C:\Users\HARUKAyuki\.gradle\caches\transforms-4\0915f54241dfd2e4f2a82d4173bbb9f7\transformed\emoji2-views-helper-1.3.0\res
+com.example.sensor.app-recyclerview-1.1.0-2 C:\Users\HARUKAyuki\.gradle\caches\transforms-4\1ec5aa84c455b25f12b41c9b6af7832e\transformed\recyclerview-1.1.0\res
+com.example.sensor.app-startup-runtime-1.1.1-3 C:\Users\HARUKAyuki\.gradle\caches\transforms-4\226167a0afa9bd76ae2c647715ea1728\transformed\startup-runtime-1.1.1\res
+com.example.sensor.app-lifecycle-viewmodel-2.6.2-4 C:\Users\HARUKAyuki\.gradle\caches\transforms-4\364515c942276e57e75def490cf48d6d\transformed\lifecycle-viewmodel-2.6.2\res
+com.example.sensor.app-camera-view-1.3.0-5 C:\Users\HARUKAyuki\.gradle\caches\transforms-4\38ae5a249579a187eab714bea1de62ba\transformed\camera-view-1.3.0\res
+com.example.sensor.app-lifecycle-runtime-2.6.2-6 C:\Users\HARUKAyuki\.gradle\caches\transforms-4\39e62e63bb6c6895a96f30cce63284ef\transformed\lifecycle-runtime-2.6.2\res
+com.example.sensor.app-material-1.12.0-7 C:\Users\HARUKAyuki\.gradle\caches\transforms-4\3cef8e2abb24c6811f08d49f51790df3\transformed\material-1.12.0\res
+com.example.sensor.app-core-1.13.0-8 C:\Users\HARUKAyuki\.gradle\caches\transforms-4\409ac220ad0caa33c7cdc2a682f0a880\transformed\core-1.13.0\res
+com.example.sensor.app-profileinstaller-1.3.1-9 C:\Users\HARUKAyuki\.gradle\caches\transforms-4\430e7a8ff62b531febe7bd54550a7fb4\transformed\profileinstaller-1.3.1\res
+com.example.sensor.app-transition-1.5.0-10 C:\Users\HARUKAyuki\.gradle\caches\transforms-4\4a3b588a7b6a087358134e6100962f62\transformed\transition-1.5.0\res
+com.example.sensor.app-viewpager2-1.0.0-11 C:\Users\HARUKAyuki\.gradle\caches\transforms-4\4e2c627e71fdf9d4c96819995de8138e\transformed\viewpager2-1.0.0\res
+com.example.sensor.app-lifecycle-livedata-2.6.2-12 C:\Users\HARUKAyuki\.gradle\caches\transforms-4\51e43108f34cde3eca7ba10393775367\transformed\lifecycle-livedata-2.6.2\res
+com.example.sensor.app-constraintlayout-2.0.1-13 C:\Users\HARUKAyuki\.gradle\caches\transforms-4\53e758c59d959c835dc2b5abb417802c\transformed\constraintlayout-2.0.1\res
+com.example.sensor.app-camera-video-1.3.0-14 C:\Users\HARUKAyuki\.gradle\caches\transforms-4\5c805649bf52f7498f6999a46dbdc38a\transformed\camera-video-1.3.0\res
+com.example.sensor.app-cardview-1.0.0-15 C:\Users\HARUKAyuki\.gradle\caches\transforms-4\5e5681e34de31b7a87bef3850a894e36\transformed\cardview-1.0.0\res
+com.example.sensor.app-fragment-1.5.4-16 C:\Users\HARUKAyuki\.gradle\caches\transforms-4\670e83591e5430f3930660588aa24295\transformed\fragment-1.5.4\res
+com.example.sensor.app-lifecycle-process-2.6.2-17 C:\Users\HARUKAyuki\.gradle\caches\transforms-4\69893af9695e753095c951009c79a490\transformed\lifecycle-process-2.6.2\res
+com.example.sensor.app-camera-core-1.3.0-18 C:\Users\HARUKAyuki\.gradle\caches\transforms-4\75d582955bb4cf6040f4b579b5231f62\transformed\camera-core-1.3.0\res
+com.example.sensor.app-core-ktx-1.13.0-19 C:\Users\HARUKAyuki\.gradle\caches\transforms-4\7b034a5e14aa8287e3948881d280884c\transformed\core-ktx-1.13.0\res
+com.example.sensor.app-camera-lifecycle-1.3.0-20 C:\Users\HARUKAyuki\.gradle\caches\transforms-4\7dcf1ed96f3229fd7ced5d65bf2d3e55\transformed\camera-lifecycle-1.3.0\res
+com.example.sensor.app-lifecycle-livedata-core-2.6.2-21 C:\Users\HARUKAyuki\.gradle\caches\transforms-4\938ff51bdc9b9c3512063fa9560c26e9\transformed\lifecycle-livedata-core-2.6.2\res
+com.example.sensor.app-camera-camera2-1.3.0-22 C:\Users\HARUKAyuki\.gradle\caches\transforms-4\983067d1bd66fe4d41524ec44a56ab0f\transformed\camera-camera2-1.3.0\res
+com.example.sensor.app-appcompat-1.7.0-23 C:\Users\HARUKAyuki\.gradle\caches\transforms-4\a9c3e2841b7b48d9016656c94361e7fd\transformed\appcompat-1.7.0\res
+com.example.sensor.app-activity-1.8.0-24 C:\Users\HARUKAyuki\.gradle\caches\transforms-4\b6a7a848b4882f77989ced26243724c7\transformed\activity-1.8.0\res
+com.example.sensor.app-appcompat-resources-1.7.0-25 C:\Users\HARUKAyuki\.gradle\caches\transforms-4\bc3388af3a43de8e5aa6770197377415\transformed\appcompat-resources-1.7.0\res
+com.example.sensor.app-drawerlayout-1.1.1-26 C:\Users\HARUKAyuki\.gradle\caches\transforms-4\c07e56356d654a619cc20088df9b2eeb\transformed\drawerlayout-1.1.1\res
+com.example.sensor.app-savedstate-1.2.1-27 C:\Users\HARUKAyuki\.gradle\caches\transforms-4\d9eb0cd9fb8c29a047815681c5e44665\transformed\savedstate-1.2.1\res
+com.example.sensor.app-annotation-experimental-1.4.0-28 C:\Users\HARUKAyuki\.gradle\caches\transforms-4\e2e7f1c7760bcb70f4cbbe7c457641bf\transformed\annotation-experimental-1.4.0\res
+com.example.sensor.app-lifecycle-viewmodel-savedstate-2.6.2-29 C:\Users\HARUKAyuki\.gradle\caches\transforms-4\e486abb5d4a51dd4c1806eeb18117c21\transformed\lifecycle-viewmodel-savedstate-2.6.2\res
+com.example.sensor.app-core-runtime-2.2.0-30 C:\Users\HARUKAyuki\.gradle\caches\transforms-4\ebf9c5bf963266d65364338d9ba5ff40\transformed\core-runtime-2.2.0\res
+com.example.sensor.app-coordinatorlayout-1.1.0-31 C:\Users\HARUKAyuki\.gradle\caches\transforms-4\fa848d041760f34eff04414efa36e9f7\transformed\coordinatorlayout-1.1.0\res
+com.example.sensor.app-emoji2-1.3.0-32 C:\Users\HARUKAyuki\.gradle\caches\transforms-4\fb7d93a6a6f7e97f41245978a5544b48\transformed\emoji2-1.3.0\res
+com.example.sensor.app-pngs-33 E:\Myzooids\Myzooids\Software\robot\app\build\generated\res\pngs\debug
+com.example.sensor.app-resValues-34 E:\Myzooids\Myzooids\Software\robot\app\build\generated\res\resValues\debug
+com.example.sensor.app-packageDebugResources-35 E:\Myzooids\Myzooids\Software\robot\app\build\intermediates\incremental\debug\packageDebugResources\merged.dir
+com.example.sensor.app-packageDebugResources-36 E:\Myzooids\Myzooids\Software\robot\app\build\intermediates\incremental\debug\packageDebugResources\stripped.dir
+com.example.sensor.app-debug-37 E:\Myzooids\Myzooids\Software\robot\app\build\intermediates\merged_res\debug\mergeDebugResources
+com.example.sensor.app-debug-38 E:\Myzooids\Myzooids\Software\robot\app\src\debug\res
+com.example.sensor.app-main-39 E:\Myzooids\Myzooids\Software\robot\app\src\main\res
+com.example.sensor.app-debug-40 E:\Myzooids\Myzooids\Software\robot\opencv344-contrib\build\intermediates\packaged_res\debug\packageDebugResources

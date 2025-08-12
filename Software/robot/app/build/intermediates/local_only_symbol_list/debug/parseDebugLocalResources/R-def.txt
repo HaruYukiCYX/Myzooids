@@ -35,6 +35,7 @@ id btn_down
 id btn_left
 id btn_right
 id btn_up
+id camera_view
 id et_humidity_max
 id et_humidity_min
 id et_pm25_max
@@ -46,7 +47,6 @@ id ll_fetch
 id ll_notification
 id main_container
 id main_scroll_view
-id previewView
 id spinner_bluetooth_devices
 id tv_air_quality
 id tv_bluetooth_status
