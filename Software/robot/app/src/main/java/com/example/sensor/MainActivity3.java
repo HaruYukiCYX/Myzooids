@@ -6,6 +6,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -27,41 +28,24 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.camera.core.CameraSelector;
-import androidx.camera.core.Preview;
-import androidx.camera.lifecycle.ProcessCameraProvider;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+
+import org.opencv.android.BaseLoaderCallback;
+import org.opencv.android.CameraBridgeViewBase;
+import org.opencv.android.JavaCameraView;
+import org.opencv.aruco.Dictionary;
+import org.opencv.core.Mat;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.Executors;
-import androidx.camera.view.PreviewView;
-
-import com.google.common.util.concurrent.ListenableFuture;
-
-import org.opencv.android.BaseLoaderCallback;
-import org.opencv.android.CameraBridgeViewBase;
-
-import java.util.concurrent.ExecutorService;
-
-import org.opencv.android.JavaCameraView;
-import org.opencv.android.OpenCVLoader;
-import org.opencv.core.Mat;
-import org.opencv.aruco.Aruco;
-import org.opencv.aruco.Dictionary;
-import org.opencv.core.Scalar;
-import org.opencv.core.Size;
-import org.opencv.imgproc.Imgproc;
-import java.util.List;
-import java.util.ArrayList;
+import java.util.UUID;
 
 
 public class MainActivity3 extends AppCompatActivity implements CameraBridgeViewBase.CvCameraViewListener2{
@@ -69,24 +53,14 @@ public class MainActivity3 extends AppCompatActivity implements CameraBridgeView
     public MainActivity3() {
     }
 
+    private static final String TAG = "MainActivity3";
+    private static final String[] REQUIRED_PERMISSIONS = getRequiredPermissions();
     private static final int REQUEST_CODE_PERMISSIONS = 10;
-    private static final List<String> REQUIRED_PERMISSIONS = Arrays.asList(Manifest.permission.CAMERA);
-    private static final String TAG = "MainActivity";
-    private static final long THRESHOLD_ALERT_INTERVAL = 30000;
 
-    private Spinner spinnerBluetoothDevices;
-    private Button btnConnect;
-    private TextView tvBluetoothStatus;
-    private ImageView imgBluetoothStatus;
-
-    private PreviewView previewView;
-    private ExecutorService cameraExecutor;
-    private ProcessCameraProvider cameraProvider;
-    private Handler handler = new Handler();
-
-    private com.example.sensor.BluetoothManager bluetoothManager;
-    private BluetoothAdapter bluetoothAdapter;
-    private BluetoothDeviceAdapter deviceAdapter;
+    // BLE服务和特征UUID (根据实际设备修改)
+    private static final UUID SERVICE_UUID = UUID.fromString("0000180D-0000-1000-8000-00805F9B34FB");
+    private static final UUID CHARACTERISTIC_UUID_TX = UUID.fromString("00002A37-0000-1000-8000-00805F9B34FB");
+    private static final UUID CHARACTERISTIC_UUID_RX = UUID.fromString("00002A38-0000-1000-8000-00805F9B34FB");
 
     // 通信协议常量
     private static final byte HEADER = (byte) 0xAA;
@@ -97,6 +71,22 @@ public class MainActivity3 extends AppCompatActivity implements CameraBridgeView
     private static final byte DIRECTION_RIGHT = 0x04;
     private static final byte DIRECTION_STOP = 0x05;
 
+    // UI组件
+    private Spinner spinnerBluetoothDevices;
+    private Button btnConnect;
+    private TextView tvBluetoothStatus;
+    private ImageView imgBluetoothStatus;
+    private JavaCameraView javaCameraView;
+    private LinearLayout llFetch, llCamera, llNotification;
+    private ImageButton btnUp, btnDown, btnLeft, btnRight;
+    private View viewCenter;
+
+    private BleManager bleManager;
+    private BluetoothAdapter bluetoothAdapter;
+    private BluetoothDeviceAdapter deviceAdapter;
+    private Handler handler = new Handler();
+    private BaseLoaderCallback baseLoaderCallback;
+    private ActivityResultLauncher<Intent> enableBluetoothLauncher;
     private static final int PERMISSION_REQUEST_BLUETOOTH = 1;
     private static final String[] BLUETOOTH_PERMISSIONS = {
             Manifest.permission.BLUETOOTH,
@@ -110,16 +100,8 @@ public class MainActivity3 extends AppCompatActivity implements CameraBridgeView
             Manifest.permission.BLUETOOTH_SCAN
     };
 
-    private ActivityResultLauncher<Intent> enableBluetoothLauncher;
-
-    private LinearLayout llFetch, llCamera, llNotification;
-    private ImageButton btnUp, btnDown, btnLeft, btnRight;
-    private View viewCenter;
-
-    private JavaCameraView javaCameraView;
-
     private ArucoProcessor arucoProcessor;
-    private BaseLoaderCallback baseLoaderCallback;
+
     private Dictionary arucoDictionary;
 
     static {
@@ -127,24 +109,33 @@ public class MainActivity3 extends AppCompatActivity implements CameraBridgeView
         loadLibrary("opencv_java3");
     }
 
+    private static String[] getRequiredPermissions() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            return new String[]{
+                    Manifest.permission.BLUETOOTH_SCAN,
+                    Manifest.permission.BLUETOOTH_CONNECT,
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.CAMERA
+            };
+        } else {
+            return new String[]{
+                    Manifest.permission.BLUETOOTH,
+                    Manifest.permission.BLUETOOTH_ADMIN,
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.CAMERA
+            };
+        }
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
-
         initViews();
-
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, 1);
-        }
-
         arucoProcessor = new ArucoProcessor();
-
         initBluetooth();
-
         registerActivityResultLaunchers();
-
         checkAndRequestPermissions();
     }
 
@@ -223,9 +214,9 @@ public class MainActivity3 extends AppCompatActivity implements CameraBridgeView
 
         } else {
             ActivityCompat.requestPermissions(this,
-                   REQUIRED_PERMISSIONS.toArray(new String[0]),
-                   REQUEST_CODE_PERMISSIONS
-           );
+                    getRequiredPermissions(),
+                    REQUEST_CODE_PERMISSIONS
+            );
         }
     }
 
@@ -242,7 +233,7 @@ public class MainActivity3 extends AppCompatActivity implements CameraBridgeView
     }
 
     private void sendFeatureCommand(byte featureCommand) {
-        if (!bluetoothManager.isConnected()) {
+        if (!bleManager.isConnected()) {
             Toast.makeText(this, "未连接蓝牙设备，无法发送设置", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -344,7 +335,7 @@ public class MainActivity3 extends AppCompatActivity implements CameraBridgeView
     }
 
     private void sendDirectionCommand(byte direction) {
-        if (!bluetoothManager.isConnected()) {
+        if (!bleManager.isConnected()) {
             Toast.makeText(this, "未连接蓝牙设备，无法发送设置", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -394,7 +385,7 @@ public class MainActivity3 extends AppCompatActivity implements CameraBridgeView
                 new ActivityResultContracts.StartActivityForResult(),
                 result -> {
                     if (result.getResultCode() == RESULT_OK) {
-                        initBluetoothDevices();
+                        startBleScan();
                     } else {
                         Toast.makeText(this, "蓝牙功能未启用", Toast.LENGTH_SHORT).show();
                     }
@@ -461,53 +452,47 @@ public class MainActivity3 extends AppCompatActivity implements CameraBridgeView
             Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
             enableBluetoothLauncher.launch(enableBtIntent);
         } else if (bluetoothAdapter != null && bluetoothAdapter.isEnabled()) {
-            initBluetoothDevices();
+            startBleScan();
         }
     }
 
     private void initBluetooth() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            android.bluetooth.BluetoothManager bluetoothManager =
-                    (android.bluetooth.BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
-            bluetoothAdapter = bluetoothManager.getAdapter();
-        } else {
-            bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-        }
+        BluetoothManager bluetoothManager = (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
+        bluetoothAdapter = bluetoothManager.getAdapter();
 
-        this.bluetoothManager = new com.example.sensor.BluetoothManager(this, handler);
-
-        this.bluetoothManager.setBluetoothDataListener(new com.example.sensor.BluetoothManager.BluetoothDataListener() {
+        bleManager = new BleManager(this, handler);
+        bleManager.setBleDataListener(new BleManager.BleDataListener() {
             @Override
-            public void onDataReceived(String data) {
-                processBluetoothData(data);
+            public void onDataReceived(byte[] data) {
+                processBluetoothData(Arrays.toString(data));
+            }
+
+            @Override
+            public void onDeviceFound(BluetoothDevice device) {
+                runOnUiThread(() -> {
+                    if (deviceAdapter != null) {
+                        deviceAdapter.addDevice(device);
+                        deviceAdapter.notifyDataSetChanged();
+                    }
+                });
+            }
+
+            @Override
+            public void onConnectionStateChanged(boolean connected) {
+                runOnUiThread(() -> updateBluetoothUI());
             }
         });
 
-        btnConnect.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                connectToSelectedDevice();
-            }
-        });
-
-        spinnerBluetoothDevices.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-        });
+        btnConnect.setOnClickListener(v -> connectToSelectedDevice());
+        deviceAdapter = new BluetoothDeviceAdapter(this, new ArrayList<>());
+        spinnerBluetoothDevices.setAdapter(deviceAdapter);
     }
 
-    private void initBluetoothDevices() {
-        List<BluetoothDevice> pairedDevices = bluetoothManager.getPairedDevices();
-
-        deviceAdapter = new BluetoothDeviceAdapter(this, pairedDevices);
-        spinnerBluetoothDevices.setAdapter(deviceAdapter);
-
-        updateBluetoothUI();
+    private void startBleScan() {
+        if (allPermissionsGranted()) {
+            bleManager.startScan();
+            handler.postDelayed(() -> bleManager.stopScan(), 10000); // 扫描10秒
+        }
     }
 
     private void connectToSelectedDevice() {
@@ -519,7 +504,7 @@ public class MainActivity3 extends AppCompatActivity implements CameraBridgeView
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    final boolean success = bluetoothManager.connectToDevice(selectedDevice);
+                    final boolean success = bleManager.connectToDevice(selectedDevice);
 
                     runOnUiThread(new Runnable() {
                         @SuppressLint("MissingPermission")
@@ -550,15 +535,15 @@ public class MainActivity3 extends AppCompatActivity implements CameraBridgeView
     }
 
     private void updateBluetoothUI() {
-        if (bluetoothManager.isConnected()) {
-            tvBluetoothStatus.setText("已连接: " + bluetoothManager.getConnectedDeviceName());
+        if (bleManager.isConnected()) {
+            tvBluetoothStatus.setText("已连接: " + bleManager.getConnectedDeviceName());
             imgBluetoothStatus.setColorFilter(ContextCompat.getColor(this, android.R.color.holo_blue_dark));
             btnConnect.setText("断开");
 
             btnConnect.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    bluetoothManager.disconnect();
+                    bleManager.disconnect();
 
                     tvBluetoothStatus.setText("未连接");
                     imgBluetoothStatus.setColorFilter(ContextCompat.getColor(MainActivity3.this, android.R.color.darker_gray));
@@ -588,8 +573,8 @@ public class MainActivity3 extends AppCompatActivity implements CameraBridgeView
 
     // 发送蓝牙数据的辅助方法
     private void sendBluetoothData(byte[] data) throws IOException {
-        if (bluetoothManager != null) {
-            bluetoothManager.sendData(data);
+        if (bleManager != null) {
+            bleManager.sendData(data);
         }
     }
 
@@ -617,8 +602,8 @@ public class MainActivity3 extends AppCompatActivity implements CameraBridgeView
     @Override
     protected void onPause() {
         super.onPause();
-        if (bluetoothManager != null && bluetoothManager.isConnected()) {
-            bluetoothManager.disconnect();
+        if (bleManager != null && bleManager.isConnected()) {
+            bleManager.disconnect();
         }
         if (javaCameraView != null)
             javaCameraView.disableView();
@@ -633,9 +618,8 @@ public class MainActivity3 extends AppCompatActivity implements CameraBridgeView
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        cameraExecutor.shutdown();
-        if (bluetoothManager != null) {
-            bluetoothManager.disconnect();
+        if (bleManager != null) {
+            bleManager.disconnect();
         }
         if (javaCameraView != null)
             javaCameraView.disableView();

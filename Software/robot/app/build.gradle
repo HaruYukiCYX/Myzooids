@@ -41,14 +41,11 @@ android {
         pickFirst 'lib/**/*.so'
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
-
-    // 启用ViewBinding（如果你使用的话）
-    buildFeatures {
-        viewBinding true
-    }
+    // 如需完全抑制警告，可在gradle.properties添加：
+    // android.javaCompile.suppressSourceTargetDeprecationWarning=true
 }
 
 dependencies {
