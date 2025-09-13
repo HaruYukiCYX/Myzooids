@@ -3501,7 +3501,6 @@ id transition_position
 id transition_scene_layoutid_cache
 id transition_transform
 id triangle
-id tv_air_quality
 id tv_bluetooth_status
 id unchecked
 id uniform
@@ -3636,7 +3635,6 @@ layout abc_search_view
 layout abc_select_dialog_material
 layout abc_tooltip
 layout activity_main2
-layout air_quality_card
 layout bluetooth_header
 layout custom_dialog
 layout design_bottom_navigation_item

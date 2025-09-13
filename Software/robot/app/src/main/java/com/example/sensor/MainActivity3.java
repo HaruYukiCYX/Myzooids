@@ -50,19 +50,14 @@ import java.util.UUID;
 
 public class MainActivity3 extends AppCompatActivity implements CameraBridgeViewBase.CvCameraViewListener2{
 
-    public MainActivity3() {
-    }
-
     private static final String TAG = "MainActivity3";
     private static final String[] REQUIRED_PERMISSIONS = getRequiredPermissions();
     private static final int REQUEST_CODE_PERMISSIONS = 10;
 
-    // BLE服务和特征UUID (根据实际设备修改)
+    // BLE相关常量（保持不变）
     private static final UUID SERVICE_UUID = UUID.fromString("0000180D-0000-1000-8000-00805F9B34FB");
     private static final UUID CHARACTERISTIC_UUID_TX = UUID.fromString("00002A37-0000-1000-8000-00805F9B34FB");
     private static final UUID CHARACTERISTIC_UUID_RX = UUID.fromString("00002A38-0000-1000-8000-00805F9B34FB");
-
-    // 通信协议常量
     private static final byte HEADER = (byte) 0xAA;
     private static final byte MOVE_COMMAND = 0x01;
     private static final byte DIRECTION_FORWARD = 0x01;
@@ -71,21 +66,24 @@ public class MainActivity3 extends AppCompatActivity implements CameraBridgeView
     private static final byte DIRECTION_RIGHT = 0x04;
     private static final byte DIRECTION_STOP = 0x05;
 
-    // UI组件
+    // UI组件（保持不变）
     private Spinner spinnerBluetoothDevices;
     private Button btnConnect;
     private TextView tvBluetoothStatus;
     private ImageView imgBluetoothStatus;
     private JavaCameraView javaCameraView;
     private LinearLayout llFetch, llCamera, llNotification;
-    private ImageButton btnUp, btnDown, btnLeft, btnRight;
+    private ImageButton btnUp, btnDown, btnLeft, btnRight, closeCameraBtn;
     private View viewCenter;
+    private ScrollView mainScrollView;
 
+    // 核心对象（新增/修改）
     private BleManager bleManager;
     private BluetoothAdapter bluetoothAdapter;
     private BluetoothDeviceAdapter deviceAdapter;
+    private TouchCoordinateCatcher coordinateCatcher; // 坐标捕捉器（关键）
     private Handler handler = new Handler();
-    private BaseLoaderCallback baseLoaderCallback;
+    private ArucoProcessor arucoProcessor;
     private ActivityResultLauncher<Intent> enableBluetoothLauncher;
     private static final int PERMISSION_REQUEST_BLUETOOTH = 1;
     private static final String[] BLUETOOTH_PERMISSIONS = {
@@ -93,19 +91,12 @@ public class MainActivity3 extends AppCompatActivity implements CameraBridgeView
             Manifest.permission.BLUETOOTH_ADMIN,
             Manifest.permission.ACCESS_FINE_LOCATION
     };
-
-
     private static final String[] BLUETOOTH_PERMISSIONS_S = {
             Manifest.permission.BLUETOOTH_CONNECT,
             Manifest.permission.BLUETOOTH_SCAN
     };
 
-    private ArucoProcessor arucoProcessor;
-
-    private Dictionary arucoDictionary;
-
     static {
-        // 先加载核心库
         loadLibrary("opencv_java3");
     }
 
@@ -132,25 +123,28 @@ public class MainActivity3 extends AppCompatActivity implements CameraBridgeView
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
-        initViews();
+        initViews(); // 初始化UI时创建坐标捕捉器
         arucoProcessor = new ArucoProcessor();
         initBluetooth();
         registerActivityResultLaunchers();
         checkAndRequestPermissions();
     }
 
+    // --------------------------
+    // 关键修改1：初始化UI时创建TouchCoordinateCatcher
+    // --------------------------
     private void initViews() {
         LinearLayout mainLayout = findViewById(R.id.main_container);
 
+        // 加载蓝牙头部布局（保持不变）
         View bluetoothHeader = LayoutInflater.from(this.peekAvailableContext()).inflate(R.layout.bluetooth_header, mainLayout, false);
         mainLayout.addView(bluetoothHeader, 0);
-
         spinnerBluetoothDevices = bluetoothHeader.findViewById(R.id.spinner_bluetooth_devices);
         btnConnect = bluetoothHeader.findViewById(R.id.btn_connect);
         tvBluetoothStatus = bluetoothHeader.findViewById(R.id.tv_bluetooth_status);
         imgBluetoothStatus = bluetoothHeader.findViewById(R.id.img_bluetooth_status);
 
-        // 初始化方向控制和功能区控件
+        // 初始化相机相关UI（关键：绑定关闭按钮和滚动视图）
         llFetch = findViewById(R.id.ll_fetch);
         llCamera = findViewById(R.id.ll_camera);
         llNotification = findViewById(R.id.ll_notification);
@@ -159,73 +153,84 @@ public class MainActivity3 extends AppCompatActivity implements CameraBridgeView
         btnLeft = findViewById(R.id.btn_left);
         btnRight = findViewById(R.id.btn_right);
         viewCenter = findViewById(R.id.view_center);
-
-
         javaCameraView = findViewById(R.id.camera_view);
+        closeCameraBtn = findViewById(R.id.btn_close_camera);
+        mainScrollView = findViewById(R.id.main_scroll_view);
+
+        // 相机初始状态：隐藏
         javaCameraView.setVisibility(SurfaceView.GONE);
         javaCameraView.setCvCameraViewListener(this);
 
-        ImageButton closeCameraBtn = findViewById(R.id.btn_close_camera);
-        ScrollView mainScrollView = findViewById(R.id.main_scroll_view);
+        // --------------------------
+        // 核心：创建坐标捕捉器 + 设置回调（获取OpenCV坐标）
+        // --------------------------
+        coordinateCatcher = new TouchCoordinateCatcher(this, (opencvImageX, opencvImageY) -> {
+            // 这里获取的是与Aruco检测统一的OpenCV图像坐标系坐标
+            Log.d(TAG, "统一后的OpenCV坐标：X=" + opencvImageX + ", Y=" + opencvImageY);
+            // 后续业务逻辑：如根据坐标控制机器人、匹配Aruco标记等
+            // 示例：sendBluetoothCommandByCoordinate(opencvImageX, opencvImageY);
+        });
 
-        // 关闭相机按钮点击事件
+        // 关闭相机按钮点击事件（保持不变，新增清除圆圈逻辑）
         closeCameraBtn.setOnClickListener(v -> {
-            // 停止相机预览
             if (javaCameraView != null) {
                 javaCameraView.disableView();
                 javaCameraView.setVisibility(View.GONE);
             }
-            // 隐藏相机预览，显示控制界面
+            coordinateCatcher.clearCircle(); // 关闭相机时清除绘制的圆圈
             javaCameraView.setVisibility(View.GONE);
             closeCameraBtn.setVisibility(View.GONE);
             mainScrollView.setVisibility(View.VISIBLE);
-            llCamera.setVisibility(View.VISIBLE); // 重新显示"打开摄像头"按钮
+            llCamera.setVisibility(View.VISIBLE);
         });
 
-        // 修改打开相机的点击事件
+        // 打开相机按钮点击事件（保持不变）
         llCamera.setOnClickListener(v -> {
             startCamera();
-            // 隐藏主滚动视图，显示关闭按钮
             mainScrollView.setVisibility(View.GONE);
             closeCameraBtn.setVisibility(View.VISIBLE);
         });
 
-
-        // 设置功能区点击事件
+        // 功能区和方向控制（保持不变）
+        updateFeatureSelection(llFetch);
         llFetch.setOnClickListener(v -> {
             updateFeatureSelection(llFetch);
-            sendFeatureCommand((byte) 0x10); // 假设0x10是智能取物命令
+            sendFeatureCommand((byte) 0x10);
         });
-
         llNotification.setOnClickListener(v -> {
             updateFeatureSelection(llNotification);
-            sendFeatureCommand((byte) 0x12); // 假设0x12是智能提醒命令
+            sendFeatureCommand((byte) 0x12);
         });
-
-        // 设置方向控制按钮触摸事件
         setupDirectionControls();
-
     }
 
+    // --------------------------
+    // 关键修改2：修复onCameraViewStarted参数（传入OpenCV图像分辨率）
+    // --------------------------
+    @Override
+    public void onCameraViewStarted(int width, int height) {
+        // 关键：width/height 是OpenCV图像分辨率（相机输出帧尺寸，与ArucoProcessor.processFrame的Mat尺寸一致）
+        // 之前错误：传入javaCameraView.getWidth()（显示尺寸），现在改为OpenCV图像分辨率
+        coordinateCatcher.setupForCameraView(javaCameraView, width, height);
+        Log.d(TAG, "OpenCV图像分辨率：" + width + "x" + height);
+        Log.d(TAG, "相机视图显示尺寸：" + javaCameraView.getWidth() + "x" + javaCameraView.getHeight());
+    }
+
+    // --------------------------
+    // 其他方法保持不变，仅补充相机生命周期的坐标捕捉器管理
+    // --------------------------
     private void startCamera() {
         if (allPermissionsGranted()) {
             javaCameraView.setVisibility(View.VISIBLE);
             javaCameraView.enableView();
-
         } else {
-            ActivityCompat.requestPermissions(this,
-                    getRequiredPermissions(),
-                    REQUEST_CODE_PERMISSIONS
-            );
+            ActivityCompat.requestPermissions(this, REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS);
         }
     }
 
-
-
     private boolean allPermissionsGranted() {
         for (String permission : REQUIRED_PERMISSIONS) {
-            if (ContextCompat.checkSelfPermission(this, permission)
-                    != PackageManager.PERMISSION_GRANTED) {
+            if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
                 return false;
             }
         }
@@ -237,22 +242,17 @@ public class MainActivity3 extends AppCompatActivity implements CameraBridgeView
             Toast.makeText(this, "未连接蓝牙设备，无法发送设置", Toast.LENGTH_SHORT).show();
             return;
         }
-
-        // 创建数据包 (假设使用不同的命令类型0x02表示功能命令)
         byte[] packet = new byte[4];
         packet[0] = HEADER;
-        packet[1] = 0x02; // 功能命令类型
+        packet[1] = 0x02;
         packet[2] = featureCommand;
-        packet[3] = (byte) (packet[0] ^ packet[1] ^ packet[2]); // 简单的XOR校验和
+        packet[3] = (byte) (packet[0] ^ packet[1] ^ packet[2]);
         try {
-            // 发送数据包
             sendBluetoothData(packet);
         } catch (IOException e) {
             Log.d(TAG, "sendDirectionCommand: " + e.getMessage());
             return;
         }
-
-        // 日志输出
         String featureString;
         switch (featureCommand) {
             case 0x10:
@@ -272,65 +272,33 @@ public class MainActivity3 extends AppCompatActivity implements CameraBridgeView
     }
 
     private void updateFeatureSelection(LinearLayout selectedLayout) {
-        // 重置所有功能区的背景
         llFetch.setBackgroundResource(R.drawable.bg_feature_item);
         llCamera.setBackgroundResource(R.drawable.bg_feature_item);
         llNotification.setBackgroundResource(R.drawable.bg_feature_item);
-
-        // 设置被选中的功能区背景
         selectedLayout.setBackgroundResource(R.drawable.bg_feature_item_selected);
     }
 
     private void setupDirectionControls() {
-        // 上按钮（前进）
         btnUp.setOnTouchListener((v, event) -> {
-            if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                // 按下按钮，发送前进命令
-                sendDirectionCommand(DIRECTION_FORWARD);
-            } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                // 释放按钮，发送停止命令
-                sendDirectionCommand(DIRECTION_STOP);
-            }
+            if (event.getAction() == MotionEvent.ACTION_DOWN) sendDirectionCommand(DIRECTION_FORWARD);
+            else if (event.getAction() == MotionEvent.ACTION_UP) sendDirectionCommand(DIRECTION_STOP);
             return false;
         });
-
-        // 下按钮（后退）
         btnDown.setOnTouchListener((v, event) -> {
-            if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                // 按下按钮，发送后退命令
-                sendDirectionCommand(DIRECTION_BACKWARD);
-            } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                // 释放按钮，发送停止命令
-                sendDirectionCommand(DIRECTION_STOP);
-            }
+            if (event.getAction() == MotionEvent.ACTION_DOWN) sendDirectionCommand(DIRECTION_BACKWARD);
+            else if (event.getAction() == MotionEvent.ACTION_UP) sendDirectionCommand(DIRECTION_STOP);
             return false;
         });
-
-        // 左按钮（左转）
         btnLeft.setOnTouchListener((v, event) -> {
-            if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                // 按下按钮，发送左转命令
-                sendDirectionCommand(DIRECTION_LEFT);
-            } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                // 释放按钮，发送停止命令
-                sendDirectionCommand(DIRECTION_STOP);
-            }
+            if (event.getAction() == MotionEvent.ACTION_DOWN) sendDirectionCommand(DIRECTION_LEFT);
+            else if (event.getAction() == MotionEvent.ACTION_UP) sendDirectionCommand(DIRECTION_STOP);
             return false;
         });
-
-        // 右按钮（右转）
         btnRight.setOnTouchListener((v, event) -> {
-            if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                // 按下按钮，发送右转命令
-                sendDirectionCommand(DIRECTION_RIGHT);
-            } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                // 释放按钮，发送停止命令
-                sendDirectionCommand(DIRECTION_STOP);
-            }
+            if (event.getAction() == MotionEvent.ACTION_DOWN) sendDirectionCommand(DIRECTION_RIGHT);
+            else if (event.getAction() == MotionEvent.ACTION_UP) sendDirectionCommand(DIRECTION_STOP);
             return false;
         });
-
-        // 中心按钮（停止）
         viewCenter.setOnClickListener(v -> sendDirectionCommand(DIRECTION_STOP));
     }
 
@@ -339,23 +307,17 @@ public class MainActivity3 extends AppCompatActivity implements CameraBridgeView
             Toast.makeText(this, "未连接蓝牙设备，无法发送设置", Toast.LENGTH_SHORT).show();
             return;
         }
-
-        // 创建数据包
         byte[] packet = new byte[4];
         packet[0] = HEADER;
         packet[1] = MOVE_COMMAND;
         packet[2] = direction;
-        packet[3] = (byte) (packet[0] ^ packet[1] ^ packet[2]); // 简单的XOR校验和
-
-        // 发送数据包
+        packet[3] = (byte) (packet[0] ^ packet[1] ^ packet[2]);
         try {
             sendBluetoothData(packet);
         } catch (IOException e) {
             Log.d(TAG, "sendDirectionCommand: " + e.getMessage());
             return;
         }
-
-        // 日志输出
         String directionString;
         switch (direction) {
             case DIRECTION_FORWARD:
@@ -384,24 +346,19 @@ public class MainActivity3 extends AppCompatActivity implements CameraBridgeView
         enableBluetoothLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 result -> {
-                    if (result.getResultCode() == RESULT_OK) {
-                        startBleScan();
-                    } else {
-                        Toast.makeText(this, "蓝牙功能未启用", Toast.LENGTH_SHORT).show();
-                    }
+                    if (result.getResultCode() == RESULT_OK) startBleScan();
+                    else Toast.makeText(this, "蓝牙功能未启用", Toast.LENGTH_SHORT).show();
                 }
         );
     }
 
     private void checkAndRequestPermissions() {
         List<String> permissionsNeeded = new ArrayList<>();
-
         for (String permission : BLUETOOTH_PERMISSIONS) {
             if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
                 permissionsNeeded.add(permission);
             }
         }
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             for (String permission : BLUETOOTH_PERMISSIONS_S) {
                 if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
@@ -409,11 +366,8 @@ public class MainActivity3 extends AppCompatActivity implements CameraBridgeView
                 }
             }
         }
-
         if (!permissionsNeeded.isEmpty()) {
-            ActivityCompat.requestPermissions(this,
-                    permissionsNeeded.toArray(new String[0]),
-                    PERMISSION_REQUEST_BLUETOOTH);
+            ActivityCompat.requestPermissions(this, permissionsNeeded.toArray(new String[0]), PERMISSION_REQUEST_BLUETOOTH);
         } else {
             checkBluetoothEnabled();
         }
@@ -430,20 +384,12 @@ public class MainActivity3 extends AppCompatActivity implements CameraBridgeView
                     break;
                 }
             }
-
-            if (allGranted) {
-                checkBluetoothEnabled();
-            } else {
-                Toast.makeText(this, "需要蓝牙权限才能使用此功能", Toast.LENGTH_SHORT).show();
-            }
+            if (allGranted) checkBluetoothEnabled();
+            else Toast.makeText(this, "需要蓝牙权限才能使用此功能", Toast.LENGTH_SHORT).show();
         }
         if (requestCode == REQUEST_CODE_PERMISSIONS) {
-            if (allPermissionsGranted()) {
-                //startCamera();
-            } else {
-                Toast.makeText(this, "权限被拒绝，无法使用相机",
-                        Toast.LENGTH_SHORT).show();
-            }
+            if (allPermissionsGranted()) startCamera();
+            else Toast.makeText(this, "权限被拒绝，无法使用相机", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -459,7 +405,6 @@ public class MainActivity3 extends AppCompatActivity implements CameraBridgeView
     private void initBluetooth() {
         BluetoothManager bluetoothManager = (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
         bluetoothAdapter = bluetoothManager.getAdapter();
-
         bleManager = new BleManager(this, handler);
         bleManager.setBleDataListener(new BleManager.BleDataListener() {
             @Override
@@ -479,10 +424,9 @@ public class MainActivity3 extends AppCompatActivity implements CameraBridgeView
 
             @Override
             public void onConnectionStateChanged(boolean connected) {
-                runOnUiThread(() -> updateBluetoothUI());
+                runOnUiThread(MainActivity3.this::updateBluetoothUI);
             }
         });
-
         btnConnect.setOnClickListener(v -> connectToSelectedDevice());
         deviceAdapter = new BluetoothDeviceAdapter(this, new ArrayList<>());
         spinnerBluetoothDevices.setAdapter(deviceAdapter);
@@ -491,7 +435,7 @@ public class MainActivity3 extends AppCompatActivity implements CameraBridgeView
     private void startBleScan() {
         if (allPermissionsGranted()) {
             bleManager.startScan();
-            handler.postDelayed(() -> bleManager.stopScan(), 10000); // 扫描10秒
+            handler.postDelayed(() -> bleManager.stopScan(), 10000);
         }
     }
 
@@ -500,34 +444,22 @@ public class MainActivity3 extends AppCompatActivity implements CameraBridgeView
         if (selectedDevice != null) {
             tvBluetoothStatus.setText("正在连接...");
             imgBluetoothStatus.setColorFilter(ContextCompat.getColor(this, android.R.color.holo_orange_dark));
-
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    final boolean success = bleManager.connectToDevice(selectedDevice);
-
-                    runOnUiThread(new Runnable() {
-                        @SuppressLint("MissingPermission")
-                        @Override
-                        public void run() {
-                            if (success) {
-                                Toast.makeText(MainActivity3.this,
-                                        "已连接到 " + selectedDevice.getName(),
-                                        Toast.LENGTH_SHORT).show();
-
-                                updateBluetoothUI();
-                            } else {
-                                Toast.makeText(MainActivity3.this,
-                                        "连接失败，请重试",
-                                        Toast.LENGTH_SHORT).show();
-
-                                tvBluetoothStatus.setText("未连接");
-                                imgBluetoothStatus.setColorFilter(ContextCompat.getColor(MainActivity3.this, android.R.color.darker_gray));
-                                btnConnect.setText("连接");
-                            }
+            new Thread(() -> {
+                boolean success = bleManager.connectToDevice(selectedDevice);
+                runOnUiThread(() -> {
+                    if (success) {
+                        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+                            return;
                         }
-                    });
-                }
+                        Toast.makeText(MainActivity3.this, "已连接到 " + selectedDevice.getName(), Toast.LENGTH_SHORT).show();
+                        updateBluetoothUI();
+                    } else {
+                        Toast.makeText(MainActivity3.this, "连接失败，请重试", Toast.LENGTH_SHORT).show();
+                        tvBluetoothStatus.setText("未连接");
+                        imgBluetoothStatus.setColorFilter(ContextCompat.getColor(MainActivity3.this, android.R.color.darker_gray));
+                        btnConnect.setText("连接");
+                    }
+                });
             }).start();
         } else {
             Toast.makeText(this, "请选择一个蓝牙设备", Toast.LENGTH_SHORT).show();
@@ -539,26 +471,13 @@ public class MainActivity3 extends AppCompatActivity implements CameraBridgeView
             tvBluetoothStatus.setText("已连接: " + bleManager.getConnectedDeviceName());
             imgBluetoothStatus.setColorFilter(ContextCompat.getColor(this, android.R.color.holo_blue_dark));
             btnConnect.setText("断开");
-
-            btnConnect.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    bleManager.disconnect();
-
-                    tvBluetoothStatus.setText("未连接");
-                    imgBluetoothStatus.setColorFilter(ContextCompat.getColor(MainActivity3.this, android.R.color.darker_gray));
-                    btnConnect.setText("连接");
-
-                    btnConnect.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            connectToSelectedDevice();
-                        }
-                    });
-
-
-                    Toast.makeText(MainActivity3.this, "已断开连接", Toast.LENGTH_SHORT).show();
-                }
+            btnConnect.setOnClickListener(v -> {
+                bleManager.disconnect();
+                tvBluetoothStatus.setText("未连接");
+                imgBluetoothStatus.setColorFilter(ContextCompat.getColor(MainActivity3.this, android.R.color.darker_gray));
+                btnConnect.setText("连接");
+                btnConnect.setOnClickListener(v1 -> connectToSelectedDevice());
+                Toast.makeText(MainActivity3.this, "已断开连接", Toast.LENGTH_SHORT).show();
             });
         } else {
             tvBluetoothStatus.setText("未连接");
@@ -567,61 +486,47 @@ public class MainActivity3 extends AppCompatActivity implements CameraBridgeView
         }
     }
 
-    private void processBluetoothData(String data) {
+    private void processBluetoothData(String data) {}
 
-    }
-
-    // 发送蓝牙数据的辅助方法
     private void sendBluetoothData(byte[] data) throws IOException {
-        if (bleManager != null) {
-            bleManager.sendData(data);
-        }
+        if (bleManager != null) bleManager.sendData(data);
     }
 
 
-    @Override
-    public void onCameraViewStarted(int width, int height) {
-        // 相机启动时的初始化
-    }
+
 
     @Override
     public void onCameraViewStopped() {
-        // 相机停止时释放资源
+        coordinateCatcher.clearCircle(); // 相机停止时清除圆圈
     }
 
     @Override
     public Mat onCameraFrame(CameraBridgeViewBase.CvCameraViewFrame inputFrame) {
-        // 获取RGBA帧
         Mat frame = inputFrame.rgba();
-        // 处理帧并检测Aruco标记
-        return arucoProcessor.processFrame(frame);
+        return arucoProcessor.processFrame(frame); // Aruco检测（与OpenCV坐标统一）
     }
-
-
 
     @Override
     protected void onPause() {
         super.onPause();
-        if (bleManager != null && bleManager.isConnected()) {
-            bleManager.disconnect();
-        }
-        if (javaCameraView != null)
-            javaCameraView.disableView();
+        if (bleManager != null && bleManager.isConnected()) bleManager.disconnect();
+        if (javaCameraView != null) javaCameraView.disableView();
+        coordinateCatcher.clearCircle(); // 暂停时清除圆圈
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         updateBluetoothUI();
+        if (javaCameraView != null && javaCameraView.getVisibility() == View.VISIBLE) {
+            javaCameraView.enableView(); // 恢复相机时重新启用
+        }
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (bleManager != null) {
-            bleManager.disconnect();
-        }
-        if (javaCameraView != null)
-            javaCameraView.disableView();
+        if (bleManager != null) bleManager.disconnect();
+        if (javaCameraView != null) javaCameraView.disableView();
     }
 }

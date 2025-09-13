@@ -51,11 +51,11 @@ int parse_packet(uint8_t *packet) {
         case 0x03:
             HAL_UART_Transmit(&huart1, (uint8_t *)"The robot moves left.\r\n", 21, HAL_MAX_DELAY);
             setMotor1(30);
-			     	setMotor2(27);
+			     	setMotor2(20);
             break;
         case 0x04:
             HAL_UART_Transmit(&huart1, (uint8_t *)"The robot moves right.\r\n", 22, HAL_MAX_DELAY);
-            setMotor1(27);
+            setMotor1(20);
 			     	setMotor2(30);
             break;
         case 0x05:
