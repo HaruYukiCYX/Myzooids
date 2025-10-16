@@ -84,113 +84,113 @@ bool I2CInit()
     return true;
 }
 
-bool SPIInit()
-{
-    /*##-1- Configure the SPI peripheral #######################################*/
-    /* Set the SPI parameters */
-    SpiHandle.Instance = SPIx;
+//bool SPIInit()
+//{
+//    /*##-1- Configure the SPI peripheral #######################################*/
+//    /* Set the SPI parameters */
+//    SpiHandle.Instance = SPIx;
 
-//    SpiHandle.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_8;//6MHz
-    SpiHandle.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_4;//12MHz
-    SpiHandle.Init.Direction = SPI_DIRECTION_2LINES;
-    SpiHandle.Init.CLKPhase = SPI_PHASE_1EDGE;
-    SpiHandle.Init.CLKPolarity = SPI_POLARITY_LOW;
-    SpiHandle.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
-    SpiHandle.Init.CRCPolynomial = 7;
-    SpiHandle.Init.DataSize = SPI_DATASIZE_8BIT;
-    SpiHandle.Init.FirstBit = SPI_FIRSTBIT_MSB;
-    SpiHandle.Init.NSS = SPI_NSS_SOFT;
-    SpiHandle.Init.TIMode = SPI_TIMODE_DISABLE;
-    SpiHandle.Init.NSSPMode = SPI_NSS_PULSE_DISABLE;
-    SpiHandle.Init.CRCLength = SPI_CRC_LENGTH_8BIT;
-    SpiHandle.Init.Mode = SPI_MODE_MASTER;
+////    SpiHandle.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_8;//6MHz
+//    SpiHandle.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_4;//12MHz
+//    SpiHandle.Init.Direction = SPI_DIRECTION_2LINES;
+//    SpiHandle.Init.CLKPhase = SPI_PHASE_1EDGE;
+//    SpiHandle.Init.CLKPolarity = SPI_POLARITY_LOW;
+//    SpiHandle.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
+//    SpiHandle.Init.CRCPolynomial = 7;
+//    SpiHandle.Init.DataSize = SPI_DATASIZE_8BIT;
+//    SpiHandle.Init.FirstBit = SPI_FIRSTBIT_MSB;
+//    SpiHandle.Init.NSS = SPI_NSS_SOFT;
+//    SpiHandle.Init.TIMode = SPI_TIMODE_DISABLE;
+//    SpiHandle.Init.NSSPMode = SPI_NSS_PULSE_DISABLE;
+//    SpiHandle.Init.CRCLength = SPI_CRC_LENGTH_8BIT;
+//    SpiHandle.Init.Mode = SPI_MODE_MASTER;
 
-    if (HAL_SPI_Init(&SpiHandle) != HAL_OK)
-        return false;
-    else
-        return true;
-}
+//    if (HAL_SPI_Init(&SpiHandle) != HAL_OK)
+//        return false;
+//    else
+//        return true;
+//}
 
-bool SPIFlushRxFifo()
-{
-    if (HAL_SPI_FlushRxFifo(&SpiHandle) == HAL_OK)
-        return true;
-    else
-        return false;
-}
+//bool SPIFlushRxFifo()
+//{
+//    if (HAL_SPI_FlushRxFifo(&SpiHandle) == HAL_OK)
+//        return true;
+//    else
+//        return false;
+//}
 
-uint8_t SPIWriteRegisters(uint8_t registerAddress, uint8_t length, uint8_t *data)
-{
-    uint8_t bufferTx[PAYLOAD_MAX_SIZE + 1] = {0}; //+1 to store the register
-    uint8_t bufferRx[PAYLOAD_MAX_SIZE] = {0xff};
+//uint8_t SPIWriteRegisters(uint8_t registerAddress, uint8_t length, uint8_t *data)
+//{
+//    uint8_t bufferTx[PAYLOAD_MAX_SIZE + 1] = {0}; //+1 to store the register
+//    uint8_t bufferRx[PAYLOAD_MAX_SIZE] = {0xff};
 
-    bufferTx[0] = registerAddress;
+//    bufferTx[0] = registerAddress;
 
-    memcpy_fast((uint8_t *)&bufferTx[1], (uint8_t *)data, length);
+//    memcpy_fast((uint8_t *)&bufferTx[1], (uint8_t *)data, length);
 
-    HAL_GPIO_WritePin(SPIx_CSN_GPIO_PORT, SPIx_CSN_PIN, LOW);
-    HAL_SPI_TransmitReceive_DMA(&SpiHandle, (uint8_t *)bufferTx, (uint8_t *)bufferRx, length + 1);
-    while (HAL_SPI_GetState(&SpiHandle) != HAL_SPI_STATE_READY)
-        ;
-    HAL_GPIO_WritePin(SPIx_CSN_GPIO_PORT, SPIx_CSN_PIN, HIGH);
+//    HAL_GPIO_WritePin(SPIx_CSN_GPIO_PORT, SPIx_CSN_PIN, LOW);
+//    HAL_SPI_TransmitReceive_DMA(&SpiHandle, (uint8_t *)bufferTx, (uint8_t *)bufferRx, length + 1);
+//    while (HAL_SPI_GetState(&SpiHandle) != HAL_SPI_STATE_READY)
+//        ;
+//    HAL_GPIO_WritePin(SPIx_CSN_GPIO_PORT, SPIx_CSN_PIN, HIGH);
 
-    return bufferRx[0];
-}
+//    return bufferRx[0];
+//}
 
-uint8_t SPIWriteRegister(uint8_t registerAddress, uint8_t data)
-{
-    return SPIWriteRegisters(registerAddress, 1, (uint8_t *)&data);
-}
+//uint8_t SPIWriteRegister(uint8_t registerAddress, uint8_t data)
+//{
+//    return SPIWriteRegisters(registerAddress, 1, (uint8_t *)&data);
+//}
 
-uint8_t SPIWriteCommand(uint8_t cmd, uint8_t *value)
-{
-    uint8_t bufferTx[2] = {cmd, 0xff};
-    uint8_t bufferRx[2] = {0xff};
+//uint8_t SPIWriteCommand(uint8_t cmd, uint8_t *value)
+//{
+//    uint8_t bufferTx[2] = {cmd, 0xff};
+//    uint8_t bufferRx[2] = {0xff};
 
-    HAL_GPIO_WritePin(SPIx_CSN_GPIO_PORT, SPIx_CSN_PIN, LOW);
-    if (value)
-    {
-        HAL_SPI_TransmitReceive_DMA(&SpiHandle, (uint8_t *)bufferTx, (uint8_t *)bufferRx, 2);
-        *value = bufferRx[1];
-    }
-    else
-        HAL_SPI_TransmitReceive_DMA(&SpiHandle, (uint8_t *)bufferTx, (uint8_t *)bufferRx, 1);
-    while (HAL_SPI_GetState(&SpiHandle) != HAL_SPI_STATE_READY)
-        ;
-    HAL_GPIO_WritePin(SPIx_CSN_GPIO_PORT, SPIx_CSN_PIN, HIGH);
+//    HAL_GPIO_WritePin(SPIx_CSN_GPIO_PORT, SPIx_CSN_PIN, LOW);
+//    if (value)
+//    {
+//        HAL_SPI_TransmitReceive_DMA(&SpiHandle, (uint8_t *)bufferTx, (uint8_t *)bufferRx, 2);
+//        *value = bufferRx[1];
+//    }
+//    else
+//        HAL_SPI_TransmitReceive_DMA(&SpiHandle, (uint8_t *)bufferTx, (uint8_t *)bufferRx, 1);
+//    while (HAL_SPI_GetState(&SpiHandle) != HAL_SPI_STATE_READY)
+//        ;
+//    HAL_GPIO_WritePin(SPIx_CSN_GPIO_PORT, SPIx_CSN_PIN, HIGH);
 
-    return bufferRx[0];
-}
+//    return bufferRx[0];
+//}
 
-uint8_t SPIReadBytes(uint8_t registerAddress, uint8_t length, uint8_t *data)
-{
-    uint8_t bufferTx[PAYLOAD_MAX_SIZE] = {0xff};
-    uint8_t bufferRx[PAYLOAD_MAX_SIZE] = {0};
-    bufferTx[0] = registerAddress;
+//uint8_t SPIReadBytes(uint8_t registerAddress, uint8_t length, uint8_t *data)
+//{
+//    uint8_t bufferTx[PAYLOAD_MAX_SIZE] = {0xff};
+//    uint8_t bufferRx[PAYLOAD_MAX_SIZE] = {0};
+//    bufferTx[0] = registerAddress;
 
-    HAL_GPIO_WritePin(SPIx_CSN_GPIO_PORT, SPIx_CSN_PIN, LOW);
-    HAL_SPI_TransmitReceive_DMA(&SpiHandle, (uint8_t *)bufferTx, (uint8_t *)bufferRx, length + 1);
-    while (HAL_SPI_GetState(&SpiHandle) != HAL_SPI_STATE_READY)
-        ;
-    HAL_GPIO_WritePin(SPIx_CSN_GPIO_PORT, SPIx_CSN_PIN, HIGH);
-    memcpy_fast(data, (uint8_t *)&bufferRx[1], length);
+//    HAL_GPIO_WritePin(SPIx_CSN_GPIO_PORT, SPIx_CSN_PIN, LOW);
+//    HAL_SPI_TransmitReceive_DMA(&SpiHandle, (uint8_t *)bufferTx, (uint8_t *)bufferRx, length + 1);
+//    while (HAL_SPI_GetState(&SpiHandle) != HAL_SPI_STATE_READY)
+//        ;
+//    HAL_GPIO_WritePin(SPIx_CSN_GPIO_PORT, SPIx_CSN_PIN, HIGH);
+//    memcpy_fast(data, (uint8_t *)&bufferRx[1], length);
 
-    return bufferRx[0];
-}
+//    return bufferRx[0];
+//}
 
-uint8_t SPIReadByte(uint8_t registerAddress, uint8_t *data)
-{
-    uint8_t bufferTx[2] = {registerAddress, 0xff};
-    uint8_t bufferRx[2] = {0xff};
-    HAL_GPIO_WritePin(SPIx_CSN_GPIO_PORT, SPIx_CSN_PIN, LOW);
-    HAL_SPI_TransmitReceive_DMA(&SpiHandle, (uint8_t *)bufferTx, (uint8_t *)bufferRx, 2);
-    while (HAL_SPI_GetState(&SpiHandle) != HAL_SPI_STATE_READY)
-        ;
-    HAL_GPIO_WritePin(SPIx_CSN_GPIO_PORT, SPIx_CSN_PIN, HIGH);
-    *data = bufferRx[1];
+//uint8_t SPIReadByte(uint8_t registerAddress, uint8_t *data)
+//{
+//    uint8_t bufferTx[2] = {registerAddress, 0xff};
+//    uint8_t bufferRx[2] = {0xff};
+//    HAL_GPIO_WritePin(SPIx_CSN_GPIO_PORT, SPIx_CSN_PIN, LOW);
+//    HAL_SPI_TransmitReceive_DMA(&SpiHandle, (uint8_t *)bufferTx, (uint8_t *)bufferRx, 2);
+//    while (HAL_SPI_GetState(&SpiHandle) != HAL_SPI_STATE_READY)
+//        ;
+//    HAL_GPIO_WritePin(SPIx_CSN_GPIO_PORT, SPIx_CSN_PIN, HIGH);
+//    *data = bufferRx[1];
 
-    return bufferRx[0];
-}
+//    return bufferRx[0];
+//}
 
 bool I2CWriteBytes(uint8_t sensorAddress, uint8_t registerAddress, uint8_t length, uint8_t *data)
 {

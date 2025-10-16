@@ -11,6 +11,9 @@
 #define HEADER 0xAA
 // Movement command type
 #define MOVE_COMMAND 0x01
+#define POSITIONING_COMMAND 0x02
+
+float current_error = 0.0f;  // Stores latest distance error
 
 // Movement directions and stop
 typedef enum {
@@ -33,10 +36,10 @@ void create_packet(uint8_t *packet, Direction direction) {
 // Parse a packet
 int parse_packet(uint8_t *packet) {
     if (packet[0] != HEADER) return -1; // Header error
-    if (packet[1] != MOVE_COMMAND) return -2; // Not a move command
-    uint8_t calculated_checksum = packet[0] ^ packet[1] ^ packet[2];
-    if (calculated_checksum != packet[3]) return -3; // Checksum error
-
+	  uint8_t calculated_checksum = packet[0] ^ packet[1] ^ packet[2];
+	  if (calculated_checksum != packet[3]) return -3; // Checksum error
+	
+    if (packet[1] = MOVE_COMMAND){
     switch (packet[2]) {
         case 0x01:
             HAL_UART_Transmit(&huart1, (uint8_t *)"The robot moves forward.\r\n", 25, HAL_MAX_DELAY);
@@ -66,5 +69,13 @@ int parse_packet(uint8_t *packet) {
         default:
             break;
     }
+	}
+		if (packet[1] = POSITIONING_COMMAND){
+			current_error = packet[2];
+			Position_Control_Loop(current_error);
+		
+		
+		
+		}
     return 0; // Success
 }    

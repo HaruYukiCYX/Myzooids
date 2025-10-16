@@ -49,25 +49,6 @@ extern "C" {
 
 
 ///////////////////////////////////
-//   OPTICAL POSITIONING FRAME   //
-///////////////////////////////////
-//   | start |     columns    |      rows       |       end       |
-//   --------------------------------------------------------------
-//   |   b0  | b1 | ... | b10 | b11 | ... | b20 | b21 | ... | b40 |
-//   --------------------------------------------------------------
-//   |   B   | b1 | ... | b10 | b11 | ... | b20 |  W  |  W  |  W  |
-#define SIZEOF_START                            1
-#define SIZEOF_COLUMN                           10
-#define SIZEOF_ROW                              10
-#define SIZEOF_END                              20 // number of white bits in the end pattern
-#define SIZEOF_PATTERN                          41
-
-#define NB_PHOTODIODES                          2 // number of photodiodes
-#define BIT_DURATION                            333 // Exposure time in microsec
-#define BLACK                                   0
-#define WHITE                                   1
-
-///////////////////////////////////
 //    COMMUNICATION CONSTANTS    //
 ///////////////////////////////////
 #define RADIO_CHANNEL                           22//22 //88 //channel at which you want to communicate through
@@ -152,33 +133,6 @@ extern "C" {
 ///////////////////////////////////
 //  INPUT PINS DECLARATIONS      //
 ///////////////////////////////////
-#ifdef USE_EXTERNAL_PHOTODIODES
-  #define PHOTODIODE_1_PIN                        GPIO_PIN_4
-  #define PHOTODIODE_1_GPIO_PORT                  GPIOB
-  #define PHOTODIODE_1_IRQn                       EXTI4_15_IRQn
-  #define PHOTODIODE_1_GPIO_CLK_ENABLE()          __HAL_RCC_GPIOB_CLK_ENABLE()
-  #define PHOTODIODE_1_IRQ_PRIORITY               0
-
-  #define PHOTODIODE_2_PIN                        GPIO_PIN_5
-  #define PHOTODIODE_2_GPIO_PORT                  GPIOB
-  #define PHOTODIODE_2_IRQn                       EXTI4_15_IRQn
-  #define PHOTODIODE_2_GPIO_CLK_ENABLE()          __HAL_RCC_GPIOB_CLK_ENABLE()
-  #define PHOTODIODE_2_IRQ_PRIORITY               0
-
-#else
-
-  #define PHOTODIODE_1_PIN                        GPIO_PIN_9
-  #define PHOTODIODE_1_GPIO_PORT                  GPIOB
-  #define PHOTODIODE_1_IRQn                       EXTI4_15_IRQn
-  #define PHOTODIODE_1_GPIO_CLK_ENABLE()          __HAL_RCC_GPIOB_CLK_ENABLE()
-  #define PHOTODIODE_1_IRQ_PRIORITY               0
-
-  #define PHOTODIODE_2_PIN                        GPIO_PIN_1
-  #define PHOTODIODE_2_GPIO_PORT                  GPIOB
-  #define PHOTODIODE_2_IRQn                       EXTI0_1_IRQn
-  #define PHOTODIODE_2_GPIO_CLK_ENABLE()          __HAL_RCC_GPIOB_CLK_ENABLE()
-  #define PHOTODIODE_2_IRQ_PRIORITY               0
-#endif
 
 #define CHARGING_STATUS_PIN                     GPIO_PIN_13
 #define CHARGING_STATUS_GPIO_PORT               GPIOB
@@ -186,71 +140,12 @@ extern "C" {
 #define CHARGING_STATUS_GPIO_CLK_ENABLE()       __HAL_RCC_GPIOB_CLK_ENABLE()
 #define CHARGING_STATUS_IRQ_PRIORITY            3
 
-/* Definition for QT1070 Int Pin */
-#define TOUCH_CHANGE_PIN                        GPIO_PIN_2
-#define TOUCH_CHANGE_GPIO_PORT                  GPIOB
-#define TOUCH_CHANGE_IRQn                       EXTI2_3_IRQn
-#define TOUCH_CHANGE_GPIO_CLK_ENABLE()          __HAL_RCC_GPIOB_CLK_ENABLE()
-#define TOUCH_CHANGE_IRQ_PRIORITY               3
-
 /* Definition for IMU Int Pin */
 #define IMU_INT_PIN                             GPIO_PIN_12
 #define IMU_INT_GPIO_PORT                       GPIOB
 #define IMU_INT_IRQn                            EXTI4_15_IRQn
 #define IMU_INT_GPIO_CLK_ENABLE()               __HAL_RCC_GPIOB_CLK_ENABLE()
 #define IMU_INT_IRQ_PRIORITY                    3
-
-/* Definition for Radio Int Pin */
-#define RADIO_IRQ_PIN                           GPIO_PIN_15
-#define RADIO_IRQ_GPIO_PORT                     GPIOA
-#define RADIO_IRQn                              EXTI4_15_IRQn
-#define RADIO_IRQ_GPIO_CLK_ENABLE()             __HAL_RCC_GPIOA_CLK_ENABLE()
-#define RADIO_IRQ_PRIORITY                      1
-
-///////////////////////////////////
-//  RADIO DECLARATIONS           //
-///////////////////////////////////
-/* Definition for SPIx Pins */
-#define SPIx_CSN_PIN                            GPIO_PIN_4
-#define SPIx_CSN_GPIO_PORT                      GPIOA
-#define SPIx_CSN_GPIO_CLK_ENABLE()              __HAL_RCC_GPIOA_CLK_ENABLE()
-
-#define SPIx_SCK_PIN                            GPIO_PIN_5
-#define SPIx_SCK_GPIO_PORT                      GPIOA
-#define SPIx_SCK_AF                             GPIO_AF0_SPI1
-#define SPIx_SCK_GPIO_CLK_ENABLE()              __HAL_RCC_GPIOA_CLK_ENABLE()
-
-#define SPIx_MISO_PIN                           GPIO_PIN_6
-#define SPIx_MISO_GPIO_PORT                     GPIOA
-#define SPIx_MISO_AF                            GPIO_AF0_SPI1
-#define SPIx_MISO_GPIO_CLK_ENABLE()             __HAL_RCC_GPIOA_CLK_ENABLE()
-
-#define SPIx_MOSI_PIN                           GPIO_PIN_7
-#define SPIx_MOSI_GPIO_PORT                     GPIOA
-#define SPIx_MOSI_AF                            GPIO_AF0_SPI1
-#define SPIx_MOSI_GPIO_CLK_ENABLE()             __HAL_RCC_GPIOA_CLK_ENABLE()
-
-#define SPIx_CE_PIN                             GPIO_PIN_0
-#define SPIx_CE_GPIO_PORT                       GPIOB
-#define SPIx_CE_GPIO_CLK_ENABLE()               __HAL_RCC_GPIOB_CLK_ENABLE()
-
-#define SPIx                                    SPI1
-#define SPIx_CLK_ENABLE()                       __HAL_RCC_SPI1_CLK_ENABLE()
-
-#define DMAx_CLK_ENABLE()                       __HAL_RCC_DMA1_CLK_ENABLE()
-
-/* Definition for SPIx's DMA */
-#define SPIx_RX_DMA_STREAM                      DMA1_Channel2
-#define SPIx_TX_DMA_STREAM                      DMA1_Channel3
-
-/* Definition for SPIx's NVIC */
-#define SPIx_DMA_TX_IRQn                        DMA1_Channel2_3_IRQn
-#define SPIx_DMA_RX_IRQn                        DMA1_Channel2_3_IRQn
-#define SPIx_DMA_TX_IRQHandler                  DMA1_Channel2_3_IRQHandler
-#define SPIx_DMA_RX_IRQHandler                  DMA1_Channel2_3_IRQHandler
-
-#define SPIx_FORCE_RESET()                      __HAL_RCC_SPI1_FORCE_RESET()
-#define SPIx_RELEASE_RESET()                    __HAL_RCC_SPI1_RELEASE_RESET()
 
 ///////////////////////////////////
 //  SENSORS DECLARATIONS         // 
@@ -299,20 +194,6 @@ extern "C" {
 
 
 #define POWER_MGMT_CLK_ENABLE()                 __HAL_RCC_PWR_CLK_ENABLE()
-
-///////////////////////////////////
-// Zoommings                     //
-///////////////////////////////////
-/* Definition for QT1070 Int Pin */
-#define CASE_SEL_0_PIN                          GPIO_PIN_6
-#define CASE_SEL_0_GPIO_PORT                    GPIOB
-#define CASE_SEL_0_GPIO_CLK_ENABLE()          __HAL_RCC_GPIOB_CLK_ENABLE()
-#define CASE_SEL_1_PIN                          GPIO_PIN_7
-#define CASE_SEL_1_GPIO_PORT                    GPIOB
-#define CASE_SEL_1_GPIO_CLK_ENABLE()          __HAL_RCC_GPIOB_CLK_ENABLE()
-
-
-
 
 ///////////////////////////////////
 // Exported types                //

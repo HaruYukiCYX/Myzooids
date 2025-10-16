@@ -1,4 +1,4 @@
-position_control.o: ../Src/position_control.c ../Inc/position_control.h \
+position_control.o: position_control.c ../Inc/pid_controller.h \
  ../Inc/config.h ../Inc/stm32f0xx.h \
  C:/Keil_v5/ARM/PACK/Keil/STM32F0xx_DFP/2.1.1/Drivers/CMSIS/Device/ST/STM32F0xx/Include/stm32f051x8.h \
  ../Drivers/CMSIS/Include/core_cm0.h ../Drivers/crossworksAPI/stdint.h \
@@ -31,9 +31,9 @@ position_control.o: ../Src/position_control.c ../Inc/position_control.h \
  ../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_spi_ex.h \
  ../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_tim.h \
  ../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_tim_ex.h \
+ ../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_uart.h \
+ ../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_uart_ex.h \
  ../Inc/stm32f0xx_it.h ../Drivers/crossworksAPI/string.h \
  ../Drivers/crossworksAPI/math.h \
  ../Drivers/crossworksAPI/__cross_studio_io.h \
- ../Drivers/crossworksAPI/debugio.h ../Drivers/crossworksAPI/stdlib.h \
- ../Inc/utilities.h ../Inc/sensors.h ../Inc/qt1070.h ../Inc/lsm6ds3.h \
- ../Inc/MadgwickAHRS.h ../Inc/RingBuffer.h ../Inc/motors.h
+ ../Drivers/crossworksAPI/debugio.h ../Drivers/crossworksAPI/stdlib.h

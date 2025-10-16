@@ -170,23 +170,17 @@ void I2Cx_DMA_RX_IRQHandler(void)
 
 void EXTI0_1_IRQHandler(uint16_t GPIO_Pin)
 {
-    HAL_GPIO_EXTI_IRQHandler(PHOTODIODE_2_PIN);
+
 }
 
 void EXTI2_3_IRQHandler(uint16_t GPIO_Pin)
 {
-    /* EXTI line interrupt detected */
-    HAL_GPIO_EXTI_IRQHandler(TOUCH_CHANGE_PIN);
+
 }
 
 void EXTI4_15_IRQHandler(uint16_t GPIO_Pin)
 {
-    /* EXTI line interrupt detected */
-    HAL_GPIO_EXTI_IRQHandler(PHOTODIODE_1_PIN);
-    HAL_GPIO_EXTI_IRQHandler(PHOTODIODE_2_PIN);
-    HAL_GPIO_EXTI_IRQHandler(IMU_INT_PIN);
-    HAL_GPIO_EXTI_IRQHandler(CHARGING_STATUS_PIN);
-    HAL_GPIO_EXTI_IRQHandler(RADIO_IRQ_PIN);
+
 }
 
 /**

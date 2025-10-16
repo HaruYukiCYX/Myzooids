@@ -48,11 +48,9 @@ id ll_notification
 id main_container
 id main_scroll_view
 id spinner_bluetooth_devices
-id tv_air_quality
 id tv_bluetooth_status
 id view_center
 layout activity_main2
-layout air_quality_card
 layout bluetooth_header
 layout threshold_settings_dialog
 menu main_menu

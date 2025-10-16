@@ -3,7 +3,6 @@ package com.example.sensor;
 import static java.lang.System.loadLibrary;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothManager;
@@ -18,7 +17,6 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.SurfaceView;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -30,16 +28,14 @@ import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import org.opencv.android.BaseLoaderCallback;
 import org.opencv.android.CameraBridgeViewBase;
 import org.opencv.android.JavaCameraView;
-import org.opencv.aruco.Dictionary;
 import org.opencv.core.Mat;
+import org.opencv.core.Point;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -60,13 +56,21 @@ public class MainActivity3 extends AppCompatActivity implements CameraBridgeView
     private static final UUID CHARACTERISTIC_UUID_RX = UUID.fromString("00002A38-0000-1000-8000-00805F9B34FB");
     private static final byte HEADER = (byte) 0xAA;
     private static final byte MOVE_COMMAND = 0x01;
+    private static final byte POSITIONING_COMMAND = 0x02;
     private static final byte DIRECTION_FORWARD = 0x01;
     private static final byte DIRECTION_BACKWARD = 0x02;
     private static final byte DIRECTION_LEFT = 0x03;
     private static final byte DIRECTION_RIGHT = 0x04;
     private static final byte DIRECTION_STOP = 0x05;
 
+    private double targetX = 0;
+    private double targetY = 0;
+
+    private float longPressRawX = 0;
+    private float longPressRawY = 0;
     // UI组件（保持不变）
+
+    private PositionControlManager positionControlManager;
     private Spinner spinnerBluetoothDevices;
     private Button btnConnect;
     private TextView tvBluetoothStatus;
@@ -126,13 +130,15 @@ public class MainActivity3 extends AppCompatActivity implements CameraBridgeView
         initViews(); // 初始化UI时创建坐标捕捉器
         arucoProcessor = new ArucoProcessor();
         initBluetooth();
+
+        positionControlManager = new PositionControlManager(bleManager);
+        positionControlManager.setControlInterval(50); // 50ms控制周期
+        positionControlManager.setErrorTolerance(0.5); // 0.5cm误差容忍度
+        positionControlManager.setPidParameters(1.2f, 0.1f, 0.2f); // PID参数
+
         registerActivityResultLaunchers();
         checkAndRequestPermissions();
     }
-
-    // --------------------------
-    // 关键修改1：初始化UI时创建TouchCoordinateCatcher
-    // --------------------------
     private void initViews() {
         LinearLayout mainLayout = findViewById(R.id.main_container);
 
@@ -161,23 +167,29 @@ public class MainActivity3 extends AppCompatActivity implements CameraBridgeView
         javaCameraView.setVisibility(SurfaceView.GONE);
         javaCameraView.setCvCameraViewListener(this);
 
-        // --------------------------
-        // 核心：创建坐标捕捉器 + 设置回调（获取OpenCV坐标）
-        // --------------------------
-        coordinateCatcher = new TouchCoordinateCatcher(this, (opencvImageX, opencvImageY) -> {
-            // 这里获取的是与Aruco检测统一的OpenCV图像坐标系坐标
-            Log.d(TAG, "统一后的OpenCV坐标：X=" + opencvImageX + ", Y=" + opencvImageY);
-            // 后续业务逻辑：如根据坐标控制机器人、匹配Aruco标记等
-            // 示例：sendBluetoothCommandByCoordinate(opencvImageX, opencvImageY);
+        javaCameraView.setOnTouchListener((v, event) -> {
+            // 仅在手指按下时记录屏幕绝对坐标（长按的起始点）
+            if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                longPressRawX = event.getRawX(); // 屏幕绝对X坐标（左上角为0）
+                longPressRawY = event.getRawY(); // 屏幕绝对Y坐标
+                Log.d(TAG, "长按屏幕坐标：RawX=" + longPressRawX + ", RawY=" + longPressRawY);
+            }
+            return false; // 不拦截触摸事件，确保长按事件能正常触发
         });
 
-        // 关闭相机按钮点击事件（保持不变，新增清除圆圈逻辑）
+        coordinateCatcher = new TouchCoordinateCatcher(this, (opencvImageX, opencvImageY) -> {
+            Log.d(TAG, "统一后的OpenCV坐标：X=" + opencvImageX + ", Y=" + opencvImageY);
+            targetX = opencvImageX;
+            targetY = opencvImageY;
+        });
+
+        // 关闭相机按钮点击事件
         closeCameraBtn.setOnClickListener(v -> {
             if (javaCameraView != null) {
                 javaCameraView.disableView();
                 javaCameraView.setVisibility(View.GONE);
             }
-            coordinateCatcher.clearCircle(); // 关闭相机时清除绘制的圆圈
+            coordinateCatcher.clearCircle();
             javaCameraView.setVisibility(View.GONE);
             closeCameraBtn.setVisibility(View.GONE);
             mainScrollView.setVisibility(View.VISIBLE);
@@ -195,30 +207,53 @@ public class MainActivity3 extends AppCompatActivity implements CameraBridgeView
         updateFeatureSelection(llFetch);
         llFetch.setOnClickListener(v -> {
             updateFeatureSelection(llFetch);
-            sendFeatureCommand((byte) 0x10);
+            //sendFeatureCommand((byte) 0x10);
         });
         llNotification.setOnClickListener(v -> {
             updateFeatureSelection(llNotification);
-            sendFeatureCommand((byte) 0x12);
+            //sendFeatureCommand((byte) 0x12);
         });
         setupDirectionControls();
     }
 
-    // --------------------------
-    // 关键修改2：修复onCameraViewStarted参数（传入OpenCV图像分辨率）
-    // --------------------------
     @Override
     public void onCameraViewStarted(int width, int height) {
-        // 关键：width/height 是OpenCV图像分辨率（相机输出帧尺寸，与ArucoProcessor.processFrame的Mat尺寸一致）
-        // 之前错误：传入javaCameraView.getWidth()（显示尺寸），现在改为OpenCV图像分辨率
         coordinateCatcher.setupForCameraView(javaCameraView, width, height);
         Log.d(TAG, "OpenCV图像分辨率：" + width + "x" + height);
         Log.d(TAG, "相机视图显示尺寸：" + javaCameraView.getWidth() + "x" + javaCameraView.getHeight());
+        javaCameraView.setOnLongClickListener(v -> {
+            // 第一步：调用坐标捕捉器，传递长按的屏幕坐标，触发转换
+            coordinateCatcher.setLongPressCoordinate(longPressRawX, longPressRawY);
+
+            // 第二步：等待坐标更新（短暂延迟，确保转换完成）
+            handler.postDelayed(() -> {
+                // 检查坐标是否有效（非0，排除初始值）
+                if (targetX == 0 && targetY == 0) {
+                    Toast.makeText(MainActivity3.this, "坐标获取失败，请重新长按", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                // 第三步：停止当前控制，设置新目标，启动PID
+                if (positionControlManager.isControlling()) {
+                    positionControlManager.stopControl();
+                }
+                positionControlManager.setTargetPosition(targetX, targetY);
+                Toast.makeText(MainActivity3.this,
+                        "目标位置已设置: (" + (int) targetX + ", " + (int) targetY + ")",
+                        Toast.LENGTH_SHORT).show();
+
+                // 第四步：蓝牙连接正常则启动控制
+                if (bleManager != null && bleManager.isConnected()) {
+                    positionControlManager.startControl();
+                } else {
+                    Toast.makeText(this, "请先连接蓝牙设备", Toast.LENGTH_SHORT).show();
+                }
+            }, 50); // 50ms延迟，确保坐标转换完成（可根据实际情况调整）
+
+            return true; // 消费长按事件，避免重复触发
+        });
     }
 
-    // --------------------------
-    // 其他方法保持不变，仅补充相机生命周期的坐标捕捉器管理
-    // --------------------------
     private void startCamera() {
         if (allPermissionsGranted()) {
             javaCameraView.setVisibility(View.VISIBLE);
@@ -237,39 +272,39 @@ public class MainActivity3 extends AppCompatActivity implements CameraBridgeView
         return true;
     }
 
-    private void sendFeatureCommand(byte featureCommand) {
-        if (!bleManager.isConnected()) {
-            Toast.makeText(this, "未连接蓝牙设备，无法发送设置", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        byte[] packet = new byte[4];
-        packet[0] = HEADER;
-        packet[1] = 0x02;
-        packet[2] = featureCommand;
-        packet[3] = (byte) (packet[0] ^ packet[1] ^ packet[2]);
-        try {
-            sendBluetoothData(packet);
-        } catch (IOException e) {
-            Log.d(TAG, "sendDirectionCommand: " + e.getMessage());
-            return;
-        }
-        String featureString;
-        switch (featureCommand) {
-            case 0x10:
-                featureString = "智能取物";
-                break;
-            case 0x11:
-                featureString = "打开摄像头";
-                break;
-            case 0x12:
-                featureString = "智能提醒";
-                break;
-            default:
-                featureString = "未知功能";
-                break;
-        }
-        Log.d(TAG, "发送功能命令: " + featureString);
-    }
+//    private void sendFeatureCommand(byte featureCommand) {
+//        if (!bleManager.isConnected()) {
+//            Toast.makeText(this, "未连接蓝牙设备，无法发送设置", Toast.LENGTH_SHORT).show();
+//            return;
+//        }
+//        byte[] packet = new byte[4];
+//        packet[0] = HEADER;
+//        packet[1] = 0x02;
+//        packet[2] = featureCommand;
+//        packet[3] = (byte) (packet[0] ^ packet[1] ^ packet[2]);
+//        try {
+//            sendBluetoothData(packet);
+//        } catch (IOException e) {
+//            Log.d(TAG, "sendDirectionCommand: " + e.getMessage());
+//            return;
+//        }
+//        String featureString;
+//        switch (featureCommand) {
+//            case 0x10:
+//                featureString = "智能取物";
+//                break;
+//            case 0x11:
+//                featureString = "打开摄像头";
+//                break;
+//            case 0x12:
+//                featureString = "智能提醒";
+//                break;
+//            default:
+//                featureString = "未知功能";
+//                break;
+//        }
+//        Log.d(TAG, "发送功能命令: " + featureString);
+//    }
 
     private void updateFeatureSelection(LinearLayout selectedLayout) {
         llFetch.setBackgroundResource(R.drawable.bg_feature_item);
@@ -502,8 +537,52 @@ public class MainActivity3 extends AppCompatActivity implements CameraBridgeView
 
     @Override
     public Mat onCameraFrame(CameraBridgeViewBase.CvCameraViewFrame inputFrame) {
+        // 1. 获取相机原始帧（RGBA格式）
         Mat frame = inputFrame.rgba();
-        return arucoProcessor.processFrame(frame); // Aruco检测（与OpenCV坐标统一）
+        if (frame == null || frame.empty()) {
+            Log.e(TAG, "onCameraFrame: 相机帧为空，跳过处理");
+            return frame;
+        }
+
+        // 2. 调用ArucoProcessor处理帧（内部会检测标记并更新中心点坐标）
+        Mat processedFrame = arucoProcessor.processFrame(frame);
+
+        if (arucoProcessor != null) {
+            // 3.1 判断是否检测到Aruco标记
+            if (arucoProcessor.isMarkerDetected()) {
+                // 3.2 获取标记中心点坐标（OpenCV图像坐标系，与目标位置坐标系一致）
+                Point currentMarkerCenter = arucoProcessor.getLatestMarkerCenter();
+                double currentX = currentMarkerCenter.x;
+                double currentY = currentMarkerCenter.y;
+
+                // 打印日志，方便调试坐标是否正常
+                Log.d(TAG, "onCameraFrame: 检测到Aruco标记，当前位置 → X=" + currentX + ", Y=" + currentY);
+
+                // 3.3 将当前位置传递给PositionControlManager（PID控制核心）
+                if (positionControlManager != null) {
+                    positionControlManager.updateCurrentPosition(currentX, currentY);
+                } else {
+                    Log.w(TAG, "onCameraFrame: PositionControlManager未初始化，无法传递当前位置");
+                }
+            } else {
+                // 3.4 未检测到标记时，停止PID控制（避免无效计算导致设备失控）
+                Log.w(TAG, "onCameraFrame: 未检测到Aruco标记");
+                if (positionControlManager != null && positionControlManager.isControlling()) {
+                    positionControlManager.stopControl();
+                    // 在UI线程显示提示（避免跨线程操作UI）
+                    runOnUiThread(() -> {
+                        Toast.makeText(MainActivity3.this,
+                                "未检测到Aruco标记，已停止电机控制",
+                                Toast.LENGTH_SHORT).show();
+                    });
+                }
+            }
+        } else {
+            Log.e(TAG, "onCameraFrame: ArucoProcessor未初始化，无法获取当前位置");
+        }
+
+        // 4. 返回处理后的帧（含Aruco标记绘制效果），用于相机预览显示
+        return processedFrame;
     }
 
     @Override

@@ -311,16 +311,6 @@
               <FilePath>..\Src\motors.c</FilePath>
             </File>
             <File>
-              <FileName>RingBuffer.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Src\RingBuffer.c</FilePath>
-            </File>
-            <File>
-              <FileName>stm32f0xx_hal_msp.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Src\stm32f0xx_hal_msp.c</FilePath>
-            </File>
-            <File>
               <FileName>stm32f0xx_it.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Src\stm32f0xx_it.c</FilePath>
@@ -349,6 +339,16 @@
               <FileName>communication.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\communication.c</FilePath>
+            </File>
+            <File>
+              <FileName>pid_controller.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\pid_controller.c</FilePath>
+            </File>
+            <File>
+              <FileName>position_control.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\position_control.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -481,5 +481,14 @@
     </components>
     <files/>
   </RTE>
+
+  <LayerInfo>
+    <Layers>
+      <Layer>
+        <LayName>ZooidRetry</LayName>
+        <LayPrjMark>1</LayPrjMark>
+      </Layer>
+    </Layers>
+  </LayerInfo>
 
 </Project>

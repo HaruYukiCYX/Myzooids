@@ -38,14 +38,18 @@ public class ArucoProcessor {
     private Mat cameraMatrix;
     private MatOfDouble distCoeffs;
 
+    // 新增：存储最新检测到的标记中心点和状态
+    private Point latestMarkerCenter = new Point(0, 0);  // 最新中心点坐标
+    private boolean isMarkerDetected = false;            // 标记是否被检测到
+    private int trackedMarkerId = -1;                    // 跟踪的标记ID（-1表示跟踪第一个检测到的）
+
     public ArucoProcessor() {
         try {
             // 1. 初始化Aruco字典
-            arucoDictionary = Aruco.getPredefinedDictionary(Aruco.DICT_6X6_250);
+            arucoDictionary = Aruco.getPredefinedDictionary(Aruco.DICT_4X4_50);
 
             // 2. 初始化检测器参数（兼容3.4.4版本）
             detectorParams = org.opencv.aruco.DetectorParameters.create();
-
 
             // 3. 初始化相机内参
             cameraMatrix = Mat.eye(3, 3, CvType.CV_64FC1);
@@ -61,6 +65,15 @@ public class ArucoProcessor {
         } catch (Exception e) {
             Log.e(TAG, "初始化失败: " + e.getMessage());
         }
+    }
+
+    /**
+     * 设置需要跟踪的特定标记ID（可选）
+     * @param markerId 要跟踪的标记ID，-1表示跟踪第一个检测到的标记
+     */
+    public void setTrackedMarkerId(int markerId) {
+        this.trackedMarkerId = markerId;
+        Log.d(TAG, "设置跟踪的标记ID: " + (markerId == -1 ? "第一个检测到的标记" : markerId));
     }
 
     public Mat processFrame(Mat frame) {
@@ -90,7 +103,11 @@ public class ArucoProcessor {
             return frame;
         }
 
-        // 处理检测结果
+        // 处理检测结果（重置状态）
+        isMarkerDetected = false;
+        latestMarkerCenter = new Point(0, 0);
+
+        // 检测到标记时处理
         if (ids.total() > 0) {
             Log.d(TAG, "检测到 " + ids.total() + " 个Aruco标记");
 
@@ -101,10 +118,8 @@ public class ArucoProcessor {
                 MatOfPoint2f corner = new MatOfPoint2f();
                 cornerMat.convertTo(corner, CvType.CV_32FC2);
 
-                // 校验2D点数量
+                // 校验2D点数量（Aruco标记应为4个角点）
                 int vectorCount = corner.checkVector(2);
-                Log.d(TAG, "角点向量校验结果: " + vectorCount + " (期望4)");
-
                 if (vectorCount == 4) {
                     validCorners.add(corner);
                 } else {
@@ -113,8 +128,10 @@ public class ArucoProcessor {
                 }
             }
 
-            // 绘制有效标记
+            // 绘制有效标记并更新中心点
             drawValidMarkers(frame, validCorners, ids);
+        } else {
+            Log.w(TAG, "未检测到任何Aruco标记");
         }
 
         // 释放资源
@@ -126,7 +143,7 @@ public class ArucoProcessor {
     }
 
     /**
-     * 绘制有效的标记（含加粗边框、ID和姿态轴）
+     * 绘制有效的标记（含加粗边框、ID和姿态轴），并更新中心点坐标
      */
     private void drawValidMarkers(Mat frame, List<MatOfPoint2f> validCorners, Mat ids) {
         // 准备3D参考点 (100mm x 100mm)
@@ -145,10 +162,15 @@ public class ArucoProcessor {
             return;
         }
 
-        // 遍历有效标记
+        // 遍历有效标记，找到需要跟踪的标记
         for (int i = 0; i < validCorners.size() && i < ids.total(); i++) {
             MatOfPoint2f corner = validCorners.get(i);
             int markerId = (int) ids.get(i, 0)[0];
+
+            // 判断是否为需要跟踪的标记（trackedMarkerId=-1时跟踪第一个）
+            if (trackedMarkerId != -1 && markerId != trackedMarkerId) {
+                continue; // 跳过不需要跟踪的标记
+            }
 
             // 验证角点
             if (corner.checkVector(2, CvType.CV_32F) != 4) {
@@ -168,9 +190,12 @@ public class ArucoProcessor {
                     (points[0].y + points[1].y + points[2].y + points[3].y) / 4
             );
 
-            // 关键修改：输出标记中心点坐标日志
-            Log.d(TAG, "标记ID=" + markerId + "的中心点坐标 - X: " + center.x + ", Y: " + center.y);
+            // 更新最新中心点坐标和检测状态
+            latestMarkerCenter = center;
+            isMarkerDetected = true;
+            Log.d(TAG, "跟踪的标记ID=" + markerId + " 中心点坐标 - X: " + center.x + ", Y: " + center.y);
 
+            // 绘制ID文本
             Imgproc.putText(frame, String.valueOf(markerId), center,
                     Core.FONT_HERSHEY_SIMPLEX, 0.8, TEXT_COLOR, 2);
 
@@ -219,18 +244,37 @@ public class ArucoProcessor {
                 rvec.release();
                 tvec.release();
             }
+
+            // 找到目标标记后跳出循环（只跟踪一个标记）
+            if (trackedMarkerId != -1) {
+                break;
+            }
         }
         objPoints.release();
     }
 
-    // 新增方法：获取检测到的标记角点列表（供MainActivity使用）
-    public List<MatOfPoint2f> getDetectedMarkerCorners() {
-        // 注意：实际使用时需要从processFrame方法中保存并返回检测到的角点
-        // 这里仅作为示例框架
-        return new ArrayList<>();
+    /**
+     * 获取最新检测到的标记中心点坐标
+     * @return 中心点坐标（OpenCV图像坐标系）
+     */
+    public Point getLatestMarkerCenter() {
+        return latestMarkerCenter;
     }
 
-    // 新增方法：判断点是否在Aruco标记内
+    /**
+     * 判断是否检测到标记
+     * @return true：检测到标记；false：未检测到
+     */
+    public boolean isMarkerDetected() {
+        return isMarkerDetected;
+    }
+
+    /**
+     * 判断点是否在Aruco标记内
+     * @param clickPoint 待判断的点
+     * @param markerCorners 标记的角点集合
+     * @return true：点在标记内；false：点在标记外
+     */
     public boolean isPointInMarker(Point clickPoint, MatOfPoint2f markerCorners) {
         if (clickPoint == null || markerCorners == null) return false;
 
