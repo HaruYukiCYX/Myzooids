@@ -47,8 +47,10 @@ id ll_fetch
 id ll_notification
 id main_container
 id main_scroll_view
+id root_layout
 id spinner_bluetooth_devices
 id tv_bluetooth_status
+id tv_distance_error
 id view_center
 layout activity_main2
 layout bluetooth_header

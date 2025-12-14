@@ -1,4 +1,3 @@
-
 /* Define to prevent recursive inclusion -------------------------------------*/
 #ifndef __CONFIG_H
 #define __CONFIG_H
@@ -15,6 +14,7 @@ extern "C" {
 #include "math.h"
 #include <__cross_studio_io.h>
 #include "stdlib.h"
+#include "stdio.h" 
 
 /* Exported macro ------------------------------------------------------------*/
 #define BIT(x) (1 << (x))
@@ -47,11 +47,47 @@ extern "C" {
 #define false                                   FALSE
 #define true                                    TRUE
 
+/////////////////////////////////////////////////////////////////////////
+//   NEW: BLUETOOTH PROTOCOL & RING BUFFER DEFINITIONS (ADDED)         //
+/////////////////////////////////////////////////////////////////////////
+
+// Protocol Constants (Must align with Android Host)
+#define PROTOCOL_HEADER                         0xAA
+#define PROTOCOL_TAIL                           0x55
+
+// Command Types
+#define CMD_MANUAL                              0x01
+#define CMD_AUTO_PID                            0x02
+
+// Manual Directions
+#define DIR_FORWARD                             0x01
+#define DIR_BACKWARD                            0x02
+#define DIR_LEFT                                0x03
+#define DIR_RIGHT                               0x04
+#define DIR_STOP                                0x05
+
+// UART Ring Buffer Size (Must be power of 2: 64, 128, 256)
+#define UART_RX_BUFFER_SIZE                     128
+
+// Ring Buffer Structure Definition
+typedef struct {
+    uint8_t buffer[UART_RX_BUFFER_SIZE];
+    volatile uint16_t head;
+    volatile uint16_t tail;
+} RingBuffer;
+
+// Function Prototypes used across files (communication.c / main.c)
+int parse_packet(uint8_t *packet);
+
+// External functions assumed to exist in utilities.c or functions.c
+void setMotor1(int8_t speed);
+void setMotor2(int8_t speed);
+void initRobot(void);
 
 ///////////////////////////////////
 //    COMMUNICATION CONSTANTS    //
 ///////////////////////////////////
-#define RADIO_CHANNEL                           22//22 //88 //channel at which you want to communicate through
+#define RADIO_CHANNEL                           22 //22 //88 //channel at which you want to communicate through
 #define PAYLOAD_MAX_SIZE                        32
 #define DEFAULT_ADDRESS                         0xF0F0F0F0D000
 #define DEFAULT_ID                              0xFF
@@ -73,7 +109,7 @@ extern "C" {
 #define TYPE_NEW_ROBOT_REQUEST                  0xF0
 #define TYPE_NEW_ROBOT_INFORMATION              0xF1
 
-#define TYPE_REBOOT_ROBOT 0xFF
+#define TYPE_REBOOT_ROBOT                       0xFF
 
 ///////////////////////////////////
 //  LED DECLARATIONS             //
@@ -98,9 +134,9 @@ extern "C" {
 //  MOTORS DECLARATIONS          //
 ///////////////////////////////////
 #ifdef USE_FAST_MOTORS
-#define MAX_SPEED                              60
+#define MAX_SPEED                               70
 #else
-#define MAX_SPEED                               100
+#define MAX_SPEED                               70
 #endif
 
 #define MOTOR1_PIN                              GPIO_PIN_0

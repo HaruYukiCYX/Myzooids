@@ -4,27 +4,26 @@ plugins {
 
 android {
     namespace 'com.example.sensor'
-    compileSdk 34
+    compileSdk 34 // 按你的要求保留34，不升级35
+    buildToolsVersion "34.0.0" // 显式指定，避免版本匹配问题
 
-    android {
-        // ...
-        sourceSets {
-            main {
-                jniLibs.srcDirs = ['src/main/jniLibs']
-            }
+    // 2. 修复嵌套问题：sourceSets 直接放在android根块下
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['src/main/jniLibs'] // 保留你的JNI配置
         }
     }
 
     defaultConfig {
-        applicationId "com.example.robot"
+        applicationId "com.example.sensor" // 与namespace一致
         minSdk 28
-        targetSdk 34
+        targetSdk 34 // 与compileSdk统一
         versionCode 1
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
-        // 添加相机支持的ABI架构
+        // 保留你指定的所有ABI架构（包含模拟器x86/x86_64）
         ndk {
             abiFilters "armeabi-v7a", "arm64-v8a", "x86", "x86_64"
         }
@@ -36,40 +35,43 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
     packagingOptions {
-        // 确保不排除 .so 文件
-        pickFirst 'lib/**/*.so'
+        pickFirst 'lib/**/*.so' // 保留，避免SO文件冲突
     }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_11
         targetCompatibility JavaVersion.VERSION_11
     }
-    // 如需完全抑制警告，可在gradle.properties添加：
-    // android.javaCompile.suppressSourceTargetDeprecationWarning=true
 }
 
 dependencies {
-    // 基础依赖
-    implementation libs.appcompat
-    implementation libs.material
-    testImplementation libs.junit
-    androidTestImplementation libs.ext.junit
-    androidTestImplementation libs.espresso.core
+    // 基础AndroidX依赖（解决导入报错核心）
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'androidx.core:core-ktx:1.12.0' // 显式声明core库，解决ActivityCompat/ContextCompat
+    implementation 'androidx.activity:activity:1.8.0' // 解决ActivityResultLauncher导入报错
+    implementation 'androidx.fragment:fragment:1.6.0' // 兼容Activity Result API
 
-    // CameraX 完整依赖（关键部分）
+    // 修复material依赖冲突：只保留一个（升级到适配34的版本，移除重复）
+    implementation 'com.google.android.material:material:1.11.0'
+
+    // 保留你指定的CameraX 1.3.0（适配compileSdk 34）
     def camerax_version = "1.3.0"
-    implementation "androidx.camera:camera-core:$camerax_version"       // 核心功能
-    implementation "androidx.camera:camera-camera2:$camerax_version"   // 相机2兼容层
-    implementation "androidx.camera:camera-lifecycle:$camerax_version" // 生命周期绑定
-    implementation "androidx.camera:camera-view:$camerax_version"      // 预览视图控件
-    implementation "androidx.camera:camera-extensions:$camerax_version" // 相机扩展功能
+    implementation "androidx.camera:camera-core:$camerax_version"
+    implementation "androidx.camera:camera-camera2:$camerax_version"
+    implementation "androidx.camera:camera-lifecycle:$camerax_version"
+    implementation "androidx.camera:camera-view:$camerax_version"
+    implementation "androidx.camera:camera-extensions:$camerax_version"
 
-    // 其他已有依赖
-    implementation 'com.google.android.material:material:1.9.0'
+    // 其他业务依赖（保留）
     implementation 'com.squareup.okhttp3:okhttp:4.9.3'
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'com.google.code.gson:gson:2.8.9'
-
     implementation project(":opencv344-contrib")
 
+    // 测试依赖（保留）
+    testImplementation libs.junit
+    androidTestImplementation libs.ext.junit
+    androidTestImplementation libs.espresso.core
 }

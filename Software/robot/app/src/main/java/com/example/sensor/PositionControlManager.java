@@ -7,205 +7,171 @@ import java.io.IOException;
 public class PositionControlManager {
     private static final String TAG = "PositionControlManager";
 
+    // ================== 调试开关（关键） ==================
+    // 1. 如果目标在右，机器人往左转（反了），请把这里改为 false
+    //    如果目标在右，机器人往右转（对了），请保持 true
+    private static final boolean REVERSE_STEERING = true;
+
+    // 2. 如果目标在前方，机器人后退（反了），请把这里改为 true
+    //    如果目标在前方，机器人前进（对了），请保持 false
+    private static final boolean REVERSE_FORWARD = false;
+    // ====================================================
+
+    // 速度限制
+    private static final int MAX_MOTOR_SPEED = 35 ;
+
     // 蓝牙相关
     private BleManager bleManager;
+    public interface ControlModeListener {
+        MainActivity3.ControlMode getCurrentMode();
+    }
+    private ControlModeListener modeListener;
 
-    // PID控制器（左右电机分别控制）
-    private PIDController leftMotorPid;
-    private PIDController rightMotorPid;
+    // PID控制器
+    private PIDController xAxisPid;
+    private PIDController yAxisPid;
 
-    // 坐标与目标
     private double targetX = 0;
     private double targetY = 0;
     private double currentX = 0;
     private double currentY = 0;
 
-    // 控制参数
-    private int controlInterval = 50; // 控制周期（ms）
-    private double errorTolerance = 0.5; // 误差容忍度（cm）
-    private double pixelToCmRatio = 0.1; // 像素到厘米的转换比例（10像素=1cm）
+    private int controlInterval = 50;
+    private double errorTolerance = 0.5;
+    private double pixelToCmRatio = 0.1;
 
-    // 状态控制
+    private int deadZone = 15;
+    private float turnCompensationRatio = 0.3f;
+
     private boolean isControlling = false;
     private Handler controlHandler = new Handler();
 
-    // 数据包常量 - 添加帧尾
     private static final byte HEADER = (byte) 0xAA;
-    private static final byte SPEED_COMMAND = 0x05; // 双电机转速命令
-    private static final byte FRAME_END = (byte) 0x55; // 帧尾标识
+    private static final byte POSITIONING_COMMAND = (byte) 0x02;
+    private static final byte FRAME_END = (byte) 0x55;
 
-    // 构造函数
-    public PositionControlManager(BleManager bleManager) {
+    public PositionControlManager(BleManager bleManager, ControlModeListener listener) {
         this.bleManager = bleManager;
+        this.modeListener = listener;
 
-        // 初始化双电机PID控制器（参数示例，需实际调试）
-        // 输出范围限制在-127~127（单字节）
-        leftMotorPid = new PIDController(1.2f, 0.1f, 0.2f, 127, -127, 50);
-        rightMotorPid = new PIDController(1.2f, 0.1f, 0.2f, 127, -127, 50);
+        // PID参数
+        xAxisPid = new PIDController(0.15f, 0.005f, 0.05f, 30, -30, 10);
+        yAxisPid = new PIDController(0.35f, 0.01f, 0.15f, MAX_MOTOR_SPEED, -MAX_MOTOR_SPEED, 20);
     }
 
-    // 更新当前位置（像素坐标）
-    public void updateCurrentPosition(double x, double y) {
-        this.currentX = x;
-        this.currentY = y;
-    }
+    // Getters & Setters
+    public void updateCurrentPosition(double x, double y) { this.currentX = x; this.currentY = y; }
+    public void setTargetPosition(double x, double y) { this.targetX = x; this.targetY = y; xAxisPid.reset(); yAxisPid.reset(); }
+    public boolean isControlling() { return isControlling; }
+    public void setControlInterval(int interval) { this.controlInterval = interval; }
+    public void setErrorTolerance(double tolerance) { this.errorTolerance = tolerance; }
+    public void setDeadZone(int deadZone) { this.deadZone = deadZone; }
+    public void setTurnCompensationRatio(float ratio) { this.turnCompensationRatio = ratio; }
+    public double getPixelToCmRatio() { return pixelToCmRatio; }
 
-    // 设置目标位置（像素坐标）
-    public void setTargetPosition(double x, double y) {
-        this.targetX = x;
-        this.targetY = y;
-
-        // 重置PID控制器
-        leftMotorPid.reset();
-        rightMotorPid.reset();
-    }
-
-    // 启动控制循环
     public void startControl() {
-        if (isControlling || bleManager == null || !bleManager.isConnected()) {
+        if (isControlling || bleManager == null || !bleManager.isConnected()
+                || modeListener == null || modeListener.getCurrentMode() != MainActivity3.ControlMode.AUTO) {
             return;
         }
-
         isControlling = true;
-        Log.d(TAG, "开始双电机控制");
         controlHandler.post(controlRunnable);
     }
 
-    // 停止控制循环
     public void stopControl() {
         isControlling = false;
         controlHandler.removeCallbacks(controlRunnable);
-
-        // 发送停止指令
-        try {
-            sendMotorSpeed(0, 0);
-        } catch (IOException e) {
-            Log.e(TAG, "发送停止指令失败: " + e.getMessage());
-        }
-        Log.d(TAG, "停止双电机控制");
+        try { sendMotorSpeed(0, 0); } catch (IOException e) {}
     }
 
-    // 控制循环逻辑
     private Runnable controlRunnable = new Runnable() {
         private long lastTime = System.currentTimeMillis();
 
         @Override
         public void run() {
-            if (!isControlling) {
-                return;
-            }
-
-            // 计算时间间隔（ms）
-            long currentTime = System.currentTimeMillis();
-            int deltaTime = (int) (currentTime - lastTime);
-            lastTime = currentTime;
-
-            // 1. 计算像素误差
-            double pixelErrorX = targetX - currentX;
-            double pixelErrorY = targetY - currentY;
-
-            // 2. 转换为实际距离误差（厘米）
-            double cmErrorX = pixelErrorX * pixelToCmRatio;
-            double cmErrorY = pixelErrorY * pixelToCmRatio;
-
-            // 3. 计算综合误差（距离）
-            double distanceError = Math.sqrt(cmErrorX * cmErrorX + cmErrorY * cmErrorY);
-
-            Log.d(TAG, "误差: " + String.format("%.2fcm", distanceError));
-
-            // 4. 检查是否到达目标
-            if (distanceError < errorTolerance) {
+            if (!isControlling || modeListener == null || modeListener.getCurrentMode() != MainActivity3.ControlMode.AUTO) {
                 stopControl();
                 return;
             }
 
-            // 5. 计算左右电机转速（通过PID）
-            // 差速控制逻辑：Y误差控制前进/后退，X误差控制转向
-            int baseSpeed = (int) rightMotorPid.compute(0, (float)cmErrorY, deltaTime);
-            int turnSpeed = (int) leftMotorPid.compute(0, (float)cmErrorX, deltaTime);
+            long currentTime = System.currentTimeMillis();
+            int deltaTime = (int) (currentTime - lastTime);
+            lastTime = currentTime;
 
-            int leftSpeed = baseSpeed - turnSpeed;  // 左电机转速 = 基础速度 - 转向补偿
-            int rightSpeed = baseSpeed + turnSpeed; // 右电机转速 = 基础速度 + 转向补偿
+            // 1. 计算原始偏差
+            // DeltaX > 0 表示目标在右边
+            double deltaX = targetX - currentX;
 
-            // 6. 限制在单字节范围内（-127~127）
-            leftSpeed = clamp(leftSpeed, -127, 127);
-            rightSpeed = clamp(rightSpeed, -127, 127);
+            // DeltaY > 0 表示目标在上方（Y轴向下增大，所以是 Current - Target）
+            // 如果 REVERSE_FORWARD 为 true，则反转逻辑
+            double deltaY = REVERSE_FORWARD ? (targetY - currentY) : (currentY - targetY);
 
-            // 7. 发送转速指令
-            try {
-                sendMotorSpeed(leftSpeed, rightSpeed);
-                Log.d(TAG, "发送转速 - 左: " + leftSpeed + ", 右: " + rightSpeed);
-            } catch (IOException e) {
-                Log.e(TAG, "发送转速失败: " + e.getMessage());
+            // 2. 死区处理
+            if (Math.abs(deltaX) < deadZone) deltaX = 0;
+            if (Math.abs(deltaY) < deadZone) deltaY = 0;
+
+            // 3. 距离判断
+            double pixelDistanceError = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+            if ((pixelDistanceError * pixelToCmRatio) < errorTolerance) {
+                stopControl();
+                return;
             }
 
-            // 8. 调度下一次控制
+            // 4. PID计算
+            float baseSpeed = (float) yAxisPid.compute(0, (float) deltaY, deltaTime);
+            float turnOutput = (float) xAxisPid.compute(0, (float) deltaX, deltaTime);
+
+            // 5. 转向限幅
+            float maxTurn = Math.abs(baseSpeed) * turnCompensationRatio;
+            if (maxTurn < 10) maxTurn = 10;
+            if (turnOutput > maxTurn) turnOutput = maxTurn;
+            if (turnOutput < -maxTurn) turnOutput = -maxTurn;
+
+            // ============================================================
+            // 核心修复逻辑：反转左右混控
+            // ============================================================
+            int leftSpeed, rightSpeed;
+
+            if (REVERSE_STEERING) {
+                leftSpeed = (int) (baseSpeed - turnOutput);
+                rightSpeed = (int) (baseSpeed + turnOutput);
+            } else {
+                // 【正常模式】(你之前的代码)
+                leftSpeed = (int) (baseSpeed + turnOutput);
+                rightSpeed = (int) (baseSpeed - turnOutput);
+            }
+
+            // 6. 最终限幅
+            leftSpeed = clamp(leftSpeed, -MAX_MOTOR_SPEED, MAX_MOTOR_SPEED);
+            rightSpeed = clamp(rightSpeed, -MAX_MOTOR_SPEED, MAX_MOTOR_SPEED);
+
+            try {
+                sendMotorSpeed(leftSpeed, rightSpeed);
+            } catch (IOException e) {
+                stopControl();
+            }
+
             controlHandler.postDelayed(this, controlInterval);
         }
     };
 
-    // 发送双电机转速（带帧尾的格式）
     private void sendMotorSpeed(int leftSpeed, int rightSpeed) throws IOException {
-        if (bleManager == null || !bleManager.isConnected()) {
-            throw new IOException("蓝牙未连接");
-        }
+        if (bleManager == null || !bleManager.isConnected()) return;
 
-        // 数据包格式（6字节）
-        // [0]帧头(0xAA) + [1]命令(0x05) + [2]左电机转速 + [3]右电机转速 + [4]校验位 + [5]帧尾(0x55)
         byte[] packet = new byte[6];
         packet[0] = HEADER;
-        packet[1] = SPEED_COMMAND;
-        packet[2] = (byte) leftSpeed;   // 左电机转速（单字节）
-        packet[3] = (byte) rightSpeed;  // 右电机转速（单字节）
-
-        // 计算校验位（前4字节异或）
+        packet[1] = POSITIONING_COMMAND;
+        packet[2] = (byte) leftSpeed;
+        packet[3] = (byte) rightSpeed;
         packet[4] = (byte) (packet[0] ^ packet[1] ^ packet[2] ^ packet[3]);
-
-        // 添加帧尾
         packet[5] = FRAME_END;
 
         bleManager.sendData(packet);
     }
 
-    // 辅助方法：限制值范围
     private int clamp(int value, int min, int max) {
         if (value < min) return min;
         if (value > max) return max;
         return value;
     }
-
-    // 校准像素到厘米的转换比例
-    public void calibratePixelToCm(double actualCm, double pixelDistance) {
-        if (pixelDistance > 0) {
-            this.pixelToCmRatio = actualCm / pixelDistance;
-            Log.d(TAG, "校准完成，像素-厘米比例: " + pixelToCmRatio);
-        }
-    }
-
-    // 设置PID参数
-    public void setPidParameters(float kp, float ki, float kd) {
-        leftMotorPid.setKp(kp);
-        leftMotorPid.setKi(ki);
-        leftMotorPid.setKd(kd);
-
-        rightMotorPid.setKp(kp);
-        rightMotorPid.setKi(ki);
-        rightMotorPid.setKd(kd);
-    }
-
-    // 获取控制状态
-    public boolean isControlling() {
-        return isControlling;
-    }
-
-    // 设置控制周期（ms）
-    public void setControlInterval(int interval) {
-        this.controlInterval = interval;
-    }
-
-    // 设置误差容忍度（cm）
-    public void setErrorTolerance(double tolerance) {
-        this.errorTolerance = tolerance;
-    }
 }
-    

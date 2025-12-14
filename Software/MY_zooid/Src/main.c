@@ -51,11 +51,8 @@
 /* Private define ------------------------------------------------------------*/
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
-uint8_t testData1[5]; 
-uint8_t packet[4];
-
+uint8_t packet[6];
 /* Private function prototypes -----------------------------------------------*/
-
 /* Private functions ---------------------------------------------------------*/
 
 /**
@@ -67,26 +64,11 @@ int main(void)
 {
 		
 		initRobot();
-//	  HAL_UART_Transmit(&huart1, (uint8_t *)"Send 'green' to veri.fy the RGB light and serial communication.\r\n", 65, HAL_MAX_DELAY);
-//		HAL_UART_Transmit(&huart1, (uint8_t *)"Waiting for data...\r\n", 21, HAL_MAX_DELAY);
-//    if (HAL_UART_Receive(&huart1, testData1, sizeof(testData1), 30000) == HAL_OK)
-//			{
-//				HAL_UART_Transmit(&huart1, (uint8_t *)"Data Received\r\n", 15, HAL_MAX_DELAY);
-//        testRGB(testData1);
-//      }
-//    else
-//      {
-//        HAL_UART_Transmit(&huart1, (uint8_t *)"Receive Timeout\r\n", 17, HAL_MAX_DELAY);
-//      }
 		HAL_UART_Transmit(&huart1, (uint8_t *)"Robot starts, waiting for commands.\r\n", 36, HAL_MAX_DELAY);
-		
-		
-				
-		
 		while(1)
 		{
 			
-			if (HAL_UART_Receive(&huart1, packet, 4, 3000) == HAL_OK)
+			if (HAL_UART_Receive(&huart1, packet, sizeof(packet), 300) == HAL_OK)
 			{
 				HAL_UART_Transmit(&huart1, (uint8_t *)"Data Received\r\n", 15, HAL_MAX_DELAY);
         parse_packet(packet);

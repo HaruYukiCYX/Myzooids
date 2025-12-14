@@ -52,6 +52,10 @@
         "source": "C:\\Users\\Yuxuan CHEN\\.gradle\\daemon\\8.7\\com.example.sensor.app-main-39:\\mipmap-mdpi\\ic_launcher.webp"
     },
     {
+        "merged": "com.example.sensor.app-debug-37:/layout_activity_main2.xml.flat",
+        "source": "com.example.sensor.app-main-39:/layout/activity_main2.xml"
+    },
+    {
         "merged": "C:\\Users\\Yuxuan CHEN\\.gradle\\daemon\\8.7\\com.example.sensor.app-debug-37:\\xml_data_extraction_rules.xml.flat",
         "source": "C:\\Users\\Yuxuan CHEN\\.gradle\\daemon\\8.7\\com.example.sensor.app-main-39:\\xml\\data_extraction_rules.xml"
     },
@@ -134,10 +138,6 @@
     {
         "merged": "C:\\Users\\Yuxuan CHEN\\.gradle\\daemon\\8.7\\com.example.sensor.app-debug-37:\\drawable_bg_pm25.xml.flat",
         "source": "C:\\Users\\Yuxuan CHEN\\.gradle\\daemon\\8.7\\com.example.sensor.app-main-39:\\drawable\\bg_pm25.xml"
-    },
-    {
-        "merged": "C:\\Users\\Yuxuan CHEN\\.gradle\\daemon\\8.7\\com.example.sensor.app-debug-37:\\layout_air_quality_card.xml.flat",
-        "source": "C:\\Users\\Yuxuan CHEN\\.gradle\\daemon\\8.7\\com.example.sensor.app-main-39:\\layout\\air_quality_card.xml"
     },
     {
         "merged": "C:\\Users\\Yuxuan CHEN\\.gradle\\daemon\\8.7\\com.example.sensor.app-debug-37:\\drawable_bg_feature_item.xml.flat",

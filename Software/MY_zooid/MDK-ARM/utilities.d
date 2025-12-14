@@ -41,5 +41,5 @@ utilities.o: ../Src/utilities.c ../Inc/utilities.h ../Inc/config.h \
  ../Inc/led.h ../Inc/colors.h ../Inc/motors.h ../Inc/radio.h \
  ../Inc/RF24.h ../Inc/nRF24L01.h ../Inc/sensors.h ../Inc/qt1070.h \
  ../Inc/lsm6ds3.h ../Inc/MadgwickAHRS.h ../Inc/RingBuffer.h \
- ../Inc/position_control.h ../Inc/eeprom.h ../Inc/usart.h \
+ ../Inc/position_control.h ../Inc/eeprom.h ../Inc/usart.h ../Inc/config.h \
  ../Drivers/crossworksAPI/stdarg.h

@@ -1,17 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- 使用FrameLayout作为根布局，以便相机预览可以覆盖其他控件 -->
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F5F5F5">
+    android:background="#000000"
+    android:keepScreenOn="true">
+    <!-- background设为黑色，让相机预览边缘融合 -->
 
-    <!-- 主内容滚动区域 - 初始显示的控制界面 -->
+    <!-- ================== 主界面 (ScrollView) ================== -->
+    <!-- 当相机开启时，我们在代码中将其设为 GONE -->
     <ScrollView
         android:id="@+id/main_scroll_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="#F5F5F5"
+        android:fillViewport="true">
 
         <LinearLayout
             android:id="@+id/main_container"
@@ -19,24 +24,24 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <!-- Bluetooth header will be injected here programmatically -->
+            <!-- 蓝牙列表头部会动态添加到这里 -->
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="#F5F5F5"
+                android:padding="16dp"
                 android:text="机器人控制区"
                 android:textSize="16sp"
-                android:textStyle="bold"
-                android:padding="16dp"
-                android:background="#F5F5F5"/>
+                android:textStyle="bold" />
 
             <!-- 功能区 -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 android:orientation="horizontal"
-                android:padding="16dp"
-                android:gravity="center">
+                android:padding="16dp">
 
                 <!-- 智能取物 -->
                 <LinearLayout
@@ -44,17 +49,17 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:gravity="center"
-                    android:padding="16dp"
                     android:background="@drawable/bg_feature_item_selected"
                     android:clickable="true"
-                    android:focusable="true">
+                    android:focusable="true"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="16dp">
 
                     <ImageView
                         android:layout_width="48dp"
                         android:layout_height="48dp"
-                        android:src="@drawable/ic_fetch"/>
+                        android:src="@drawable/ic_fetch" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -62,7 +67,7 @@
                         android:layout_marginTop="8dp"
                         android:text="智能取物"
                         android:textColor="#333333"
-                        android:textSize="14sp"/>
+                        android:textSize="14sp" />
                 </LinearLayout>
 
                 <!-- 打开摄像头 -->
@@ -70,20 +75,20 @@
                     android:id="@+id/ll_camera"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:gravity="center"
-                    android:padding="16dp"
                     android:layout_marginStart="16dp"
                     android:layout_marginEnd="16dp"
+                    android:layout_weight="1"
                     android:background="@drawable/bg_feature_item"
                     android:clickable="true"
-                    android:focusable="true">
+                    android:focusable="true"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="16dp">
 
                     <ImageView
                         android:layout_width="48dp"
                         android:layout_height="48dp"
-                        android:src="@drawable/ic_camera"/>
+                        android:src="@drawable/ic_camera" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -91,7 +96,7 @@
                         android:layout_marginTop="8dp"
                         android:text="打开摄像头"
                         android:textColor="#333333"
-                        android:textSize="14sp"/>
+                        android:textSize="14sp" />
                 </LinearLayout>
 
                 <!-- 智能提醒 -->
@@ -100,17 +105,17 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:gravity="center"
-                    android:padding="16dp"
                     android:background="@drawable/bg_feature_item"
                     android:clickable="true"
-                    android:focusable="true">
+                    android:focusable="true"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="16dp">
 
                     <ImageView
                         android:layout_width="48dp"
                         android:layout_height="48dp"
-                        android:src="@drawable/ic_notification"/>
+                        android:src="@drawable/ic_notification" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -118,7 +123,7 @@
                         android:layout_marginTop="8dp"
                         android:text="智能提醒"
                         android:textColor="#333333"
-                        android:textSize="14sp"/>
+                        android:textSize="14sp" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -126,11 +131,11 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="#F5F5F5"
+                android:padding="16dp"
                 android:text="机器人操作区"
                 android:textSize="16sp"
-                android:textStyle="bold"
-                android:padding="16dp"
-                android:background="#F5F5F5"/>
+                android:textStyle="bold" />
 
             <!-- 方向控制 -->
             <RelativeLayout
@@ -151,7 +156,7 @@
                         android:layout_width="100dp"
                         android:layout_height="100dp"
                         android:layout_gravity="center"
-                        android:background="@drawable/bg_control_center"/>
+                        android:background="@drawable/bg_control_center" />
 
                     <!-- 上箭头 -->
                     <ImageButton
@@ -160,10 +165,10 @@
                         android:layout_height="48dp"
                         android:layout_gravity="center_horizontal|top"
                         android:layout_marginTop="20dp"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/ic_arrow_up"
                         android:background="@android:color/transparent"
-                        android:contentDescription="向前移动"/>
+                        android:contentDescription="向前移动"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/ic_arrow_up" />
 
                     <!-- 下箭头 -->
                     <ImageButton
@@ -172,10 +177,10 @@
                         android:layout_height="48dp"
                         android:layout_gravity="center_horizontal|bottom"
                         android:layout_marginBottom="20dp"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/ic_arrow_down"
                         android:background="@android:color/transparent"
-                        android:contentDescription="向后移动"/>
+                        android:contentDescription="向后移动"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/ic_arrow_down" />
 
                     <!-- 左箭头 -->
                     <ImageButton
@@ -184,10 +189,10 @@
                         android:layout_height="48dp"
                         android:layout_gravity="start|center_vertical"
                         android:layout_marginStart="20dp"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/ic_arrow_left"
                         android:background="@android:color/transparent"
-                        android:contentDescription="向左移动"/>
+                        android:contentDescription="向左移动"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/ic_arrow_left" />
 
                     <!-- 右箭头 -->
                     <ImageButton
@@ -196,37 +201,52 @@
                         android:layout_height="48dp"
                         android:layout_gravity="end|center_vertical"
                         android:layout_marginEnd="20dp"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/ic_arrow_right"
                         android:background="@android:color/transparent"
-                        android:contentDescription="向右移动"/>
+                        android:contentDescription="向右移动"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/ic_arrow_right" />
                 </FrameLayout>
             </RelativeLayout>
 
         </LinearLayout>
     </ScrollView>
 
-    <!-- res/layout/activity_main.xml -->
+    <!-- ================== 相机层 (全屏覆盖) ================== -->
+
+    <!-- JavaCameraView: 必须设为 match_parent -->
     <org.opencv.android.JavaCameraView
         android:id="@+id/camera_view"
-        class="org.opencv.android.JavaCameraView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:rotationY="0"
-        android:visibility="visible" />
+        android:visibility="gone" />
 
+    <!-- 误差显示文本: 放在相机之上 -->
+    <TextView
+        android:id="@+id/tv_distance_error"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|center_horizontal"
+        android:layout_marginTop="20dp"
+        android:background="#66000000"
+        android:padding="8dp"
+        android:text="当前误差：-- cm"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:visibility="gone" />
 
-    <!-- 相机预览模式下的返回按钮 -->
+    <!-- 关闭按钮: 放在右上角 -->
     <ImageButton
         android:id="@+id/btn_close_camera"
-        android:layout_width="56dp"
-        android:layout_height="56dp"
-        android:layout_margin="16dp"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
         android:layout_gravity="top|end"
+        android:layout_margin="20dp"
         android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="关闭相机预览"
+        android:scaleType="centerInside"
         android:src="@android:drawable/ic_menu_close_clear_cancel"
         android:visibility="gone"
-        android:contentDescription="关闭相机预览"
         app:tint="@android:color/white" />
 
 </FrameLayout>

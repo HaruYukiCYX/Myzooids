@@ -1,5 +1,6 @@
 #include "utilities.h"
 #include "functions.h"
+#include "config.h"
 //#include "nRF24L01.h"
 
 #define BUFFER_SIZE (PAYLOAD_SIZE + 1)

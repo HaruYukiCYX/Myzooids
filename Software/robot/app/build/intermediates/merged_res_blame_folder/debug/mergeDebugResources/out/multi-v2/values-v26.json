@@ -4,7 +4,7 @@
             "outputFile": "com.example.sensor.app-mergeDebugResources-35:/values-v26/values-v26.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\Yuxuan CHEN\\.gradle\\caches\\transforms-4\\a9c3e2841b7b48d9016656c94361e7fd\\transformed\\appcompat-1.7.0\\res\\values-v26\\values-v26.xml",
+                    "source": "C:\\Users\\Yuxuan CHEN\\.gradle\\caches\\transforms-4\\37ca613b8d9ce6ea2349cc6e5c597a74\\transformed\\appcompat-1.6.1\\res\\values-v26\\values-v26.xml",
                     "from": {
                         "startLines": "2,3,4,8,12,16",
                         "startColumns": "4,4,4,4,4,4",
