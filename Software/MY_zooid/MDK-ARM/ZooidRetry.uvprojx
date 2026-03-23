@@ -416,11 +416,6 @@
               <FilePath>..\Drivers\STM32F0xx_HAL_Driver\Src\stm32f0xx_hal_pwr.c</FilePath>
             </File>
             <File>
-              <FileName>stm32f0xx_hal_i2c.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Drivers\STM32F0xx_HAL_Driver\Src\stm32f0xx_hal_i2c.c</FilePath>
-            </File>
-            <File>
               <FileName>stm32f0xx_hal_spi_ex.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Drivers\STM32F0xx_HAL_Driver\Src\stm32f0xx_hal_spi_ex.c</FilePath>
@@ -434,6 +429,11 @@
               <FileName>stm32f0xx_ll_usart.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Drivers\STM32F0xx_HAL_Driver\Src\stm32f0xx_ll_usart.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f0xx_hal_i2c.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Drivers\STM32F0xx_HAL_Driver\Src\stm32f0xx_hal_i2c.c</FilePath>
             </File>
           </Files>
         </Group>

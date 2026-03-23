@@ -1,81 +1,167 @@
 /**
-  ******************************************************************************
-  * @file    Templates/Src/main.c 
-  * @author  MCD Application Team
-  * @version V1.3.0
-  * @date    26-June-2015
-  * @brief   Main program body
-  ******************************************************************************
-  * @attention
-  *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
-  *
-  * Redistribution and use in source and binary forms, with or without modification,
-  * are permitted provided that the following conditions are met:
-  *   1. Redistributions of source code must retain the above copyright notice,
-  *      this list of conditions and the following disclaimer.
-  *   2. Redistributions in binary form must reproduce the above copyright notice,
-  *      this list of conditions and the following disclaimer in the documentation
-  *      and/or other materials provided with the distribution.
-  *   3. Neither the name of STMicroelectronics nor the names of its contributors
-  *      may be used to endorse or promote products derived from this software
-  *      without specific prior written permission.
-  *
-  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
-  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-  * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
-  * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-  * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
-  * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
-  * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
-  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-  *
-  ******************************************************************************
-  */
+ ******************************************************************************
+ * @file    main.c
+ * @brief   Main program body - Bare-Metal UART RX & Robust Packet Processing
+ ******************************************************************************
+ */
 
-/* Includes ------------------------------------------------------------------*/
 #include "config.h"
 #include "utilities.h"
 #include "functions.h"
 
-/** @addtogroup STM32F0xx_HAL_Examples
-  * @{
-  */
+/* External variables --------------------------------------------------------*/
+extern UART_HandleTypeDef huart1;
 
-/** @addtogroup Templates
-  * @{
-  */
-/* Private typedef -----------------------------------------------------------*/
-/* Private define ------------------------------------------------------------*/
-/* Private macro -------------------------------------------------------------*/
-/* Private variables ---------------------------------------------------------*/
-uint8_t packet[6];
-/* Private function prototypes -----------------------------------------------*/
-/* Private functions ---------------------------------------------------------*/
+/* ======================= Ring Buffer ======================= */
+static RingBuffer uartRxBuffer;
 
-/**
-  * @brief  Main program
-  * @param  None
-  * @retval None
-  */
+/* ======================= Packet Parser ===================== */
+static uint8_t packetBuffer[6];
+static uint8_t packetIndex = 0;
+
+/* ======================= Function Prototypes ================ */
+static void RingBuffer_Init(RingBuffer *rb);
+static void RingBuffer_Put(RingBuffer *rb, uint8_t data);
+static int  RingBuffer_Get(RingBuffer *rb, uint8_t *data);
+static void process_uart_stream(void);
+
+/* ============================================================ */
+/* Bare-Metal UART RX Callback (Called from stm32f0xx_it.c)     */
+/* ============================================================ */
+void BareMetal_UART_RX_Callback(uint8_t byte)
+{
+    /* Keep it extremely short: just push to the ring buffer */
+    RingBuffer_Put(&uartRxBuffer, byte);
+}
+
+/* ============================================================ */
+/* Main Program                                                 */
+/* ============================================================ */
 int main(void)
 {
-		
-		initRobot();
-		HAL_UART_Transmit(&huart1, (uint8_t *)"Robot starts, waiting for commands.\r\n", 36, HAL_MAX_DELAY);
-		while(1)
-		{
-			
-			if (HAL_UART_Receive(&huart1, packet, sizeof(packet), 300) == HAL_OK)
-			{
-				HAL_UART_Transmit(&huart1, (uint8_t *)"Data Received\r\n", 15, HAL_MAX_DELAY);
-        parse_packet(packet);
-      }
-    else
-      {
-        HAL_UART_Transmit(&huart1, (uint8_t *)"Receive Timeout\r\n", 17, HAL_MAX_DELAY);
-      }
-		}
+    /* Disable CRS interrupt if not used */
+    NVIC_DisableIRQ(RCC_CRS_IRQn);
+    
+    /* Initialize hardware, motors, LEDs, timers, UART, etc. */
+    initRobot();
+    
+    /* Initialize ring buffer */
+    RingBuffer_Init(&uartRxBuffer);
+
+    /* * CRITICAL CHANGE: Completely abandon HAL_UART_Receive_IT()!
+     * Directly manipulate the registers to enable the UART RX Not Empty (RXNE) 
+     * interrupt. This bypasses the fragile HAL state machine locks.
+     */
+    __HAL_UART_ENABLE_IT(&huart1, UART_IT_RXNE);
+
+    /* Main loop */
+    while (1)
+    {
+        /* Extract and parse packets from the ring buffer */
+        process_uart_stream();
+
+        /* Heartbeat LED: Non-blocking check to ensure main loop is alive */
+        static uint32_t lastTick = 0;
+        if (HAL_GetTick() - lastTick > 500)
+        {
+            toggleGreenLed();
+            lastTick = HAL_GetTick();
+        }
+    }
+}
+
+/* ============================================================ */
+/* Ring Buffer Implementation                                   */
+/* ============================================================ */
+
+static void RingBuffer_Init(RingBuffer *rb)
+{
+    rb->head = 0;
+    rb->tail = 0;
+}
+
+static void RingBuffer_Put(RingBuffer *rb, uint8_t data)
+{
+    uint16_t next = (rb->head + 1) & (UART_RX_BUFFER_SIZE - 1);
+
+    /* Drop data if buffer is full to prevent unread data corruption */
+    if (next != rb->tail)
+    {
+        rb->buffer[rb->head] = data;
+        rb->head = next;
+    }
+}
+
+static int RingBuffer_Get(RingBuffer *rb, uint8_t *data)
+{
+    if (rb->head == rb->tail)
+    {
+        return 0; // buffer empty
+    }
+
+    *data = rb->buffer[rb->tail];
+    rb->tail = (rb->tail + 1) & (UART_RX_BUFFER_SIZE - 1);
+    return 1;
+}
+
+/* ============================================================ */
+/* UART Stream Packet Parser (With Self-Healing Capability)     */
+/* ============================================================ */
+
+static void process_uart_stream(void)
+{
+    uint8_t byte;
+
+    /* Process all available bytes in the ring buffer */
+    while (RingBuffer_Get(&uartRxBuffer, &byte))
+    {
+        if (packetIndex == 0)
+        {
+            /* State 1: Waiting for Header */
+            if (byte == PROTOCOL_HEADER)
+            {
+                packetBuffer[0] = byte;
+                packetIndex = 1;
+            }
+        }
+        else if (packetIndex < 5)
+        {
+            /* State 2: Receiving Payload */
+            packetBuffer[packetIndex++] = byte;
+        }
+        else if (packetIndex == 5)
+        {
+            /* State 3: Receiving Tail and Validating */
+            packetBuffer[5] = byte;
+            packetIndex = 0; // Reset state machine for the next packet
+
+            if (packetBuffer[5] == PROTOCOL_TAIL)
+            {
+                /* Structurally complete, send to logic parser */
+                int result = parse_packet(packetBuffer);
+
+//                if (result == 0) {
+//                    toggleBlueLed();   // Command executed successfully
+//                } else {
+//                    toggleRedLed();    // Checksum or logic parsing error
+//                }
+            }
+            else
+            {
+                /* Tail mismatch: Packet corrupted or bytes shifted due to noise */
+                toggleRedLed();
+
+                /* * CRITICAL SELF-HEALING MECHANISM
+                 * If the mismatched tail happens to be the header (0xAA),
+                 * we likely lost a byte earlier. Treat this byte as the start 
+                 * of a brand new packet to resync immediately!
+                 */
+                if (byte == PROTOCOL_HEADER)
+                {
+                    packetBuffer[0] = byte;
+                    packetIndex = 1;
+                }
+            }
+        }
+    }
 }

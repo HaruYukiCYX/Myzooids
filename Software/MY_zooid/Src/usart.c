@@ -155,28 +155,6 @@ void initUART(void) {
 
 
 
-
-void testRGB(uint8_t *data)
-{
-	int _isEqual = 1;
-  char str1[] = "green";
-	for(int i = 0; i < 5; i++)
-	{
-		if(data[i] != str1[i])
-		{
-			HAL_UART_Transmit(&huart1, (uint8_t *)"Check whether your message content or serial communication is correct.\r\n", 73, HAL_MAX_DELAY);
-			_isEqual = 0;
-		}
-	}			
-		if(_isEqual)
-		{
-			setColor(green);
-			HAL_UART_Transmit(&huart1, (uint8_t *)"The RGB light and serial port communication were successfully verified.\r\n", 72, HAL_MAX_DELAY);
-		}
-}
-
-
-
 /* USER CODE END 1 */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

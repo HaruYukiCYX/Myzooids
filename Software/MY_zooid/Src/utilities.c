@@ -1,20 +1,20 @@
 #include "utilities.h"
 #include "functions.h"
 #include "config.h"
-//#include "nRF24L01.h"
+////#include "nRF24L01.h"
 
-#define BUFFER_SIZE (PAYLOAD_SIZE + 1)
+//#define BUFFER_SIZE (PAYLOAD_SIZE + 1)
 
-/* Private typedef -----------------------------------------------------------*/
-/* Private define ------------------------------------------------------------*/
-/* Private macro -------------------------------------------------------------*/
-/* Private variables ---------------------------------------------------------*/
+///* Private typedef -----------------------------------------------------------*/
+///* Private define ------------------------------------------------------------*/
+///* Private macro -------------------------------------------------------------*/
+///* Private variables ---------------------------------------------------------*/
 
-/* I2C handler declaration */
-I2C_HandleTypeDef I2cHandle;
-/* SPI handler declaration */
-SPI_HandleTypeDef SpiHandle;
-/* Timer handler declaration */
+///* I2C handler declaration */
+//I2C_HandleTypeDef I2cHandle;
+///* SPI handler declaration */
+//SPI_HandleTypeDef SpiHandle;
+///* Timer handler declaration */
 TIM_HandleTypeDef microTimHandle;
 
 extern uint64_t microTick;
@@ -70,20 +70,20 @@ uint64_t getMicroSeconds()
 
 
 
-bool I2CInit()
-{
-    I2cHandle.Instance = I2Cx;
-    I2cHandle.Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
-    I2cHandle.Init.Timing = I2Cx_TIMING;
-    I2cHandle.Init.DualAddressMode = I2C_DUALADDRESS_DISABLE;
-    I2cHandle.Init.OwnAddress1 = 0;
-    I2cHandle.Init.OwnAddress2 = 0;
-    I2cHandle.Init.GeneralCallMode = I2C_GENERALCALL_DISABLE;
-    I2cHandle.Init.NoStretchMode = I2C_NOSTRETCH_DISABLE;
-    if (HAL_I2C_Init(&I2cHandle) != HAL_OK)
-        return false;
-    return true;
-}
+//bool I2CInit()
+//{
+//    I2cHandle.Instance = I2Cx;
+//    I2cHandle.Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
+//    I2cHandle.Init.Timing = I2Cx_TIMING;
+//    I2cHandle.Init.DualAddressMode = I2C_DUALADDRESS_DISABLE;
+//    I2cHandle.Init.OwnAddress1 = 0;
+//    I2cHandle.Init.OwnAddress2 = 0;
+//    I2cHandle.Init.GeneralCallMode = I2C_GENERALCALL_DISABLE;
+//    I2cHandle.Init.NoStretchMode = I2C_NOSTRETCH_DISABLE;
+//    if (HAL_I2C_Init(&I2cHandle) != HAL_OK)
+//        return false;
+//    return true;
+//}
 
 //bool SPIInit()
 //{
@@ -193,95 +193,95 @@ bool I2CInit()
 //    return bufferRx[0];
 //}
 
-bool I2CWriteBytes(uint8_t sensorAddress, uint8_t registerAddress, uint8_t length, uint8_t *data)
-{
-    if (HAL_I2C_Mem_Write(&I2cHandle, sensorAddress, registerAddress, 1, data, length, 10) == HAL_OK)
-        return true;
-    else
-        return false;
-}
+//bool I2CWriteBytes(uint8_t sensorAddress, uint8_t registerAddress, uint8_t length, uint8_t *data)
+//{
+//    if (HAL_I2C_Mem_Write(&I2cHandle, sensorAddress, registerAddress, 1, data, length, 10) == HAL_OK)
+//        return true;
+//    else
+//        return false;
+//}
 
-bool I2CWriteByte(uint8_t sensorAddress, uint8_t registerAddress, uint8_t data)
-{
-    return I2CWriteBytes(sensorAddress, registerAddress, 1, &data);
-}
+//bool I2CWriteByte(uint8_t sensorAddress, uint8_t registerAddress, uint8_t data)
+//{
+//    return I2CWriteBytes(sensorAddress, registerAddress, 1, &data);
+//}
 
-bool I2CWriteBit(uint8_t sensorAddress, uint8_t registerAddress, uint8_t bitNumber, bool data)
-{
-    uint8_t regValue = 0;
-    if (I2CReadByte(sensorAddress, registerAddress, &regValue) == HAL_OK)
-    {
-        regValue = (data != 0) ? (regValue | (1 << bitNumber)) : (regValue & ~(1 << bitNumber));
-        if (I2CWriteByte(sensorAddress, registerAddress, regValue) == HAL_OK)
-            return true;
-    }
-    return false;
-}
+//bool I2CWriteBit(uint8_t sensorAddress, uint8_t registerAddress, uint8_t bitNumber, bool data)
+//{
+//    uint8_t regValue = 0;
+//    if (I2CReadByte(sensorAddress, registerAddress, &regValue) == HAL_OK)
+//    {
+//        regValue = (data != 0) ? (regValue | (1 << bitNumber)) : (regValue & ~(1 << bitNumber));
+//        if (I2CWriteByte(sensorAddress, registerAddress, regValue) == HAL_OK)
+//            return true;
+//    }
+//    return false;
+//}
 
-bool I2CReadBytes(uint8_t sensorAddress, uint8_t registerAddress, uint8_t length, uint8_t *data)
-{
-    if (HAL_I2C_Mem_Read(&I2cHandle, sensorAddress, registerAddress, 1, data, length, 1000) == HAL_OK)
-        return true;
-    else
-        return false;
-}
+//bool I2CReadBytes(uint8_t sensorAddress, uint8_t registerAddress, uint8_t length, uint8_t *data)
+//{
+//    if (HAL_I2C_Mem_Read(&I2cHandle, sensorAddress, registerAddress, 1, data, length, 1000) == HAL_OK)
+//        return true;
+//    else
+//        return false;
+//}
 
-bool I2CReadByte(uint8_t sensorAddress, uint8_t registerAddress, uint8_t *data)
-{
-    return I2CReadBytes(sensorAddress, registerAddress, 1, data);
-}
+//bool I2CReadByte(uint8_t sensorAddress, uint8_t registerAddress, uint8_t *data)
+//{
+//    return I2CReadBytes(sensorAddress, registerAddress, 1, data);
+//}
 
-bool I2CReadBit(uint8_t sensorAddress, uint8_t registerAddress, uint8_t bitNumber, bool *data)
-{
-    uint8_t tmp = 0;
-    bool b = I2CReadBytes(sensorAddress, registerAddress, 1, &tmp);
-    if (b)
-    {
-        *data = ((tmp & (1 << bitNumber)) > 0) ? true : false;
-        return true;
-    }
-    else
-        return false;
-}
+//bool I2CReadBit(uint8_t sensorAddress, uint8_t registerAddress, uint8_t bitNumber, bool *data)
+//{
+//    uint8_t tmp = 0;
+//    bool b = I2CReadBytes(sensorAddress, registerAddress, 1, &tmp);
+//    if (b)
+//    {
+//        *data = ((tmp & (1 << bitNumber)) > 0) ? true : false;
+//        return true;
+//    }
+//    else
+//        return false;
+//}
 
-/**
-  * @brief  Tx Transfer completed callback.
-  * @param  I2cHandle: I2C handle
-  * @note   This example shows a simple way to report end of DMA Tx transfer, and
-  *         you can add your own implementation.
-  * @retval None
-  */
-void HAL_I2C_MemTxCpltCallback(I2C_HandleTypeDef *I2cHandle)
-{
-    if (DEBUG_ENABLED())
-        debug_printf("HAL_I2C_MemTxCpltCallback\n");
-}
+///**
+//  * @brief  Tx Transfer completed callback.
+//  * @param  I2cHandle: I2C handle
+//  * @note   This example shows a simple way to report end of DMA Tx transfer, and
+//  *         you can add your own implementation.
+//  * @retval None
+//  */
+//void HAL_I2C_MemTxCpltCallback(I2C_HandleTypeDef *I2cHandle)
+//{
+//    if (DEBUG_ENABLED())
+//        debug_printf("HAL_I2C_MemTxCpltCallback\n");
+//}
 
-/**
-  * @brief  Rx Transfer completed callback.
-  * @param  I2cHandle: I2C handle
-  * @note   This example shows a simple way to report end of DMA Rx transfer, and
-  *         you can add your own implementation.
-  * @retval None
-  */
-void HAL_I2C_MemRxCpltCallback(I2C_HandleTypeDef *I2cHandle)
-{
-    if (DEBUG_ENABLED())
-        debug_printf("HAL_I2C_MemRxCpltCallback\n");
-}
+///**
+//  * @brief  Rx Transfer completed callback.
+//  * @param  I2cHandle: I2C handle
+//  * @note   This example shows a simple way to report end of DMA Rx transfer, and
+//  *         you can add your own implementation.
+//  * @retval None
+//  */
+//void HAL_I2C_MemRxCpltCallback(I2C_HandleTypeDef *I2cHandle)
+//{
+//    if (DEBUG_ENABLED())
+//        debug_printf("HAL_I2C_MemRxCpltCallback\n");
+//}
 
-/**
-  * @brief  I2C error callbacks.
-  * @param  I2cHandle: I2C handle
-  * @note   This example shows a simple way to report transfer error, and you can
-  *         add your own implementation.
-  * @retval None
-  */
-void HAL_I2C_ErrorCallback(I2C_HandleTypeDef *I2cHandle)
-{
-    if (DEBUG_ENABLED())
-        debug_printf("HAL_I2C_ErrorCallback\n");
-}
+///**
+//  * @brief  I2C error callbacks.
+//  * @param  I2cHandle: I2C handle
+//  * @note   This example shows a simple way to report transfer error, and you can
+//  *         add your own implementation.
+//  * @retval None
+//  */
+//void HAL_I2C_ErrorCallback(I2C_HandleTypeDef *I2cHandle)
+//{
+//    if (DEBUG_ENABLED())
+//        debug_printf("HAL_I2C_ErrorCallback\n");
+//}
 
 void SystemClock_Config(void)
 {

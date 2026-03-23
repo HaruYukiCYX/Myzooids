@@ -48,7 +48,6 @@ public class MainActivity3 extends AppCompatActivity implements CameraBridgeView
     private static final String TAG = "MainActivity3";
     private static final int REQUEST_CODE_PERMISSIONS = 10;
 
-    // --- 蓝牙协议常量 ---
     private static final byte HEADER = (byte) 0xAA;
     private static final byte MOVE_COMMAND = 0x01;
     private static final byte DIRECTION_FORWARD = 0x01;
@@ -61,14 +60,14 @@ public class MainActivity3 extends AppCompatActivity implements CameraBridgeView
     public enum ControlMode { MANUAL, AUTO }
     private ControlMode currentMode = ControlMode.MANUAL;
 
-    // --- 控制变量 ---
     private double targetX = 0;
     private double targetY = 0;
     private float longPressRawX = 0;
     private float longPressRawY = 0;
     private boolean isControlActive = false;
 
-    // --- 核心组件 ---
+    private int frameCounter = 0;
+
     private PositionControlManager positionControlManager;
     private ArucoProcessor arucoProcessor;
     private BleManager bleManager;
@@ -77,12 +76,13 @@ public class MainActivity3 extends AppCompatActivity implements CameraBridgeView
     private TouchCoordinateCatcher coordinateCatcher;
     private Handler handler = new Handler();
 
-    // --- UI 组件 ---
     private Spinner spinnerBluetoothDevices;
     private Button btnConnect;
     private TextView tvBluetoothStatus, tvDistanceError;
     private ImageView imgBluetoothStatus;
+
     private JavaCameraView javaCameraView;
+
     private LinearLayout llFetch, llCamera, llNotification;
     private ImageButton btnUp, btnDown, btnLeft, btnRight, closeCameraBtn;
     private View viewCenter;
@@ -106,7 +106,6 @@ public class MainActivity3 extends AppCompatActivity implements CameraBridgeView
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // 保持屏幕常亮
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         setContentView(R.layout.activity_main2);
 
@@ -123,9 +122,6 @@ public class MainActivity3 extends AppCompatActivity implements CameraBridgeView
         checkAndRequestPermissions();
     }
 
-    // ==========================================
-    // 沉浸式模式核心代码：隐藏状态栏和导航栏
-    // ==========================================
     private void hideSystemUI() {
         View decorView = getWindow().getDecorView();
         decorView.setSystemUiVisibility(
@@ -133,8 +129,8 @@ public class MainActivity3 extends AppCompatActivity implements CameraBridgeView
                         | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                         | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                         | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // 隐藏导航栏
-                        | View.SYSTEM_UI_FLAG_FULLSCREEN);    // 隐藏状态栏
+                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_FULLSCREEN);
     }
 
     private void showSystemUI() {
@@ -145,7 +141,6 @@ public class MainActivity3 extends AppCompatActivity implements CameraBridgeView
                         | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
     }
 
-    // 防止用户切出应用再切回时，系统栏重新出现
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
@@ -178,11 +173,11 @@ public class MainActivity3 extends AppCompatActivity implements CameraBridgeView
         tvDistanceError = findViewById(R.id.tv_distance_error);
         closeCameraBtn = findViewById(R.id.btn_close_camera);
 
-        // --- 相机设置 ---
+        // --- Camera1 设置 ---
         javaCameraView = findViewById(R.id.camera_view);
         javaCameraView.setVisibility(SurfaceView.GONE);
-        // 使用 1280x720 或 1920x1080 (16:9)
-        javaCameraView.setMaxFrameSize(1280, 720);
+        javaCameraView.setCameraIndex(CameraBridgeViewBase.CAMERA_ID_BACK);
+        javaCameraView.setMaxFrameSize(640, 480); // 640x480 性能最优
         javaCameraView.setCvCameraViewListener(this);
 
         javaCameraView.setOnTouchListener((v, event) -> {
@@ -200,28 +195,7 @@ public class MainActivity3 extends AppCompatActivity implements CameraBridgeView
             targetX = x; targetY = y;
         });
 
-        // -------------------------
-        // 关闭相机：切回竖屏并恢复UI
-        // -------------------------
-        closeCameraBtn.setOnClickListener(v -> {
-            if (javaCameraView != null) javaCameraView.disableView();
-            javaCameraView.setVisibility(View.GONE);
-            closeCameraBtn.setVisibility(View.GONE);
-            mainScrollView.setVisibility(View.VISIBLE);
-            llCamera.setVisibility(View.VISIBLE);
-
-            if (positionControlManager != null) positionControlManager.stopControl();
-            setCurrentMode(ControlMode.MANUAL);
-            isControlActive = false;
-            tvDistanceError.setVisibility(View.GONE);
-
-            // 切回竖屏
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-            // 恢复系统 UI
-            showSystemUI();
-        });
-
-        // 打开相机
+        closeCameraBtn.setOnClickListener(v -> closeCameraLogic());
         llCamera.setOnClickListener(v -> startCamera());
 
         updateFeatureSelection(llFetch);
@@ -233,10 +207,7 @@ public class MainActivity3 extends AppCompatActivity implements CameraBridgeView
 
     private void startCamera() {
         if (allPermissionsGranted()) {
-            // 1. 切横屏
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-
-            // 2. 隐藏系统UI (全屏)
             hideSystemUI();
 
             mainScrollView.setVisibility(View.GONE);
@@ -252,7 +223,24 @@ public class MainActivity3 extends AppCompatActivity implements CameraBridgeView
         }
     }
 
-    // --- OpenCV 回调 ---
+    private void closeCameraLogic() {
+        if (positionControlManager != null) positionControlManager.stopControl();
+        isControlActive = false;
+
+        if (javaCameraView != null) {
+            javaCameraView.disableView();
+            javaCameraView.setVisibility(View.GONE);
+        }
+
+        closeCameraBtn.setVisibility(View.GONE);
+        mainScrollView.setVisibility(View.VISIBLE);
+        llCamera.setVisibility(View.VISIBLE);
+        tvDistanceError.setVisibility(View.GONE);
+
+        setCurrentMode(ControlMode.MANUAL);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        showSystemUI();
+    }
 
     @Override
     public void onCameraViewStarted(int width, int height) {
@@ -289,29 +277,39 @@ public class MainActivity3 extends AppCompatActivity implements CameraBridgeView
     @Override
     public Mat onCameraFrame(CameraBridgeViewBase.CvCameraViewFrame inputFrame) {
         Mat frame = inputFrame.rgba();
-        if (arucoProcessor == null) return frame;
+        if (frame == null || frame.empty()) return frame;
 
-        Mat processed = arucoProcessor.processFrame(frame);
+        if (arucoProcessor != null) {
+            frameCounter++;
 
-        if (arucoProcessor.isDetected()) {
-            Point center = arucoProcessor.getCenter();
+            // 1. 计算阶段：每2帧跑一次检测
+            if (frameCounter % 2 == 0) {
+                arucoProcessor.detect(frame);
 
-            if (positionControlManager != null) {
-                positionControlManager.updateCurrentPosition(center.x, center.y);
+                // PID 更新也在检测帧进行
+                if (arucoProcessor.isDetected()) {
+                    Point center = arucoProcessor.getCenter();
+                    double angle = arucoProcessor.getAngleRad();
+
+                    if (positionControlManager != null) {
+                        positionControlManager.updateCurrentPosition(center.x, center.y, angle);
+                    }
+
+                    if (isControlActive && currentMode == ControlMode.AUTO) {
+                        double ratio = (positionControlManager != null) ? positionControlManager.getPixelToCmRatio() : 0.05;
+                        double dist = Math.sqrt(Math.pow(targetX - center.x, 2) + Math.pow(targetY - center.y, 2));
+                        String info = String.format("Err: %.1f cm", dist * ratio);
+                        runOnUiThread(() -> tvDistanceError.setText(info));
+                    }
+                }
             }
 
-            if (isControlActive && currentMode == ControlMode.AUTO) {
-                double ratio = (positionControlManager != null) ? positionControlManager.getPixelToCmRatio() : 0.05;
-                double dist = Math.sqrt(Math.pow(targetX - center.x, 2) + Math.pow(targetY - center.y, 2));
-                String info = String.format("Err: %.1f cm", dist * ratio);
-                runOnUiThread(() -> tvDistanceError.setText(info));
-            }
+            // 2. 绘制阶段：每一帧都跑，确保不闪烁
+            arucoProcessor.draw(frame);
         }
 
-        return processed;
+        return frame;
     }
-
-    // --- 生命周期 ---
 
     @Override
     protected void onPause() {
@@ -324,7 +322,7 @@ public class MainActivity3 extends AppCompatActivity implements CameraBridgeView
         super.onResume();
         if (currentMode == ControlMode.AUTO && javaCameraView != null) {
             javaCameraView.enableView();
-            hideSystemUI(); // 确保切回来还是全屏
+            hideSystemUI();
         }
     }
 
@@ -336,8 +334,7 @@ public class MainActivity3 extends AppCompatActivity implements CameraBridgeView
         if (arucoProcessor != null) arucoProcessor.release();
     }
 
-    // --- 辅助方法 ---
-
+    // --- 辅助方法 (保持不变) ---
     private ControlMode getCurrentMode() { return currentMode; }
     private void setCurrentMode(ControlMode mode) { this.currentMode = mode; }
 
