@@ -3252,8 +3252,6 @@ int id linear 0x7f0800e6
 int id listMode 0x7f0800e7
 int id list_item 0x7f0800e8
 int id ll_camera 0x7f0800e9
-int id ll_fetch 0x7f0800ea
-int id ll_notification 0x7f0800eb
 int id m3_side_sheet 0x7f0800ec
 int id main_container 0x7f0800ed
 int id main_scroll_view 0x7f0800ee

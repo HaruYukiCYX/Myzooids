@@ -25,7 +25,7 @@ public class ArucoProcessor {
     private Mat ids;
     private List<Mat> corners;
 
-    // 持久化数据
+    // 持久化数据（用于画面连贯渲染）
     private List<MatOfPoint2f> persistentCorners = new ArrayList<>();
     private List<Integer> persistentIds = new ArrayList<>();
 
@@ -34,9 +34,12 @@ public class ArucoProcessor {
     private double latestAngleRad = 0.0;
 
     private int trackedMarkerId = -1;
-    private static final Scalar RECT_COLOR = new Scalar(0, 255, 0); // 绿框
-    private static final Scalar HEAD_COLOR = new Scalar(255, 0, 0); // 红头
-    private static final Scalar TEXT_COLOR = new Scalar(0, 255, 255); // 黄字
+
+    // 视觉渲染颜色定义
+    private static final Scalar RECT_COLOR = new Scalar(0, 255, 0);     // 绿框
+    private static final Scalar HEAD_COLOR = new Scalar(255, 0, 0);     // 红色方向箭头
+    private static final Scalar TEXT_COLOR = new Scalar(0, 255, 255);   // 黄字
+    private static final Scalar TEXT_BORDER = new Scalar(0, 0, 0);      // 黑边(防看不清)
 
     public ArucoProcessor() {
         init();
@@ -46,7 +49,9 @@ public class ArucoProcessor {
         try {
             arucoDictionary = Aruco.getPredefinedDictionary(Aruco.DICT_4X4_50);
             detectorParams = org.opencv.aruco.DetectorParameters.create();
-            detectorParams.set_cornerRefinementMethod(0);
+
+            // 开启亚像素角点优化，彻底根除边框闪烁和跳动
+            detectorParams.set_cornerRefinementMethod(1);
 
             grayBuffer = new Mat();
             ids = new Mat();
@@ -58,9 +63,6 @@ public class ArucoProcessor {
 
     public void setTrackedMarkerId(int id) { this.trackedMarkerId = id; }
 
-    /**
-     * 计算阶段
-     */
     public void detect(Mat frame) {
         if (frame == null || frame.empty()) return;
 
@@ -93,9 +95,12 @@ public class ArucoProcessor {
                             for (Point p : pts) { centerX += p.x; centerY += p.y; }
                             latestCenter = new Point(centerX / 4.0, centerY / 4.0);
 
-                            double dx = pts[1].x - pts[0].x;
-                            double dy = pts[1].y - pts[0].y;
+                            Point topCenter = new Point((pts[0].x + pts[1].x) / 2.0, (pts[0].y + pts[1].y) / 2.0);
+                            Point bottomCenter = new Point((pts[2].x + pts[3].x) / 2.0, (pts[2].y + pts[3].y) / 2.0);
+                            double dx = bottomCenter.x - topCenter.x;
+                            double dy = bottomCenter.y - topCenter.y;
                             latestAngleRad = Math.atan2(dy, dx);
+
                             found = true;
                         }
                     }
@@ -112,9 +117,6 @@ public class ArucoProcessor {
         }
     }
 
-    /**
-     * 绘制阶段
-     */
     public void draw(Mat frame) {
         if (persistentCorners == null || persistentCorners.isEmpty()) return;
 
@@ -123,24 +125,20 @@ public class ArucoProcessor {
                 Point[] pts = persistentCorners.get(i).toArray();
                 int id = persistentIds.get(i);
 
-                // 1. 画绿框
+                // 1. 画抗锯齿绿色外框 (线宽6)
                 for (int j = 0; j < 4; j++) {
-                    Imgproc.line(frame, pts[j], pts[(j + 1) % 4], RECT_COLOR, 3);
+                    Imgproc.line(frame, pts[j], pts[(j + 1) % 4], RECT_COLOR, 6, Imgproc.LINE_AA, 0);
                 }
 
-                // 2. 画红头
-                Imgproc.line(frame, pts[0], pts[1], HEAD_COLOR, 4);
+                // 2. 画红色方向箭头（从标记顶部中心，指向底部中心）
+                Point topCenter = new Point((pts[0].x + pts[1].x) / 2.0, (pts[0].y + pts[1].y) / 2.0);
+                Point bottomCenter = new Point((pts[2].x + pts[3].x) / 2.0, (pts[2].y + pts[3].y) / 2.0);
+                Imgproc.arrowedLine(frame, topCenter, bottomCenter, HEAD_COLOR, 6, Imgproc.LINE_AA, 0, 0.2);
 
-                // 3. 【优化】显示 ID
-                // 位置：基于角点0 (左上)，向上偏移 20 像素，防止覆盖边框
+                // 3. 画高对比度 ID 文本
                 Point textPos = new Point(pts[0].x, pts[0].y - 20);
-
-                // 参数：
-                // 字体：FONT_HERSHEY_SIMPLEX
-                // 大小：0.5 (缩小)
-                // 颜色：黄色
-                // 粗细：2 (变细)
-                Imgproc.putText(frame, "ID:" + id, textPos, Core.FONT_HERSHEY_SIMPLEX, 0.5, TEXT_COLOR, 2);
+                Imgproc.putText(frame, "ID:" + id, textPos, Core.FONT_HERSHEY_SIMPLEX, 0.6, TEXT_BORDER, 4, Imgproc.LINE_AA, false);
+                Imgproc.putText(frame, "ID:" + id, textPos, Core.FONT_HERSHEY_SIMPLEX, 0.6, TEXT_COLOR, 2, Imgproc.LINE_AA, false);
             }
         } catch (Exception e) {
             // 忽略绘制错误

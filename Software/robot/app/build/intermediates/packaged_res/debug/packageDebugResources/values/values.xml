@@ -7,15 +7,15 @@
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
     <color name="white">#FFFFFF</color>
-    <string name="app_name">机器人控制</string>
-    <string name="bluetooth_status">蓝牙连接状态</string>
-    <string name="not_connected">未连接设备</string>
-    <string name="open_camera">打开摄像头</string>
-    <string name="robot_control_area">机器人控制区</string>
-    <string name="robot_operation_area">机器人操作区</string>
-    <string name="scan_devices">扫描设备</string>
-    <string name="smart_fetch">智能取物</string>
-    <string name="smart_reminder">智能提醒</string>
+    <string name="app_name">Robot Control</string>
+    <string name="bluetooth_status">Bluetooth Connection Status</string>
+    <string name="not_connected">No Device Connected</string>
+    <string name="open_camera">Open Camera</string>
+    <string name="robot_control_area">Robot Control Area</string>
+    <string name="robot_operation_area">Robot Operation Area</string>
+    <string name="scan_devices">Scan Devices</string>
+    <string name="smart_fetch">Smart Fetch</string>
+    <string name="smart_reminder">Smart Reminder</string>
     <style name="Theme.Sensor" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         
         <item name="colorPrimary">@color/purple_500</item>

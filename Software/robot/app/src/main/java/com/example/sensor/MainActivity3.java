@@ -40,7 +40,6 @@ import org.opencv.android.JavaCameraView;
 import org.opencv.core.Mat;
 import org.opencv.core.Point;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class MainActivity3 extends AppCompatActivity implements CameraBridgeViewBase.CvCameraViewListener2 {
@@ -67,6 +66,10 @@ public class MainActivity3 extends AppCompatActivity implements CameraBridgeView
     private boolean isControlActive = false;
 
     private int frameCounter = 0;
+    private int lostFramesCounter = 0;
+
+    // 记录最后一次成功识别目标时的距离
+    private double lastKnownDistance = 9999.0;
 
     private PositionControlManager positionControlManager;
     private ArucoProcessor arucoProcessor;
@@ -83,7 +86,7 @@ public class MainActivity3 extends AppCompatActivity implements CameraBridgeView
 
     private JavaCameraView javaCameraView;
 
-    private LinearLayout llFetch, llCamera, llNotification;
+    private LinearLayout llCamera; // 移除了已经没有的 llFetch 和 llNotification 声明
     private ImageButton btnUp, btnDown, btnLeft, btnRight, closeCameraBtn;
     private View viewCenter;
     private ScrollView mainScrollView;
@@ -115,8 +118,6 @@ public class MainActivity3 extends AppCompatActivity implements CameraBridgeView
 
         positionControlManager = new PositionControlManager(bleManager, this::getCurrentMode);
         positionControlManager.setControlInterval(50);
-        positionControlManager.setErrorTolerance(2.0);
-        positionControlManager.setDeadZone(8);
 
         registerActivityResultLaunchers();
         checkAndRequestPermissions();
@@ -159,9 +160,7 @@ public class MainActivity3 extends AppCompatActivity implements CameraBridgeView
         tvBluetoothStatus = bluetoothHeader.findViewById(R.id.tv_bluetooth_status);
         imgBluetoothStatus = bluetoothHeader.findViewById(R.id.img_bluetooth_status);
 
-        llFetch = findViewById(R.id.ll_fetch);
         llCamera = findViewById(R.id.ll_camera);
-        llNotification = findViewById(R.id.ll_notification);
 
         btnUp = findViewById(R.id.btn_up);
         btnDown = findViewById(R.id.btn_down);
@@ -173,11 +172,10 @@ public class MainActivity3 extends AppCompatActivity implements CameraBridgeView
         tvDistanceError = findViewById(R.id.tv_distance_error);
         closeCameraBtn = findViewById(R.id.btn_close_camera);
 
-        // --- Camera1 设置 ---
         javaCameraView = findViewById(R.id.camera_view);
         javaCameraView.setVisibility(SurfaceView.GONE);
         javaCameraView.setCameraIndex(CameraBridgeViewBase.CAMERA_ID_BACK);
-        javaCameraView.setMaxFrameSize(640, 480); // 640x480 性能最优
+        javaCameraView.setMaxFrameSize(640, 480);
         javaCameraView.setCvCameraViewListener(this);
 
         javaCameraView.setOnTouchListener((v, event) -> {
@@ -198,9 +196,10 @@ public class MainActivity3 extends AppCompatActivity implements CameraBridgeView
         closeCameraBtn.setOnClickListener(v -> closeCameraLogic());
         llCamera.setOnClickListener(v -> startCamera());
 
-        updateFeatureSelection(llFetch);
-        llFetch.setOnClickListener(v -> updateFeatureSelection(llFetch));
-        llNotification.setOnClickListener(v -> updateFeatureSelection(llNotification));
+        // 移除了多余 View 的监听器以及初始化默认选中方法调用
+        if (llCamera != null) {
+            llCamera.setBackgroundResource(R.drawable.bg_feature_item);
+        }
 
         setupDirectionControls();
     }
@@ -217,7 +216,7 @@ public class MainActivity3 extends AppCompatActivity implements CameraBridgeView
 
             setCurrentMode(ControlMode.AUTO);
             tvDistanceError.setVisibility(View.VISIBLE);
-            Toast.makeText(this, "进入自动追踪模式", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Auto Tracking Mode Enabled", Toast.LENGTH_SHORT).show();
         } else {
             ActivityCompat.requestPermissions(this, REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS);
         }
@@ -234,7 +233,7 @@ public class MainActivity3 extends AppCompatActivity implements CameraBridgeView
 
         closeCameraBtn.setVisibility(View.GONE);
         mainScrollView.setVisibility(View.VISIBLE);
-        llCamera.setVisibility(View.VISIBLE);
+        if (llCamera != null) llCamera.setVisibility(View.VISIBLE);
         tvDistanceError.setVisibility(View.GONE);
 
         setCurrentMode(ControlMode.MANUAL);
@@ -258,9 +257,9 @@ public class MainActivity3 extends AppCompatActivity implements CameraBridgeView
                         tvDistanceError.setVisibility(View.VISIBLE);
                         if (bleManager != null && bleManager.isConnected()) {
                             positionControlManager.startControl();
-                            Toast.makeText(this, "开始追踪", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(this, "Tracking Started", Toast.LENGTH_SHORT).show();
                         } else {
-                            Toast.makeText(this, "蓝牙未连接", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(this, "Bluetooth not connected", Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
@@ -282,29 +281,45 @@ public class MainActivity3 extends AppCompatActivity implements CameraBridgeView
         if (arucoProcessor != null) {
             frameCounter++;
 
-            // 1. 计算阶段：每2帧跑一次检测
-            if (frameCounter % 2 == 0) {
-                arucoProcessor.detect(frame);
+            // 每一帧都处理
+            arucoProcessor.detect(frame);
 
-                // PID 更新也在检测帧进行
-                if (arucoProcessor.isDetected()) {
-                    Point center = arucoProcessor.getCenter();
-                    double angle = arucoProcessor.getAngleRad();
+            if (arucoProcessor.isDetected()) {
+                lostFramesCounter = 0;
 
-                    if (positionControlManager != null) {
-                        positionControlManager.updateCurrentPosition(center.x, center.y, angle);
+                Point center = arucoProcessor.getCenter();
+                double angle = arucoProcessor.getAngleRad();
+
+                if (positionControlManager != null) {
+                    positionControlManager.updateCurrentPosition(center.x, center.y, angle);
+                }
+
+                if (isControlActive && currentMode == ControlMode.AUTO) {
+                    // 记录最后一次看到的纯像素距离
+                    lastKnownDistance = Math.sqrt(Math.pow(targetX - center.x, 2) + Math.pow(targetY - center.y, 2));
+                    String info = String.format("Dist: %.1f px", lastKnownDistance);
+                    runOnUiThread(() -> tvDistanceError.setText(info));
+                }
+            } else {
+                lostFramesCounter++;
+
+                if (isControlActive && currentMode == ControlMode.AUTO) {
+                    // 盲刹机制：保留有效的 80 像素阈值
+                    if (lastKnownDistance < 20.0) {
+                        Log.i(TAG, "Near target and went blind! Executing BLIND BRAKE!");
+                        if (positionControlManager != null) {
+                            positionControlManager.stopControl();
+                        }
+                        runOnUiThread(() -> tvDistanceError.setText("Reached (Blind Brake)"));
                     }
-
-                    if (isControlActive && currentMode == ControlMode.AUTO) {
-                        double ratio = (positionControlManager != null) ? positionControlManager.getPixelToCmRatio() : 0.05;
-                        double dist = Math.sqrt(Math.pow(targetX - center.x, 2) + Math.pow(targetY - center.y, 2));
-                        String info = String.format("Err: %.1f cm", dist * ratio);
-                        runOnUiThread(() -> tvDistanceError.setText(info));
+                    else if (lostFramesCounter > 3) {
+                        if (positionControlManager != null) {
+                            positionControlManager.suspendControl();
+                        }
                     }
                 }
             }
 
-            // 2. 绘制阶段：每一帧都跑，确保不闪烁
             arucoProcessor.draw(frame);
         }
 
@@ -334,7 +349,6 @@ public class MainActivity3 extends AppCompatActivity implements CameraBridgeView
         if (arucoProcessor != null) arucoProcessor.release();
     }
 
-    // --- 辅助方法 (保持不变) ---
     private ControlMode getCurrentMode() { return currentMode; }
     private void setCurrentMode(ControlMode mode) { this.currentMode = mode; }
 
@@ -345,11 +359,11 @@ public class MainActivity3 extends AppCompatActivity implements CameraBridgeView
         return true;
     }
 
-    private void updateFeatureSelection(LinearLayout selectedLayout) {
-        llFetch.setBackgroundResource(R.drawable.bg_feature_item);
-        llCamera.setBackgroundResource(R.drawable.bg_feature_item);
-        llNotification.setBackgroundResource(R.drawable.bg_feature_item);
-        selectedLayout.setBackgroundResource(R.drawable.bg_feature_item_selected);
+    // 彻底重构了该方法，只保留了 llCamera 的状态防御，杜绝 NPE 崩溃
+    private void updateFeatureSelection() {
+        if (llCamera != null) {
+            llCamera.setBackgroundResource(R.drawable.bg_feature_item_selected);
+        }
     }
 
     private void setupDirectionControls() {
@@ -372,7 +386,11 @@ public class MainActivity3 extends AppCompatActivity implements CameraBridgeView
         byte[] packet = new byte[6];
         packet[0] = HEADER; packet[1] = MOVE_COMMAND; packet[2] = direction; packet[3] = 0x00;
         packet[4] = (byte) (packet[0] ^ packet[1] ^ packet[2] ^ packet[3]); packet[5] = FRAME_END;
-        try { sendBluetoothData(packet); } catch (IOException e) { Log.e(TAG, "Cmd failed", e); }
+        try {
+            bleManager.sendData(packet);
+        } catch (Exception e) {
+            Log.e(TAG, "Cmd failed", e);
+        }
     }
 
     private void registerActivityResultLaunchers() {
@@ -443,9 +461,5 @@ public class MainActivity3 extends AppCompatActivity implements CameraBridgeView
             btnConnect.setText("Connect");
             btnConnect.setOnClickListener(v -> connectToSelectedDevice());
         }
-    }
-
-    private void sendBluetoothData(byte[] data) throws IOException {
-        if (bleManager != null) bleManager.sendData(data);
     }
 }
